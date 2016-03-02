@@ -8,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#ffffff">
+        android:background="@color/primary">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="9"
             android:orientation="vertical"
-            android:background="@color/material_grey_50">
+            android:background="@color/primary">
 
             <!--First layout, for points and turn indicator-->
             <LinearLayout
@@ -71,6 +71,7 @@
                 android:layout_weight="3">
 
                 <EditText
+                    android:cursorVisible="false"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
@@ -102,6 +103,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:cursorVisible="false"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
@@ -136,7 +138,7 @@
                     android:background="@drawable/button_pressed"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
-                    android:textSize="20dp"
+                    android:textSize="30dp"
                     android:typeface="sans"
                     android:textAlignment="center"
                     android:textColor="@color/primary_text" />
@@ -163,7 +165,7 @@
                     android:background="@drawable/button_pressed"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
-                    android:textSize="20dp"
+                    android:textSize="30dp"
                     android:typeface="sans"
                     android:textAlignment="center"
                     android:textColor="@color/primary_text" />
@@ -187,7 +189,7 @@
                     android:background="@drawable/button_pressed"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
-                    android:textSize="20dp"
+                    android:textSize="30dp"
                     android:typeface="sans"
                     android:textAlignment="center"
                     android:textColor="@color/primary_text" />
@@ -214,7 +216,7 @@
                     android:background="@drawable/button_pressed"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
-                    android:textSize="20dp"
+                    android:textSize="30dp"
                     android:typeface="sans"
                     android:textAlignment="center"
                     android:textColor="@color/primary_text" />
@@ -231,7 +233,7 @@
             android:layout_height="0dp"
             android:layout_weight="9"
             android:orientation="vertical"
-            android:background="@color/material_grey_50">
+            android:background="@color/primary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -282,7 +284,8 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_pressed"
                     android:shadowColor="#000000"
-                    android:nestedScrollingEnabled="false" />
+                    android:nestedScrollingEnabled="false"
+                    android:textColor="@color/primary_text" />
                 <Button
                     android:tag="3"
                     android:layout_width="0dp"

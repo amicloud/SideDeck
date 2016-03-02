@@ -2,12 +2,17 @@ package com.outplaysoftworks.sidedeck;
 
 
 import android.animation.ValueAnimator;
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -22,6 +27,8 @@ public class CalcFragment extends Fragment {
     static TextView playerOneLP;
     static TextView playerTwoLP;
     static Button turnButton;
+    EditText playerOneName;
+    EditText playerTwoName;
 
     public static Integer defaultLP = 8000;
     static Integer turnNumber = 0;
@@ -49,8 +56,13 @@ public class CalcFragment extends Fragment {
         playerTwoLP = (TextView)view.findViewById(R.id.playerTwoLP);
         playerTwoLP.setText(defaultLP.toString());
         turnButton = (Button)view.findViewById(R.id.buttonTurn);
+        playerOneName = (EditText)view.findViewById(R.id.playerOneName);
+        playerTwoName = (EditText)view.findViewById(R.id.playerTwoName);
+
+
 
         //return that view
+
         return view;
     }
 
@@ -77,6 +89,9 @@ public class CalcFragment extends Fragment {
         }
 
     }
+
+
+
     //Changes LP
     public static void modLP(String tag, int value){
         previousLP1 = currentLP1;
@@ -93,6 +108,7 @@ public class CalcFragment extends Fragment {
                 currentLP1 -= value;
                 else
                     currentLP1 = 0;
+
                 break;
             case "2+":
                 if(currentLP2 + value < 999999)
