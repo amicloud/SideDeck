@@ -3,11 +3,12 @@
     <color name="primary">#000000</color>
     <color name="primary_dark">#616161</color>
     <color name="primary_light">#9c9c9c</color>
-    <color name="accent">#FF5722</color>
+    <color name="accent">#ff5722</color>
     <color name="primary_text">#ebffffff</color>
     <color name="secondary_text">#b3b3b3</color>
     <color name="icons">#ffffff</color>
     <color name="divider">#B6B6B6</color>
 
     <color name="trans">#00b3e5fc</color>
+    <color name="accenttranslucent">#c3ff5722</color>
 </resources>

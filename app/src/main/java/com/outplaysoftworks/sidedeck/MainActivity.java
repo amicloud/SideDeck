@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -226,4 +227,10 @@ public class MainActivity extends AppCompatActivity {
         numberHolderString = "";
         CalcFragment.setNumberHolderText(numberHolderString);
     }
+
+    //TODO: Implement dice roll
+    //TODO: Implement coin flip
+    //TODO: Implement turn button
+    
+
 }

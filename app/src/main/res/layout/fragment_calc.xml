@@ -66,9 +66,12 @@
 
             <!--Second layout, for the player names and working number for LP calc-->
             <LinearLayout
+                android:id="@+id/nameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3">
+                android:layout_weight="3"
+                android:focusableInTouchMode="true"
+                android:descendantFocusability="beforeDescendants">
 
                 <EditText
                     android:cursorVisible="false"
@@ -83,8 +86,18 @@
                     android:elevation="0dp"
                     android:gravity="left|center_vertical"
                     android:typeface="sans"
-                    android:textColor="@color/icons"
-                    android:textSize="20dp" />
+                    android:textColor="@color/accenttranslucent"
+                    android:textSize="20dp"
+                    android:textIsSelectable="false"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:selectAllOnFocus="true"
+                    android:textColorHint="@color/accenttranslucent"
+                    android:elegantTextHeight="false"
+                    android:capitalize="words"
+                    android:textAlignment="center"
+                    android:text="Player 1" />
 
                 <TextView android:id="@+id/numberHolder"
                     android:layout_width="0dp"
@@ -94,7 +107,6 @@
                     android:typeface="monospace"
                     android:maxLines="1"
                     android:shadowColor="#b0b0b0"
-                    android:text="8000"
                     android:gravity="center"
                     android:textSize="30dp"
                     android:elevation="0dp"
@@ -109,15 +121,23 @@
                     android:layout_weight="4"
                     android:hint="Player 2"
                     android:id="@+id/playerTwoName"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="center"
                     android:gravity="center_vertical|end"
                     android:singleLine="true"
                     android:maxLines="1"
                     android:lines="1"
                     android:elevation="0dp"
                     android:typeface="sans"
-                    android:textColor="@color/icons"
-                    android:textSize="20dp" />
+                    android:textColor="@color/accenttranslucent"
+                    android:textSize="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:selectAllOnFocus="true"
+                    android:textColorHint="@color/accenttranslucent"
+                    android:elegantTextHeight="false"
+                    android:capitalize="words"
+                    android:text="Player 2" />
 
             </LinearLayout>
 
