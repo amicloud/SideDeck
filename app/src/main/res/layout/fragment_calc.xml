@@ -46,7 +46,8 @@
                     android:background="@drawable/button_pressed"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="3dp"
-                    android:textColor="@color/primary_text" />
+                    android:textColor="@color/primary_text"
+                    android:onClick="changeTurn" />
 
                 <TextView android:id="@+id/playerTwoLP"
                     android:layout_width="0dp"
@@ -172,7 +173,9 @@
                     android:background="@drawable/button_pressed"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
-                    android:textColor="@color/primary_text" />
+                    android:textColor="@color/primary_text"
+                    android:onClick="diceRoll"
+                    android:id="@+id/diceButton" />
 
                 <Button
                     android:tag="2+"
@@ -223,7 +226,9 @@
                     android:background="@drawable/button_pressed"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
-                    android:textColor="@color/primary_text" />
+                    android:textColor="@color/primary_text"
+                    android:id="@+id/coinButton"
+                    android:onClick="coinFlip" />
 
                 <Button
                     android:tag="2-"

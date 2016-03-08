@@ -13,44 +13,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-
-    private String numberHolderString = "";
-    private Integer numberHolderNumber = 0;
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    PopupMenu popup;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +66,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
         //End of pure layout stuff
+
     }
 
-
+    @Override
+    public void setTitle(CharSequence title) {
+        CharSequence mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -186,51 +168,43 @@ public class MainActivity extends AppCompatActivity {
 
     //On click method for overflow button
     public void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
+        popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.actions, popup.getMenu());
         popup.show();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getTitle().toString().equals("Reset")){
+                    CalcFragment.reset();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        CharSequence mTitle = title;
-        getActionBar().setTitle(mTitle);
-    }
+
 
     //Appends whatever numerical button is pressed to the lp calc preview
     public void addToNumberHolder(View view){
-        if(numberHolderString.length()<5){
-            numberHolderString += view.getTag();
-            numberHolderNumber = Integer.parseInt(numberHolderString);
-            CalcFragment.setNumberHolderText(numberHolderString);
-        }
-
-        if(numberHolderString.length() > 5){
-            numberHolderString = "99999";
-            numberHolderNumber = 99999;
-            CalcFragment.setNumberHolderText(numberHolderString);
-        }
-        System.out.println(numberHolderNumber + ", string: " + numberHolderString);
+        CalcFragment.addToNumberHolder(view);
     }
 
     //Sets everything related to lp calc preview to 0 or empty
     public void resetNumberHolder(View view){
-        numberHolderNumber = 0;
-        numberHolderString = "";
-        CalcFragment.setNumberHolderText(numberHolderString);
+        CalcFragment.resetNumberHolder();
     }
 
     public void modLP(View view){
-        CalcFragment.modLP(view.getTag().toString(), numberHolderNumber);
-        numberHolderNumber = 0;
-        numberHolderString = "";
-        CalcFragment.setNumberHolderText(numberHolderString);
+        CalcFragment.modLP(view.getTag().toString());
     }
 
-    //TODO: Implement dice roll
-    //TODO: Implement coin flip
-    //TODO: Implement turn button
-    
+    public void diceRoll(View view){
+        CalcFragment.diceRoll();
+    }
 
+    public void coinFlip(View view){
+        CalcFragment.coinFlip();
+    }
 }
