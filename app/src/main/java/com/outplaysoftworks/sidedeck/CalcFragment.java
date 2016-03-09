@@ -142,7 +142,7 @@ public class CalcFragment extends Fragment {
         temp++;//Can't roll a zero
         diceButton.setText(temp.toString());
         String diceRoll = thisView.getContext().getResources().getText(R.string.diceRoll).toString();
-        LogFragment.addDataToSection(turnNumber, diceRoll + thisView.getContext().getResources().getText(R.string.diceRoll).toString());
+        LogFragment.addDataToSection(turnNumber, diceRoll + ": " + temp);
     }
 
     //Performs coin flip

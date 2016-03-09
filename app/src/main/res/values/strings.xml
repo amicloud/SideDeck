@@ -5,9 +5,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="reset">Reset</string>
+    <string name="settings">Settings</string>
     <string name="diceRoll">Dice Roll</string>
     <string name="coinHeads">Heads</string>
     <string name="coinsTails">Tails</string>
     <string name="coinFlip">Coin Flip</string>
+    <string name="turn1">Turn\n1</string>
+    <string name="playerOne">Player 1</string>
+    <string name="playerTwo">Player 2</string>
 
 </resources>

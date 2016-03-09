@@ -22,7 +22,7 @@ public class LogFragment extends Fragment {
     public static View view;
     public static LinearLayout[] sections = new LinearLayout[100];
     private static LinearLayout myLayout;
-    private LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
     public static Integer lastDuelMaxTurns = 0;
 
     public LogFragment() {
@@ -50,6 +50,10 @@ public class LogFragment extends Fragment {
             sections[currentTurn] = new LinearLayout(view.getContext());
             sections[currentTurn].setId(currentTurn);
             sections[currentTurn].setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(5,3,5,3);
+            sections[currentTurn].setBackgroundResource(R.color.a_material_dark_tinted_dark);
+            sections[currentTurn].setLayoutParams(params);
             TextView turnLabel = new TextView(view.getContext());
             turnLabel.setTextColor(Color.WHITE);
             turnLabel.setText("Turn: " + currentTurn);
