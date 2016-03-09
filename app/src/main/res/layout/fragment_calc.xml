@@ -8,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/primary">
+        android:background="@color/a_material_dark">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="9"
             android:orientation="vertical"
-            android:background="@color/primary">
+            android:background="@color/a_material_dark">
 
             <!--First layout, for points and turn indicator-->
             <LinearLayout
@@ -34,7 +34,7 @@
                     android:maxLength="6"
                     android:layout_margin="2dp"
                     android:typeface="monospace"
-                    android:textColor="@color/primary_text" />
+                    android:textColor="@color/a_material_white" />
 
                 <Button android:id="@+id/buttonTurn"
                     android:layout_width="0dp"
@@ -43,7 +43,7 @@
                     android:text="Turn \n1"
                     android:textSize="17dp"
                     android:layout_margin="2dp"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_operator"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="3dp"
                     android:textColor="@color/primary_text"
@@ -61,7 +61,7 @@
                     android:maxLength="6"
                     android:layout_margin="2dp"
                     android:typeface="monospace"
-                    android:textColor="@color/primary_text" />
+                    android:textColor="@color/a_material_white" />
 
             </LinearLayout>
 
@@ -87,7 +87,7 @@
                     android:elevation="0dp"
                     android:gravity="left|center_vertical"
                     android:typeface="sans"
-                    android:textColor="@color/accenttranslucent"
+                    android:textColor="@color/a_material_white"
                     android:textSize="20dp"
                     android:textIsSelectable="false"
                     android:clickable="true"
@@ -112,7 +112,7 @@
                     android:textSize="30dp"
                     android:elevation="0dp"
                     android:onClick="resetNumberHolder"
-                    android:textColor="@color/primary_text"
+                    android:textColor="@color/a_material_white"
                     android:textStyle="bold" />
 
                 <EditText
@@ -129,7 +129,7 @@
                     android:lines="1"
                     android:elevation="0dp"
                     android:typeface="sans"
-                    android:textColor="@color/accenttranslucent"
+                    android:textColor="@color/a_material_white"
                     android:textSize="20dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -155,8 +155,8 @@
                     android:layout_weight="5"
                     android:text="+"
                     android:onClick="modLP"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/button_pressed"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/button_pressed_green"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
                     android:textSize="30dp"
@@ -169,8 +169,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:text="Dice Roll"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/button_pressed"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/button_pressed_operator"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
                     android:textColor="@color/primary_text"
@@ -184,8 +184,8 @@
                     android:layout_weight="5"
                     android:text="+"
                     android:onClick="modLP"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/button_pressed"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/button_pressed_green"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
                     android:textSize="30dp"
@@ -208,8 +208,8 @@
                     android:layout_weight="5"
                     android:text="-"
                     android:onClick="modLP"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/button_pressed"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/button_pressed_red"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
                     android:textSize="30dp"
@@ -222,8 +222,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:text="Coin Flip"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/button_pressed"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/button_pressed_operator"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
                     android:textColor="@color/primary_text"
@@ -237,8 +237,8 @@
                     android:layout_weight="5"
                     android:text="-"
                     android:onClick="modLP"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/button_pressed"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/button_pressed_red"
                     style="?android:attr/borderlessButtonStyle"
                     android:elevation="2dp"
                     android:textSize="30dp"
@@ -258,7 +258,7 @@
             android:layout_height="0dp"
             android:layout_weight="9"
             android:orientation="vertical"
-            android:background="@color/primary">
+            android:background="@color/a_material_dark_tinted_dark">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -279,13 +279,13 @@
                     android:typeface="sans"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
@@ -301,13 +301,13 @@
                     android:typeface="sans"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
@@ -323,13 +323,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
@@ -353,13 +353,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
                 <Button
@@ -374,13 +374,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
                 <Button
@@ -395,13 +395,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
 
@@ -424,13 +424,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
                 <Button
@@ -445,13 +445,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
                 <Button
@@ -466,13 +466,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
 
@@ -496,13 +496,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
                 <Button
@@ -517,13 +517,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
                 <Button
@@ -538,13 +538,13 @@
                     android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
-                    android:layout_margin="2dp"
+                    android:layout_margin="1dp"
                     android:elevation="2dp"
                     android:ellipsize="start"
                     android:padding="0dp"
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed"
+                    android:background="@drawable/button_pressed_number"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
 

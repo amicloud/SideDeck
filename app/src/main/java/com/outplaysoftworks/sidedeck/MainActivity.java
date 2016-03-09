@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private String[] mPlanetTitles;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     PopupMenu popup;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
+    TextView playerOneName;
+    TextView playerTwoName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //End of pure layout stuff
+
+        playerOneName = (TextView)findViewById(R.id.playerOneName);
+        playerTwoName= (TextView)findViewById(R.id.playerTwoName);
 
     }
 
@@ -206,5 +212,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void coinFlip(View view){
         CalcFragment.coinFlip();
+    }
+
+    @Override
+    public void onBackPressed(){
+        playerOneName.clearFocus();
+        playerTwoName.clearFocus();
     }
 }

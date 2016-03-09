@@ -293,5 +293,7 @@ public class CalcFragment extends Fragment {
         lpToast.show();
         LogFragment.addDataToSection(turnNumber,toastText);
     }
+
+
 }
 
