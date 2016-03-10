@@ -18,6 +18,7 @@
     <color name="a_material_dark_tinted">#535E69</color>
     <color name="a_material_dark_tinted_dark">#212c37</color>
     <color name="a_material_accent">#FF8E14</color>
+    <color name="a_material_accent_dark">#cc7110</color>
     <color name="a_material_red">#c3db0000</color>
     <color name="a_material_red_dark">#7ddb0000</color>
     <color name="a_material_green">#c900ad17</color>

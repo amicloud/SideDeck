@@ -46,12 +46,13 @@ public class LogFragment extends Fragment {
     }
 
     public static void addSection(){
+        if(sections[currentTurn] == null) {
         /*if(view.findViewById(currentTurn) == null) {*/
             sections[currentTurn] = new LinearLayout(view.getContext());
             sections[currentTurn].setId(currentTurn);
             sections[currentTurn].setOrientation(LinearLayout.VERTICAL);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(5,3,5,3);
+            params.setMargins(5, 3, 5, 3);
             sections[currentTurn].setBackgroundResource(R.color.a_material_dark_tinted_dark);
             sections[currentTurn].setLayoutParams(params);
             TextView turnLabel = new TextView(view.getContext());
@@ -63,6 +64,7 @@ public class LogFragment extends Fragment {
             myLayout.addView(sections[currentTurn], 0);
             sections[currentTurn].addView(new TextView(view.getContext()));
         /*}*/
+        }
     }
 
     public static void addDataToSection(int section, String text){
@@ -80,6 +82,7 @@ public class LogFragment extends Fragment {
         for(int i = 1; i < lastDuelMaxTurns + 1; i++){  //TODO Crahses here when run for first time but doesn't crash if run without "+ 1" and then run again what the fuck
             System.out.println(i);
             sections[i].removeAllViews();
+            sections[i] = null;
         }
         addSection();
     }

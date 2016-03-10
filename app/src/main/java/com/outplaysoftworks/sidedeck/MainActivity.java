@@ -214,9 +214,26 @@ public class MainActivity extends AppCompatActivity {
         CalcFragment.coinFlip();
     }
 
-    @Override
-    public void onBackPressed(){
-        playerOneName.clearFocus();
-        playerTwoName.clearFocus();
+    public void qcAddToWorkHolder(View view){
+        CalcFragment.qcAddToWorkHolder(view);
     }
+
+    public void qcResetHolder(View view){
+        CalcFragment.qcResetHolder(view);
+    }
+
+    public void qcShow(View view){
+        CalcFragment.qcShow();
+    }
+
+    public void qcHide(View view){
+        CalcFragment.qcHide();
+    }
+
+    public void qcOpperators(View view){
+        CalcFragment.qcOpperators(view);
+
+
+    }
+
 }

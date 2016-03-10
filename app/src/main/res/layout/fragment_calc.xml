@@ -1,3 +1,6 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -259,24 +262,22 @@
             android:layout_weight="9"
             android:orientation="vertical"
             android:background="@color/a_material_dark_tinted_dark">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                android:elevation="0dp">
+                android:orientation="horizontal">
 
                 <Button
-                    android:tag="1"
+                    android:tag="7"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:text="1"
-                    android:onClick="addToNumberHolder"
+                    android:text="7"
                     android:textSize="35dp"
                     android:textStyle="normal"
                     android:typeface="sans"
+                    android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
                     android:layout_margin="1dp"
@@ -286,19 +287,18 @@
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_pressed_number"
-                    android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
                 <Button
-                    android:tag="2"
+                    android:tag="8"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:text="2"
-                    android:onClick="addToNumberHolder"
+                    android:text="8"
                     android:textSize="35dp"
                     android:textStyle="normal"
                     android:typeface="sans"
+                    android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
                     android:layout_margin="1dp"
@@ -308,16 +308,14 @@
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_pressed_number"
-                    android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text"
-                    android:textColorHighlight="@color/a_material_light" />
+                    android:textColor="@color/primary_text" />
                 <Button
-                    android:tag="3"
+                    android:tag="9"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:text="3"
+                    android:text="9"
                     android:textSize="35dp"
                     android:textStyle="normal"
                     android:typeface="sans"
@@ -331,11 +329,11 @@
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_pressed_number"
-                    android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -411,18 +409,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:elevation="0dp">
 
                 <Button
-                    android:tag="7"
+                    android:tag="1"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:text="7"
+                    android:text="1"
+                    android:onClick="addToNumberHolder"
                     android:textSize="35dp"
                     android:textStyle="normal"
                     android:typeface="sans"
-                    android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
                     android:layout_margin="1dp"
@@ -432,18 +431,19 @@
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_pressed_number"
+                    android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
                 <Button
-                    android:tag="8"
+                    android:tag="2"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:text="8"
+                    android:text="2"
+                    android:onClick="addToNumberHolder"
                     android:textSize="35dp"
                     android:textStyle="normal"
                     android:typeface="sans"
-                    android:onClick="addToNumberHolder"
                     android:elegantTextHeight="false"
                     android:fontFamily="roboto"
                     android:layout_margin="1dp"
@@ -453,14 +453,16 @@
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_pressed_number"
+                    android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
+                    android:textColor="@color/primary_text"
+                    android:textColorHighlight="@color/a_material_light" />
                 <Button
-                    android:tag="9"
+                    android:tag="3"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:text="9"
+                    android:text="3"
                     android:textSize="35dp"
                     android:textStyle="normal"
                     android:typeface="sans"
@@ -474,6 +476,7 @@
                     android:outlineProvider="background"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_pressed_number"
+                    android:shadowColor="#000000"
                     android:nestedScrollingEnabled="false"
                     android:textColor="@color/primary_text" />
 
@@ -555,7 +558,8 @@
             android:layout_width="match_parent"
             android:layout_height="120px"
             android:orientation="horizontal"
-            android:background="#000000">
+            android:background="#000000"
+            android:visibility="gone">
             <!--<com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
                 android:layout_width="match_parent"
@@ -571,3 +575,406 @@
 
 
 </FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/quickCalcHolder">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!--Blank space-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clickable="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:elevation="20dp"
+                android:orientation="horizontal"
+                android:background="@color/a_material_dark"
+                android:layout_margin="0dp"
+                android:clickable="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="1dp"
+                    android:clickable="false">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="1dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="123456789012345"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="0dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentEnd="true"
+                            android:textSize="24.5dp"
+                            android:layout_alignParentStart="true"
+                            android:textAlignment="viewEnd"
+                            android:textColor="@color/a_material_white"
+                            android:id="@+id/qcWorkDisplay"
+                            android:typeface="monospace" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="9999999"
+                            android:id="@+id/qcResultDisplay"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:textSize="24.5dp"
+                            android:textColor="@color/a_material_accent"
+                            android:typeface="monospace"
+                            android:textIsSelectable="false" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:minHeight="1dp"
+                            android:background="@color/a_material_accent"
+                            android:maxHeight="1dp"
+                            android:height="1dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_alignBottom="@+id/qcResultDisplay"
+                            android:layout_marginTop="27dp"
+                            android:layout_alignParentTop="true"
+                            android:id="@+id/textView2"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/button"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignStart="@+id/textView2"
+                            android:clickable="true"
+                            android:onClick="qcResetHolder"
+                            android:background="@color/trans" />
+
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:padding="2dp"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="7"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="7"
+                                android:onClick="qcAddToWorkHolder" />
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="8"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="8"
+                                android:onClick="qcAddToWorkHolder" />
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="9"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="9"
+                                android:onClick="qcAddToWorkHolder" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="4"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="4"
+                                android:onClick="qcAddToWorkHolder" />
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="5"
+                                android:onClick="qcAddToWorkHolder" />
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="6"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="6"
+                                android:onClick="qcAddToWorkHolder" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="1"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="1"
+                                android:onClick="qcAddToWorkHolder" />
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="2"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="2"
+                                android:onClick="qcAddToWorkHolder" />
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="3"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:tag="3"
+                                android:onClick="qcAddToWorkHolder" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:onClick="qcAddToWorkHolder"
+                                android:tag="0"/>
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="00"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:onClick="qcAddToWorkHolder"
+                                android:tag="00"/>
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_pressed_number"
+                                android:layout_margin="1dp"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:text="000"
+                                android:textColor="@color/a_material_white"
+                                android:textSize="17.5dp"
+                                android:onClick="qcAddToWorkHolder"
+                                android:tag="000"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_margin="1dp"
+                            android:background="@drawable/button_pressed_operator"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:text="/"
+                            android:textColor="@color/a_material_white"
+                            android:textSize="17.5dp"
+                            android:nestedScrollingEnabled="false"
+                            android:onClick="qcOpperators"
+                            android:tag="/" />
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_margin="1dp"
+                            android:background="@drawable/button_pressed_operator"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="@color/a_material_white"
+                            android:textSize="17.5dp"
+                            android:nestedScrollingEnabled="false"
+                            android:onClick="qcOpperators"
+                            android:tag="-" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_margin="1dp"
+                            android:background="@drawable/button_pressed_operator"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:text="x"
+                            android:textColor="@color/a_material_white"
+                            android:textSize="17.5dp"
+                            android:nestedScrollingEnabled="false"
+                            android:onClick="qcOpperators"
+                            android:tag="x" />
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_margin="1dp"
+                            android:background="@drawable/button_pressed_operator"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:text="+"
+                            android:textColor="@color/a_material_white"
+                            android:textSize="17.5dp"
+                            android:nestedScrollingEnabled="false"
+                            android:onClick="qcOpperators"
+                            android:tag="+" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_pressed_accent"
+                            android:layout_margin="1dp"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:text="="
+                            android:textColor="@color/a_material_white"
+                            android:textSize="17.5dp"
+                            android:tag="="
+                            android:onClick="qcOpperators" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <!--Blank space-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clickable="true" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

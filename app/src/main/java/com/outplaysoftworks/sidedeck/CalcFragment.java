@@ -40,6 +40,9 @@ public class CalcFragment extends Fragment {
     static Button coinButton;
     static View thisView;
 
+    static TextView qcWorkHolder;
+    static TextView qcResultHolder;
+
     static Integer numberTransitionDuration = 1050;
     public static Integer defaultLP = 8000;
     static Integer turnNumber = 1;
@@ -53,6 +56,9 @@ public class CalcFragment extends Fragment {
     static Integer numberHolderNumber = 0;
     static String toastText = "";
     public static Boolean firstRun = true;
+
+    static Integer qcWorkNumber = 0;
+    static Integer qcResultNumber = 0;
 
     public CalcFragment() {
         // Required empty public constructor
@@ -73,6 +79,7 @@ public class CalcFragment extends Fragment {
         lpCounterSoundId = soundPool.load(view.getContext(), R.raw.lpcountersound, 1);
 
         //return that view
+
         return view;
     }
 
@@ -134,6 +141,8 @@ public class CalcFragment extends Fragment {
         ourContext = getContext();
         diceButton = (Button)view.findViewById(R.id.diceButton);
         coinButton = (Button)view.findViewById(R.id.coinButton);
+        qcWorkHolder = (TextView)view.findViewById(R.id.qcWorkDisplay);
+        qcResultHolder = (TextView)view.findViewById(R.id.qcResultDisplay);
     }
 
     //Performs dice roll
@@ -232,6 +241,8 @@ public class CalcFragment extends Fragment {
         previousLP2 = defaultLP;
         turnNumber = 1;
         numberHolder.setText("");
+        qcResultHolder.setText("");
+        qcWorkHolder.setText("");
         playerOneLP.setText(defaultLP.toString());
         playerTwoLP.setText(defaultLP.toString());
         turnButton.setText("Turn\n " + turnNumber);
@@ -294,6 +305,45 @@ public class CalcFragment extends Fragment {
         LogFragment.addDataToSection(turnNumber,toastText);
     }
 
+    public static void qcAddToWorkHolder(View view){
+        String tag = view.getTag().toString();
+        Integer tagSizeAppended = tag.toString().length() + qcWorkHolder.getText().toString().length();
+        if(tagSizeAppended < 15) {
+            qcWorkHolder.append(tag);
+        }
 
+    }
+
+
+    public static void qcResetHolder(View view) {
+        if(qcWorkHolder.getText().toString().equals("")){
+            qcWorkHolder.setText("");
+            qcWorkNumber = 0;
+            qcResultHolder.setText("");
+            qcResultNumber = 0;
+
+        } else{
+            qcResultHolder.setText("");
+            qcResultNumber = 0;
+            qcWorkHolder.setText("");
+            qcWorkNumber = 0;
+        }
+    }
+
+    //TODO: Make qcShow and qcHide
+    public static void qcShow() {
+    }
+
+    public static void qcHide() {
+    }
+
+    public static void qcOpperators(View view) {
+        String tag = view.getTag().toString();
+
+        switch(tag){
+            case "+":
+
+        }
+    }
 }
 
