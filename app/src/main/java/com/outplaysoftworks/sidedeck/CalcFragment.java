@@ -15,11 +15,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import net.sourceforge.jeval.*;
 import java.util.Random;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +55,13 @@ public class CalcFragment extends Fragment {
     static String numberHolderString = "";
     static Integer numberHolderNumber = 0;
     static String toastText = "";
-    public static Boolean firstRun = true;
+    public static boolean firstRun = true;
+    static boolean justPressedOppeator = false;
 
-    static Integer qcWorkNumber = 0;
-    static Integer qcResultNumber = 0;
+    static String qcWorkString = "";
+    static String qcResultString = "";
+    static Evaluator evaluator = new Evaluator();
+    static RelativeLayout qcHolderView;
 
     public CalcFragment() {
         // Required empty public constructor
@@ -143,6 +146,7 @@ public class CalcFragment extends Fragment {
         coinButton = (Button)view.findViewById(R.id.coinButton);
         qcWorkHolder = (TextView)view.findViewById(R.id.qcWorkDisplay);
         qcResultHolder = (TextView)view.findViewById(R.id.qcResultDisplay);
+        qcHolderView = (RelativeLayout)view.findViewById(R.id.quickCalcHolder);
     }
 
     //Performs dice roll
@@ -306,10 +310,18 @@ public class CalcFragment extends Fragment {
     }
 
     public static void qcAddToWorkHolder(View view){
+        if(justPressedOppeator){
+            qcWorkString = "";
+            qcWorkHolder.setText("");
+        }
+        justPressedOppeator = false;
         String tag = view.getTag().toString();
+        String temp = "";
         Integer tagSizeAppended = tag.toString().length() + qcWorkHolder.getText().toString().length();
         if(tagSizeAppended < 15) {
+            qcWorkString += tag;
             qcWorkHolder.append(tag);
+            //System.out.println("String:" + qcWorkString);
         }
 
     }
@@ -317,32 +329,66 @@ public class CalcFragment extends Fragment {
 
     public static void qcResetHolder(View view) {
         if(qcWorkHolder.getText().toString().equals("")){
-            qcWorkHolder.setText("");
-            qcWorkNumber = 0;
             qcResultHolder.setText("");
-            qcResultNumber = 0;
-
+            qcResultString = "";
         } else{
-            qcResultHolder.setText("");
-            qcResultNumber = 0;
             qcWorkHolder.setText("");
-            qcWorkNumber = 0;
+            qcWorkString = "";
+
+            qcResultHolder.setText("");
+            qcResultString = "";
         }
+        System.out.println("String:" + qcWorkString);
     }
 
     //TODO: Make qcShow and qcHide
     public static void qcShow() {
+        qcHolderView.setVisibility(View.VISIBLE);
     }
 
     public static void qcHide() {
+        qcHolderView.setVisibility(View.GONE);
     }
 
     public static void qcOpperators(View view) {
+        justPressedOppeator = true;
+        String answer;
         String tag = view.getTag().toString();
-
-        switch(tag){
-            case "+":
-
+        if(tag.equals("x")){
+            tag = "*";
+        }
+        System.out.println("\nDebug 0");
+        if(tag.equals("=")){
+            qcResultString += qcWorkString;
+            try {
+                answer = evaluator.evaluate(qcResultString);
+                qcWorkString = answer;
+                qcWorkHolder.setText(answer);
+                qcResultHolder.setText("");
+                qcResultString = "";
+            } catch (EvaluationException e) {
+                e.printStackTrace();
+            }
+        }else {
+            if (qcResultString.equals("")) {
+                System.out.println("\nDebug 1");
+                qcResultString += qcWorkString + " " + tag;
+                qcResultHolder.setText(qcResultString);
+            } else if (!qcResultString.equals("")) {
+                System.out.println("\nDebug 2");
+                qcResultString = qcResultString + " " + qcWorkString + " " + tag;
+                qcResultHolder.setText(qcResultString);
+                String temp = qcResultString.substring(0, qcResultString.length() - 2);
+                answer = "";
+                try {
+                    answer = evaluator.evaluate(temp);
+                } catch (EvaluationException e) {
+                    e.printStackTrace();
+                }
+                qcWorkString = answer;
+                qcWorkHolder.setText(answer);
+            }
+            qcWorkString = "";
         }
     }
 }

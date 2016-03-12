@@ -4,4 +4,6 @@
         android:title="@string/reset"/>
     <item android:id="@+id/menuItemSettings"
         android:title="@string/settings"/>
+    <item android:id="@+id/menuItemShowQuickCalc"
+        android:title="Quick Calc"/>
 </menu>

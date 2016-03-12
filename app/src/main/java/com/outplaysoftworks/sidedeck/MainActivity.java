@@ -184,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
                 if(item.getTitle().toString().equals("Reset")){
                     CalcFragment.reset();
                     return true;
+                }else if(item.getTitle().toString().equals("Quick Calc")){
+                    CalcFragment.qcShow();
                 }
                 return false;
             }
