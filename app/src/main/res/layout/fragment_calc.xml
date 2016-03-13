@@ -1,586 +1,590 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context="com.outplaysoftworks.sidedeck.CalcFragment">
-    <LinearLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/a_material_dark">
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        tools:context="com.outplaysoftworks.sidedeck.CalcFragment">
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/a_material_dark">
-
-            <!--First layout, for points and turn indicator-->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="4">
+                android:layout_weight="9"
+                android:orientation="vertical"
+                android:background="@color/a_material_dark">
 
-                <TextView android:id="@+id/playerOneLP"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:background="@color/trans"
-                    android:elevation="2dp"
-                    android:textSize="35dip"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:maxLength="6"
-                    android:layout_margin="2dp"
-                    android:typeface="monospace"
-                    android:textColor="@color/a_material_white" />
+                <!--First layout, for points and turn indicator-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4">
 
-                <Button android:id="@+id/buttonTurn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2.5"
-                    android:text="@string/turn1"
-                    android:textSize="17dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/button_pressed_operator"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:elevation="3dp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="changeTurn" />
+                    <TextView android:id="@+id/playerOneLP"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/trans"
+                        android:elevation="2dp"
+                        android:textSize="35dip"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:maxLength="6"
+                        android:layout_margin="2dp"
+                        android:typeface="monospace"
+                        android:textColor="@color/a_material_white" />
 
-                <TextView android:id="@+id/playerTwoLP"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:background="@color/trans"
-                    android:elevation="2dp"
-                    android:textSize="35dip"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:maxLength="6"
-                    android:layout_margin="2dp"
-                    android:typeface="monospace"
-                    android:textColor="@color/a_material_white" />
+                    <Button android:id="@+id/buttonTurn"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2.5"
+                        android:text="@string/turn1"
+                        android:textSize="15dp"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/button_pressed_operator"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:elevation="3dp"
+                        android:textColor="@color/primary_text"
+                        android:onClick="changeTurn" />
 
-            </LinearLayout>
+                    <TextView android:id="@+id/playerTwoLP"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/trans"
+                        android:elevation="2dp"
+                        android:textSize="35dip"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:maxLength="6"
+                        android:layout_margin="2dp"
+                        android:typeface="monospace"
+                        android:textColor="@color/a_material_white" />
 
-            <!--Second layout, for the player names and working number for LP calc-->
-            <LinearLayout
-                android:id="@+id/nameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:focusableInTouchMode="true"
-                android:descendantFocusability="beforeDescendants">
+                </LinearLayout>
 
-                <EditText
-                    android:cursorVisible="false"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:hint="Player 1"
-                    android:id="@+id/playerOneName"
-                    android:singleLine="true"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:elevation="0dp"
-                    android:gravity="left|center_vertical"
-                    android:typeface="sans"
-                    android:textColor="@color/a_material_white"
-                    android:textSize="20dp"
-                    android:textIsSelectable="false"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:selectAllOnFocus="true"
-                    android:textColorHint="@color/accenttranslucent"
-                    android:elegantTextHeight="false"
-                    android:capitalize="words"
-                    android:textAlignment="center"
-                    android:text="@string/playerOne" />
-
-                <TextView android:id="@+id/numberHolder"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3.5"
-                    android:textAlignment="center"
-                    android:typeface="monospace"
-                    android:maxLines="1"
-                    android:shadowColor="#b0b0b0"
-                    android:gravity="center"
-                    android:textSize="30dp"
-                    android:elevation="0dp"
-                    android:onClick="resetNumberHolder"
-                    android:textColor="@color/a_material_white"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:cursorVisible="false"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:hint="Player 2"
-                    android:id="@+id/playerTwoName"
-                    android:textAlignment="center"
-                    android:gravity="center_vertical|end"
-                    android:singleLine="true"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:elevation="0dp"
-                    android:typeface="sans"
-                    android:textColor="@color/a_material_white"
-                    android:textSize="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:selectAllOnFocus="true"
-                    android:textColorHint="@color/accenttranslucent"
-                    android:elegantTextHeight="false"
-                    android:capitalize="words"
-                    android:text="@string/playerTwo" />
-
-            </LinearLayout>
-
-            <!--Plus buttons and dice button-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4">
-
-                <Button
-                    android:tag="1+"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:text="+"
-                    android:onClick="modLP"
-                    android:layout_margin="1dp"
-                    android:background="@drawable/button_pressed_green"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:elevation="2dp"
-                    android:textSize="30dp"
-                    android:typeface="sans"
-                    android:textAlignment="center"
-                    android:textColor="@color/primary_text" />
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                <!--Second layout, for the player names and working number for LP calc-->
+                <LinearLayout
+                    android:id="@+id/nameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="3"
-                    android:text="@string/diceRoll"
-                    android:layout_margin="1dp"
-                    android:background="@drawable/button_pressed_operator"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:elevation="2dp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="diceRoll"
-                    android:id="@+id/diceButton" />
+                    android:focusableInTouchMode="true"
+                    android:descendantFocusability="beforeDescendants">
 
-                <Button
-                    android:tag="2+"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:text="+"
-                    android:onClick="modLP"
-                    android:layout_margin="1dp"
-                    android:background="@drawable/button_pressed_green"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:elevation="2dp"
-                    android:textSize="30dp"
-                    android:typeface="sans"
-                    android:textAlignment="center"
-                    android:textColor="@color/primary_text" />
+                    <EditText
+                        android:cursorVisible="false"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:hint="Player 1"
+                        android:id="@+id/playerOneName"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:lines="1"
+                        android:elevation="0dp"
+                        android:gravity="left|center_vertical"
+                        android:typeface="sans"
+                        android:textColor="@color/a_material_white"
+                        android:textSize="20dp"
+                        android:textIsSelectable="false"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:selectAllOnFocus="true"
+                        android:textColorHint="@color/accenttranslucent"
+                        android:elegantTextHeight="false"
+                        android:capitalize="words"
+                        android:textAlignment="center"
+                        android:text="@string/playerOne" />
 
-            </LinearLayout>
+                    <TextView android:id="@+id/numberHolder"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3.5"
+                        android:textAlignment="center"
+                        android:typeface="monospace"
+                        android:maxLines="1"
+                        android:shadowColor="#b0b0b0"
+                        android:gravity="center"
+                        android:textSize="30dp"
+                        android:elevation="0dp"
+                        android:onClick="resetNumberHolder"
+                        android:textColor="@color/a_material_white"
+                        android:textStyle="bold" />
 
-            <!--Minus buttons and coin button-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4">
+                    <EditText
+                        android:cursorVisible="false"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:hint="Player 2"
+                        android:id="@+id/playerTwoName"
+                        android:textAlignment="center"
+                        android:gravity="center_vertical|end"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:lines="1"
+                        android:elevation="0dp"
+                        android:typeface="sans"
+                        android:textColor="@color/a_material_white"
+                        android:textSize="20dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:selectAllOnFocus="true"
+                        android:textColorHint="@color/accenttranslucent"
+                        android:elegantTextHeight="false"
+                        android:capitalize="words"
+                        android:text="@string/playerTwo" />
 
-                <Button
-                    android:tag="1-"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:text="-"
-                    android:onClick="modLP"
-                    android:layout_margin="1dp"
-                    android:background="@drawable/button_pressed_red"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:elevation="2dp"
-                    android:textSize="30dp"
-                    android:typeface="sans"
-                    android:textAlignment="center"
-                    android:textColor="@color/primary_text" />
+                </LinearLayout>
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:text="@string/coinFlip"
-                    android:layout_margin="1dp"
-                    android:background="@drawable/button_pressed_operator"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:elevation="2dp"
-                    android:textColor="@color/primary_text"
-                    android:id="@+id/coinButton"
-                    android:onClick="coinFlip" />
+                <!--Plus buttons and dice button-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4">
 
-                <Button
-                    android:tag="2-"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:text="-"
-                    android:onClick="modLP"
-                    android:layout_margin="1dp"
-                    android:background="@drawable/button_pressed_red"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:elevation="2dp"
-                    android:textSize="30dp"
-                    android:typeface="sans"
-                    android:textAlignment="center"
-                    android:textColor="@color/primary_text" />
+                    <Button
+                        android:tag="1+"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:text="+"
+                        android:onClick="modLP"
+                        android:layout_margin="1dp"
+                        android:background="@drawable/button_pressed_green"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:elevation="2dp"
+                        android:textSize="30dp"
+                        android:typeface="sans"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_text" />
 
-            </LinearLayout>
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:text="@string/diceRoll"
+                        android:layout_margin="1dp"
+                        android:background="@drawable/button_pressed_operator"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:elevation="2dp"
+                        android:textColor="@color/primary_text"
+                        android:onClick="diceRoll"
+                        android:id="@+id/diceButton"
+                        android:textSize="15dp" />
+
+                    <Button
+                        android:tag="2+"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:text="+"
+                        android:onClick="modLP"
+                        android:layout_margin="1dp"
+                        android:background="@drawable/button_pressed_green"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:elevation="2dp"
+                        android:textSize="30dp"
+                        android:typeface="sans"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_text" />
+
+                </LinearLayout>
+
+                <!--Minus buttons and coin button-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4">
+
+                    <Button
+                        android:tag="1-"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:text="-"
+                        android:onClick="modLP"
+                        android:layout_margin="1dp"
+                        android:background="@drawable/button_pressed_red"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:elevation="2dp"
+                        android:textSize="30dp"
+                        android:typeface="sans"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_text" />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:text="@string/coinFlip"
+                        android:layout_margin="1dp"
+                        android:background="@drawable/button_pressed_operator"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:elevation="2dp"
+                        android:textColor="@color/primary_text"
+                        android:id="@+id/coinButton"
+                        android:onClick="coinFlip"
+                        android:textSize="15dp" />
+
+                    <Button
+                        android:tag="2-"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:text="-"
+                        android:onClick="modLP"
+                        android:layout_margin="1dp"
+                        android:background="@drawable/button_pressed_red"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:elevation="2dp"
+                        android:textSize="30dp"
+                        android:typeface="sans"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_text" />
+
+                </LinearLayout>
 
 
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"
-            android:orientation="vertical"
-            android:background="@color/a_material_dark_tinted_dark">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <Button
-                    android:tag="7"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="7"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-                <Button
-                    android:tag="8"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="8"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-                <Button
-                    android:tag="9"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="9"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <Button
-                    android:tag="4"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="4"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-                <Button
-                    android:tag="5"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="5"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-                <Button
-                    android:tag="6"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="6"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="9"
+                android:orientation="vertical"
+                android:background="@color/a_material_dark_tinted_dark">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:tag="7"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="7"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+                    <Button
+                        android:tag="8"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="8"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+                    <Button
+                        android:tag="9"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="9"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:tag="4"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="4"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+                    <Button
+                        android:tag="5"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="5"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+                    <Button
+                        android:tag="6"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="6"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:elevation="0dp">
+
+                    <Button
+                        android:tag="1"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="1"
+                        android:onClick="addToNumberHolder"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:shadowColor="#000000"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+                    <Button
+                        android:tag="2"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:onClick="addToNumberHolder"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:shadowColor="#000000"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text"
+                        android:textColorHighlight="@color/a_material_light" />
+                    <Button
+                        android:tag="3"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="3"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:shadowColor="#000000"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:tag="0"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:textSize="35dp"
+                        android:text="0"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+                    <Button
+                        android:tag="00"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="00"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+                    <Button
+                        android:tag="000"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:text="000"
+                        android:textSize="35dp"
+                        android:textStyle="normal"
+                        android:typeface="sans"
+                        android:onClick="addToNumberHolder"
+                        android:elegantTextHeight="false"
+                        android:fontFamily="roboto"
+                        android:layout_margin="1dp"
+                        android:elevation="2dp"
+                        android:ellipsize="start"
+                        android:padding="0dp"
+                        android:outlineProvider="background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:background="@drawable/button_pressed_number"
+                        android:nestedScrollingEnabled="false"
+                        android:textColor="@color/primary_text" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/adHolder"
+                android:layout_width="match_parent"
+                android:layout_height="120px"
                 android:orientation="horizontal"
-                android:elevation="0dp">
-
-                <Button
-                    android:tag="1"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="1"
-                    android:onClick="addToNumberHolder"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:shadowColor="#000000"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-                <Button
-                    android:tag="2"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="2"
-                    android:onClick="addToNumberHolder"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:shadowColor="#000000"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text"
-                    android:textColorHighlight="@color/a_material_light" />
-                <Button
-                    android:tag="3"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="3"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:shadowColor="#000000"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <Button
-                    android:tag="0"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:textSize="35dp"
-                    android:text="0"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-                <Button
-                    android:tag="00"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="00"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-                <Button
-                    android:tag="000"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="000"
-                    android:textSize="35dp"
-                    android:textStyle="normal"
-                    android:typeface="sans"
-                    android:onClick="addToNumberHolder"
-                    android:elegantTextHeight="false"
-                    android:fontFamily="roboto"
-                    android:layout_margin="1dp"
-                    android:elevation="2dp"
-                    android:ellipsize="start"
-                    android:padding="0dp"
-                    android:outlineProvider="background"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_pressed_number"
-                    android:nestedScrollingEnabled="false"
-                    android:textColor="@color/primary_text" />
-
+                android:background="#000000"
+                android:visibility="gone">
+                <!--<com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="@string/banner_ad_unit_id"
+                    android:background="#000000">
+                </com.google.android.gms.ads.AdView>-->
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout android:id="@+id/adHolder"
-            android:layout_width="match_parent"
-            android:layout_height="120px"
-            android:orientation="horizontal"
-            android:background="#000000"
-            android:visibility="gone">
-            <!--<com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id"
-                android:background="#000000">
-            </com.google.android.gms.ads.AdView>-->
-        </LinearLayout>
-    </LinearLayout>
 
 
-</FrameLayout>
+    </FrameLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="10dp"
         android:layout_centerVertical="true"
         android:id="@+id/quickCalcHolder"
+        android:visibility="gone"
         android:onClick="qcHide"
         android:clickable="true">
 

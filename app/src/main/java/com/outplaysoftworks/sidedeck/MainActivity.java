@@ -1,5 +1,10 @@
 package com.outplaysoftworks.sidedeck;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,21 +37,27 @@ public class MainActivity extends AppCompatActivity {
     ViewPager mViewPager;
     TextView playerOneName;
     TextView playerTwoName;
-
+    static Context myContext;
+    static boolean firstRun = true;
+    public static SharedPreferences sharedPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Pure layout stuff
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myContext = this;
+/*
         mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mPlanetTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //End of pure layout stuff
-
         playerOneName = (TextView)findViewById(R.id.playerOneName);
         playerTwoName= (TextView)findViewById(R.id.playerTwoName);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        setPreferences();
 
     }
 
@@ -173,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //On click method for overflow button
-    public void showPopup(View v) {
+    public void showPopup(final View v) {
         popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.actions, popup.getMenu());
@@ -186,6 +198,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }else if(item.getTitle().toString().equals("Quick Calc")){
                     CalcFragment.qcShow();
+                }else if(item.getTitle().toString().equals("Settings")){
+                    Intent intent = new Intent(v.getContext(), SettingsActivity.class);
+                    startActivity(intent);
                 }
                 return false;
             }
@@ -236,6 +251,19 @@ public class MainActivity extends AppCompatActivity {
         CalcFragment.qcOpperators(view);
 
 
+    }
+
+    public static void setPreferences(){
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(myContext);
+        CalcFragment.playerOneNameString = sharedPrefs.getString(SettingsActivity.KEY_PLAYER_ONE_DEF_NAME, "");
+        CalcFragment.playerTwoNameString = sharedPrefs.getString(SettingsActivity.KEY_PLAYER_TWO_DEF_NAME, "");
+        CalcFragment.soundOn = sharedPrefs.getBoolean(SettingsActivity.KEY_SOUND_ONOFF, true);
+        CalcFragment.defaultLP = Integer.parseInt(sharedPrefs.getString(SettingsActivity.KEY_DEFAULT_LP, "8000"));
+        if(!firstRun){
+            CalcFragment.playerTwoName.setText(CalcFragment.playerTwoNameString);
+            CalcFragment.playerOneName.setText(CalcFragment.playerOneNameString);
+        }
+        firstRun = false;
     }
 
 }

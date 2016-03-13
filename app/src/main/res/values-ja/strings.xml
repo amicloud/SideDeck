@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SideDeck</string>
+    <string name="action_settings">好み</string>
+    <string name="coinFlip">コインをフリップ</string>
+    <string name="coinHeads">頭</string>
+    <string name="diceRoll">ダイスロール</string>
+    <string name="defaultLifepoints">ライフポイント</string>
+    <string name="coinsTails">裏</string>
+    <string name="playerOne">プレーヤー1</string>
+    <string name="playerOneDefaultName">設定プレイヤー1デフォルト名</string>
+    <string name="playerTwoDefaultName">設定プレーヤー2デフォルトの名前</string>
+    <string name="playerTwo">プレーヤー2</string>
+    <string name="reset">リセット</string>
+    <string name="settings">好み</string>
+    <string name="sound">音</string>
+    <string name="title_activity_settings">音</string>
+    <string name="turn1">1を回し</string>
+</resources>

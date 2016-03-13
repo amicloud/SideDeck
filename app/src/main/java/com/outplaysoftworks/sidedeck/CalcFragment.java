@@ -26,6 +26,9 @@ import java.util.Random;
  */
 public class CalcFragment extends Fragment {
 
+    static String playerOneNameString = "";
+    static String playerTwoNameString = "";
+    static boolean soundOn;
     static TextView numberHolder;
     static TextView playerOneLP;
     static TextView playerTwoLP;
@@ -82,6 +85,8 @@ public class CalcFragment extends Fragment {
         lpCounterSoundId = soundPool.load(view.getContext(), R.raw.lpcountersound, 1);
 
         //return that view
+        playerTwoName.setText(CalcFragment.playerTwoNameString);
+        playerOneName.setText(CalcFragment.playerOneNameString);
 
         return view;
     }
@@ -147,6 +152,8 @@ public class CalcFragment extends Fragment {
         qcWorkHolder = (TextView)view.findViewById(R.id.qcWorkDisplay);
         qcResultHolder = (TextView)view.findViewById(R.id.qcResultDisplay);
         qcHolderView = (RelativeLayout)view.findViewById(R.id.quickCalcHolder);
+        playerOneName.setText(playerOneNameString);
+        playerTwoName.setText(playerTwoNameString);
     }
 
     //Performs dice roll
@@ -183,12 +190,12 @@ public class CalcFragment extends Fragment {
         previousLP2 = currentLP2;
 
         if(value != 0) {
-            soundPool.play(lpCounterSoundId, 1, 1, 1, 0, 1);
+            if(soundOn)soundPool.play(lpCounterSoundId, 1, 1, 1, 0, 1);
             switch (tag) {
                 case "1+":
                     if (currentLP1 + value < 999999) {
                         currentLP1 += value;
-                        toastText = value + " LP added to " + playerOneName.getText().toString();
+                        toastText = value + " LP added to " + playerOneNameString;
                         displayToastAndSendToLog();
                     } else {
                         currentLP1 = 999999;
@@ -197,18 +204,18 @@ public class CalcFragment extends Fragment {
                 case "1-":
                     if (currentLP1 - value > 0) {
                         currentLP1 -= value;
-                        toastText = value + " LP subtracted from " + playerOneName.getText().toString();
+                        toastText = value + " LP subtracted from " + playerOneNameString;
                         displayToastAndSendToLog();
                     } else {
                         currentLP1 = 0;
-                        toastText = value + " LP subtracted from " + playerOneName.getText().toString();
+                        toastText = value + " LP subtracted from " + playerOneNameString;
                         displayToastAndSendToLog();
                     }
                     break;
                 case "2+":
                     if (currentLP2 + value < 999999) {
                         currentLP2 += value;
-                        toastText = value + " LP added to " + playerTwoName.getText().toString();
+                        toastText = value + " LP added to " + playerTwoNameString;
                         displayToastAndSendToLog();
                     } else {
                         currentLP2 = 999999;
@@ -217,11 +224,11 @@ public class CalcFragment extends Fragment {
                 case "2-":
                     if (currentLP2 - value > 0) {
                         currentLP2 -= value;
-                        toastText = value + " LP subtracted from " + playerTwoName.getText().toString();
+                        toastText = value + " LP subtracted from " + playerTwoNameString;
                         displayToastAndSendToLog();
                     } else {
                         currentLP2 = 0;
-                        toastText = value + " LP subtracted from " + playerTwoName.getText().toString();
+                        toastText = value + " LP subtracted from " + playerTwoNameString;
                         displayToastAndSendToLog();
                     }
                     break;
