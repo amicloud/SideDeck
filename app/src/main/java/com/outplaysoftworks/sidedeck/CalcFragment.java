@@ -4,6 +4,7 @@ package com.outplaysoftworks.sidedeck;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -65,6 +66,7 @@ public class CalcFragment extends Fragment {
     static String qcResultString = "";
     static Evaluator evaluator = new Evaluator();
     static RelativeLayout qcHolderView;
+    static Resources resources;
 
     public CalcFragment() {
         // Required empty public constructor
@@ -76,6 +78,7 @@ public class CalcFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calc, container, false);
+        resources = view.getContext().getResources();
         //Assign view variables after inflation is done
         assignVariableIds(view);
         makeListeners();
@@ -118,7 +121,8 @@ public class CalcFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 turnNumber++;
-                turnButton.setText("Turn\n " + turnNumber);
+                String temp = resources.getText(R.string.turn).toString() + turnNumber;
+                turnButton.setText(temp);
                 LogFragment.currentTurn = turnNumber;
                 LogFragment.addSection();
             }
@@ -128,7 +132,8 @@ public class CalcFragment extends Fragment {
             public boolean onLongClick(View v) {
                 if(turnNumber > 0) {
                     turnNumber--;
-                    turnButton.setText("Turn\n " + turnNumber);
+                    String temp = resources.getText(R.string.turn).toString() + turnNumber;
+                    turnButton.setText(temp);
                     LogFragment.currentTurn = turnNumber;
                 }
                 return true;
@@ -161,21 +166,21 @@ public class CalcFragment extends Fragment {
         Integer temp = random.nextInt(6);
         temp++;//Can't roll a zero
         diceButton.setText(temp.toString());
-        String diceRoll = thisView.getContext().getResources().getText(R.string.diceRoll).toString();
+        String diceRoll = resources.getText(R.string.diceRoll).toString();
         LogFragment.addDataToSection(turnNumber, diceRoll + ": " + temp);
     }
 
     //Performs coin flip
     public static void coinFlip(){
-        String coinflip = thisView.getContext().getResources().getText(R.string.coinFlip).toString() + ": ";
+        String coinflip = resources.getText(R.string.coinFlip).toString() + ": ";
         Double temp = Math.random();
         /*System.out.println(temp);*/
         if(temp>0.5){
             coinButton.setText(R.string.coinHeads);
-            LogFragment.addDataToSection(turnNumber, coinflip + thisView.getContext().getResources().getText(R.string.coinHeads).toString());
+            LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinHeads).toString());
         }else if(temp<=0.5){
             coinButton.setText(R.string.coinsTails);
-            LogFragment.addDataToSection(turnNumber, coinflip + thisView.getContext().getResources().getText(R.string.coinsTails).toString());
+            LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinsTails).toString());
         }
     }
 
@@ -195,7 +200,7 @@ public class CalcFragment extends Fragment {
                 case "1+":
                     if (currentLP1 + value < 999999) {
                         currentLP1 += value;
-                        toastText = value + " LP added to " + playerOneNameString;
+                        toastText = value + resources.getText(R.string.lpAddedTo).toString() + playerOneNameString;
                         displayToastAndSendToLog();
                     } else {
                         currentLP1 = 999999;
@@ -204,18 +209,18 @@ public class CalcFragment extends Fragment {
                 case "1-":
                     if (currentLP1 - value > 0) {
                         currentLP1 -= value;
-                        toastText = value + " LP subtracted from " + playerOneNameString;
+                        toastText = value + resources.getText(R.string.lpSubtracedFrom).toString() + playerOneNameString;
                         displayToastAndSendToLog();
                     } else {
                         currentLP1 = 0;
-                        toastText = value + " LP subtracted from " + playerOneNameString;
+                        toastText = value + resources.getText(R.string.lpSubtracedFrom).toString() + playerOneNameString;
                         displayToastAndSendToLog();
                     }
                     break;
                 case "2+":
                     if (currentLP2 + value < 999999) {
                         currentLP2 += value;
-                        toastText = value + " LP added to " + playerTwoNameString;
+                        toastText = value + resources.getText(R.string.lpAddedTo).toString() + playerTwoNameString;
                         displayToastAndSendToLog();
                     } else {
                         currentLP2 = 999999;
@@ -224,11 +229,11 @@ public class CalcFragment extends Fragment {
                 case "2-":
                     if (currentLP2 - value > 0) {
                         currentLP2 -= value;
-                        toastText = value + " LP subtracted from " + playerTwoNameString;
+                        toastText = value + resources.getText(R.string.lpSubtracedFrom).toString() + playerTwoNameString;
                         displayToastAndSendToLog();
                     } else {
                         currentLP2 = 0;
-                        toastText = value + " LP subtracted from " + playerTwoNameString;
+                        toastText = value + resources.getText(R.string.lpSubtracedFrom).toString() + playerTwoNameString;
                         displayToastAndSendToLog();
                     }
                     break;
@@ -256,10 +261,10 @@ public class CalcFragment extends Fragment {
         qcWorkHolder.setText("");
         playerOneLP.setText(defaultLP.toString());
         playerTwoLP.setText(defaultLP.toString());
-        turnButton.setText("Turn\n " + turnNumber);
+        String temp = resources.getText(R.string.turn).toString() + turnNumber;
+        turnButton.setText(temp);
         diceButton.setText(R.string.diceRoll);
         coinButton.setText(R.string.coinFlip);
-        System.out.println("Reset");
         if(firstRun == false) {
             LogFragment.resetLog();
         }
@@ -345,7 +350,7 @@ public class CalcFragment extends Fragment {
             qcResultHolder.setText("");
             qcResultString = "";
         }
-        System.out.println("String:" + qcWorkString);
+        /*System.out.println("String:" + qcWorkString);*/
     }
 
     //TODO: Make qcShow and qcHide
@@ -361,10 +366,10 @@ public class CalcFragment extends Fragment {
         justPressedOppeator = true;
         String answer;
         String tag = view.getTag().toString();
-        if(tag.equals("x")){
+        if(tag.equals(ourContext.getString(R.string.x))){
             tag = "*";
         }
-        System.out.println("\nDebug 0");
+        /*System.out.println("\nDebug 0");*/
         if(tag.equals("=")){
             qcResultString += qcWorkString;
             try {
@@ -378,12 +383,13 @@ public class CalcFragment extends Fragment {
             }
         }else {
             if (qcResultString.equals("")) {
-                System.out.println("\nDebug 1");
-                qcResultString += qcWorkString + " " + tag;
+                /*System.out.println("\nDebug 1");*/
+                qcResultString += qcWorkString + tag;
                 qcResultHolder.setText(qcResultString);
             } else if (!qcResultString.equals("")) {
-                System.out.println("\nDebug 2");
-                qcResultString = qcResultString + " " + qcWorkString + " " + tag;
+                /*System.out.println("\nDebug 2");*/
+                qcResultString = qcResultString
+                        + qcWorkString + tag;
                 qcResultHolder.setText(qcResultString);
                 String temp = qcResultString.substring(0, qcResultString.length() - 2);
                 answer = "";

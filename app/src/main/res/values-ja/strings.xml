@@ -15,5 +15,18 @@
     <string name="settings">好み</string>
     <string name="sound">音</string>
     <string name="title_activity_settings">音</string>
-    <string name="turn1">1を回し</string>
+    <string name="turn1">"を回し\n1"</string>
+    <string name="KEYdefaultLpSetting">defaultLpSetting</string>
+    <string name="KEYplayerOneDefaultNameSetting">playerOneDefaultNameSetting</string>
+    <string name="KEYplayerTwoDefaultNameSetting">playerTwoDefaultNameSetting</string>
+    <string name="KEYsoundOnOff">soundOnOff</string>
+    <string name="blankSpace">" "</string>
+    <string name="lpAddedTo">"  ＬＰが追加した "</string>
+    <string name="lpSubtracedFrom">"  ＬＰから減算 "</string>
+    <string name="turn">"を回し\n"</string>
+    <string name="turnColon">"を回し"</string>
+    <string name="x">x</string>
+    <string name="calculator">電卓</string>
+    <string name="duelLog">デュエルログ</string>
+    <string name="quickCalc">クイック電卓</string>
 </resources>

@@ -78,6 +78,7 @@
                     android:descendantFocusability="beforeDescendants">
 
                     <EditText
+                        android:inputType="textNoSuggestions"
                         android:cursorVisible="false"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -119,6 +120,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:inputType="textNoSuggestions"
                         android:cursorVisible="false"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

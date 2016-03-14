@@ -1,6 +1,7 @@
 package com.outplaysoftworks.sidedeck;
 
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.w3c.dom.Text;
 
@@ -22,6 +26,7 @@ public class LogFragment extends Fragment {
     public static View view;
     public static LinearLayout[] sections = new LinearLayout[100];
     private static LinearLayout myLayout;
+    static Resources resources;
 
     public static Integer lastDuelMaxTurns = 0;
 
@@ -36,7 +41,13 @@ public class LogFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_log, container, false);
         myLayout = (LinearLayout)view.findViewById(R.id.viewHolder);
+        resources = view.getContext().getResources();
         init();
+
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         return view;
     }
 
@@ -57,7 +68,8 @@ public class LogFragment extends Fragment {
             sections[currentTurn].setLayoutParams(params);
             TextView turnLabel = new TextView(view.getContext());
             turnLabel.setTextColor(Color.WHITE);
-            turnLabel.setText("Turn: " + currentTurn);
+            String temp = resources.getText(R.string.turnColon)+ currentTurn.toString();
+            turnLabel.setText(temp);
             turnLabel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             turnLabel.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             sections[currentTurn].addView(turnLabel);

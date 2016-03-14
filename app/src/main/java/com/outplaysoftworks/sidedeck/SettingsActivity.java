@@ -8,11 +8,11 @@ import android.preference.PreferenceManager;
 
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-    public static final String KEY_PLAYER_ONE_DEF_NAME = "playerOneDefaultNameSetting";
-    public static final String KEY_PLAYER_TWO_DEF_NAME = "playerTwoDefaultNameSetting";
-    public static final String KEY_SOUND_ONOFF = "soundOnOff";
-    public static final String KEY_DEFAULT_LP = "defaultLpSetting";
-    public static SharedPreferences sharedPrefs;
+    private static final String KEY_PLAYER_ONE_DEF_NAME = MainActivity.KEY_PLAYER_ONE_DEF_NAME;
+    private static final String KEY_PLAYER_TWO_DEF_NAME = MainActivity.KEY_PLAYER_TWO_DEF_NAME;
+    private static final String KEY_SOUND_ONOFF = MainActivity.KEY_SOUND_ONOFF;
+    private static final String KEY_DEFAULT_LP = MainActivity.KEY_DEFAULT_LP;
+    private static SharedPreferences sharedPrefs;
 
 
     @Override

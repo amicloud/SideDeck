@@ -8,12 +8,12 @@
     <EditTextPreference
         android:defaultValue="@string/playerOne"
         android:key="playerOneDefaultNameSetting"
-        android:title="@string/prefPlayerOneDefaultName"
+        android:title="@string/playerOneDefaultName"
         android:summary="@string/playerOne"/>
     <EditTextPreference
         android:defaultValue="@string/playerTwo"
         android:key="playerTwoDefaultNameSetting"
-        android:title="@string/prefPlayerTwoDefaultName"
+        android:title="@string/playerTwoDefaultName"
         android:summary="@string/playerTwo"/>
     <EditTextPreference
         android:defaultValue="8000"

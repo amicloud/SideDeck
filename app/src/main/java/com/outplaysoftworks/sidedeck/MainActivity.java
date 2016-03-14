@@ -28,7 +28,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class MainActivity extends AppCompatActivity {
+
+    public static final String KEY_PLAYER_ONE_DEF_NAME = "playerOneDefaultNameSetting"; //NON-NLS
+    public static final String KEY_PLAYER_TWO_DEF_NAME = "playerTwoDefaultNameSetting"; //NON-NLS
+    public static final String KEY_SOUND_ONOFF = "soundOnOff"; //NON-NLS
+    public static final String KEY_DEFAULT_LP = "defaultLpSetting"; //NON-NLS
+
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -72,19 +81,20 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "", Snackbar.LENGTH_LONG)
+                        .setAction("", null).show();
             }
-        });
+        });*/
         //End of pure layout stuff
         playerOneName = (TextView)findViewById(R.id.playerOneName);
         playerTwoName= (TextView)findViewById(R.id.playerTwoName);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         setPreferences();
+
 
     }
 
@@ -147,9 +157,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Calculator";
+                    return getResources().getText(R.string.calculator);
                 case 1:
-                    return "Duel Log";
+                    return getResources().getText(R.string.duelLog);
             }
             return null;
         }
@@ -193,12 +203,12 @@ public class MainActivity extends AppCompatActivity {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getTitle().toString().equals("Reset")){
+                if(item.getTitle().toString().equals(getResources().getText(R.string.reset).toString())){
                     CalcFragment.reset();
                     return true;
-                }else if(item.getTitle().toString().equals("Quick Calc")){
+                }else if(item.getTitle().toString().equals(getResources().getText(R.string.quickCalc).toString())){
                     CalcFragment.qcShow();
-                }else if(item.getTitle().toString().equals("Settings")){
+                }else if(item.getTitle().toString().equals(getResources().getText(R.string.settings).toString())){
                     Intent intent = new Intent(v.getContext(), SettingsActivity.class);
                     startActivity(intent);
                 }
@@ -255,10 +265,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setPreferences(){
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(myContext);
-        CalcFragment.playerOneNameString = sharedPrefs.getString(SettingsActivity.KEY_PLAYER_ONE_DEF_NAME, "");
-        CalcFragment.playerTwoNameString = sharedPrefs.getString(SettingsActivity.KEY_PLAYER_TWO_DEF_NAME, "");
-        CalcFragment.soundOn = sharedPrefs.getBoolean(SettingsActivity.KEY_SOUND_ONOFF, true);
-        CalcFragment.defaultLP = Integer.parseInt(sharedPrefs.getString(SettingsActivity.KEY_DEFAULT_LP, "8000"));
+        CalcFragment.playerOneNameString = sharedPrefs.getString(KEY_PLAYER_ONE_DEF_NAME, "");
+        CalcFragment.playerTwoNameString = sharedPrefs.getString(KEY_PLAYER_TWO_DEF_NAME, "");
+        CalcFragment.soundOn = sharedPrefs.getBoolean(KEY_SOUND_ONOFF, true);
+        CalcFragment.defaultLP = Integer.parseInt(sharedPrefs.getString(KEY_DEFAULT_LP, "8000"));
         if(!firstRun){
             CalcFragment.playerTwoName.setText(CalcFragment.playerTwoNameString);
             CalcFragment.playerOneName.setText(CalcFragment.playerOneNameString);
