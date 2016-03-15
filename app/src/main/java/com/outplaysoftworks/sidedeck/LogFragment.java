@@ -44,7 +44,7 @@ public class LogFragment extends Fragment {
         resources = view.getContext().getResources();
         init();
 
-        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdView mAdView = (AdView) view.findViewById(R.id.adView2);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 

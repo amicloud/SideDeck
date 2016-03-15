@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -19,6 +20,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import net.sourceforge.jeval.*;
 import java.util.Random;
 
@@ -43,6 +48,7 @@ public class CalcFragment extends Fragment {
     static Button diceButton;
     static Button coinButton;
     static View thisView;
+    static ViewGroup parentView;
 
     static TextView qcWorkHolder;
     static TextView qcResultHolder;
@@ -67,11 +73,13 @@ public class CalcFragment extends Fragment {
     static Evaluator evaluator = new Evaluator();
     static RelativeLayout qcHolderView;
     static Resources resources;
+    private static String lastButtonPressed;
+    private static String lastOpperatorPressed;
+
 
     public CalcFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +88,7 @@ public class CalcFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calc, container, false);
         resources = view.getContext().getResources();
         //Assign view variables after inflation is done
+        parentView = container;
         assignVariableIds(view);
         makeListeners();
         reset();
@@ -90,7 +99,9 @@ public class CalcFragment extends Fragment {
         //return that view
         playerTwoName.setText(CalcFragment.playerTwoNameString);
         playerOneName.setText(CalcFragment.playerOneNameString);
-
+        AdView mAdView = (AdView) view.findViewById(R.id.adView1);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         return view;
     }
 
@@ -174,7 +185,6 @@ public class CalcFragment extends Fragment {
     public static void coinFlip(){
         String coinflip = resources.getText(R.string.coinFlip).toString() + ": ";
         Double temp = Math.random();
-        /*System.out.println(temp);*/
         if(temp>0.5){
             coinButton.setText(R.string.coinHeads);
             LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinHeads).toString());
@@ -265,6 +275,8 @@ public class CalcFragment extends Fragment {
         turnButton.setText(temp);
         diceButton.setText(R.string.diceRoll);
         coinButton.setText(R.string.coinFlip);
+        qcResultString = "";
+        qcWorkString = "";
         if(firstRun == false) {
             LogFragment.resetLog();
         }
@@ -283,7 +295,6 @@ public class CalcFragment extends Fragment {
             numberHolderNumber = 99999;
             CalcFragment.setNumberHolderText(numberHolderString);
         }
-        /*System.out.println(numberHolderNumber + ", string: " + numberHolderString);*/
     }
 
     public static void resetNumberHolder(){
@@ -301,17 +312,11 @@ public class CalcFragment extends Fragment {
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
-
                     textview.setText(valueAnimator.getAnimatedValue().toString());
-
                 }
             });
             valueAnimator.start();
         }
-
-    }
-
-    public static void sendDataToLog(){
 
     }
 
@@ -333,7 +338,6 @@ public class CalcFragment extends Fragment {
         if(tagSizeAppended < 15) {
             qcWorkString += tag;
             qcWorkHolder.append(tag);
-            //System.out.println("String:" + qcWorkString);
         }
 
     }
@@ -350,7 +354,6 @@ public class CalcFragment extends Fragment {
             qcResultHolder.setText("");
             qcResultString = "";
         }
-        /*System.out.println("String:" + qcWorkString);*/
     }
 
     //TODO: Make qcShow and qcHide
@@ -363,17 +366,22 @@ public class CalcFragment extends Fragment {
     }
 
     public static void qcOpperators(View view) {
+        lastButtonPressed = view.getTag().toString();
+        //Don't add another operator to the string if the user just added one
+        if(justPressedOppeator){
+            return;
+        }
         justPressedOppeator = true;
         String answer;
         String tag = view.getTag().toString();
-        if(tag.equals(ourContext.getString(R.string.x))){
-            tag = "*";
+        if (tag.equals(ourContext.getString(R.string.x))) {
+            tag = "*"; //Didn't want to use * for the button text
         }
-        /*System.out.println("\nDebug 0");*/
-        if(tag.equals("=")){
+        if (tag.equals("=")) {
             qcResultString += qcWorkString;
             try {
                 answer = evaluator.evaluate(qcResultString);
+                answer = unDecimalizeIntegers(answer);
                 qcWorkString = answer;
                 qcWorkHolder.setText(answer);
                 qcResultHolder.setText("");
@@ -381,28 +389,56 @@ public class CalcFragment extends Fragment {
             } catch (EvaluationException e) {
                 e.printStackTrace();
             }
-        }else {
+            lastButtonPressed = "=";
+
+        } else {
             if (qcResultString.equals("")) {
-                /*System.out.println("\nDebug 1");*/
                 qcResultString += qcWorkString + tag;
                 qcResultHolder.setText(qcResultString);
             } else if (!qcResultString.equals("")) {
-                /*System.out.println("\nDebug 2");*/
-                qcResultString = qcResultString
-                        + qcWorkString + tag;
+                qcResultString = qcResultString + qcWorkString + tag;
                 qcResultHolder.setText(qcResultString);
-                String temp = qcResultString.substring(0, qcResultString.length() - 2);
+                String temp = qcResultString.substring(0, qcResultString.length() - 1);
                 answer = "";
                 try {
                     answer = evaluator.evaluate(temp);
                 } catch (EvaluationException e) {
                     e.printStackTrace();
                 }
+                answer = unDecimalizeIntegers(answer);
                 qcWorkString = answer;
                 qcWorkHolder.setText(answer);
             }
             qcWorkString = "";
         }
+    }
+
+    public static String unDecimalizeIntegers(String input){
+        Double inputDub = Double.parseDouble(input);
+        String decString = inputDub.toString();
+        decString = decString.substring(decString.indexOf("."), decString.length());
+
+        if(checkIfHasDecimal(input)) {
+            double moduloed = inputDub % 1;
+            if((moduloed == 0.0d)){
+                String output = removeDecimalPart(input);
+                return output;
+            }
+        }
+        return input;
+    }
+
+    public static boolean checkIfHasDecimal(String input){
+        if(input.contains(".")){
+            return true;
+        }
+        return false;
+    }
+
+    public static String removeDecimalPart(String input){
+        int inputLength = input.length();
+        String temp = input.substring(0, inputLength - 2);
+        return temp;
     }
 }
 

@@ -1,12 +1,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="match_parent"
-     android:layout_width="match_parent"
-    >
+     android:layout_width="match_parent">
     <SwitchPreference
         android:defaultValue="true"
         android:key="soundOnOff"
         android:title="@string/sound"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="amoledBlackTheme"
+        android:title="@string/amoledBlackTheme"
+        android:summary="@string/amoledBlackThemeSummary"/>
     <EditTextPreference
-        android:defaultValue="@string/playerOne"
+        android:defaultValue="@string/playerOneDefaultName"
         android:key="playerOneDefaultNameSetting"
         android:title="@string/playerOneDefaultName"
         android:summary="@string/playerOne"/>

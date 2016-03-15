@@ -1,10 +1,15 @@
 package com.outplaysoftworks.sidedeck;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
 
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -19,12 +24,25 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+        findPreference(KEY_PLAYER_ONE_DEF_NAME).setSummary(CalcFragment.playerOneNameString);
+        findPreference(KEY_PLAYER_TWO_DEF_NAME).setSummary(CalcFragment.playerTwoNameString);
+        findPreference(KEY_DEFAULT_LP).setSummary(CalcFragment.defaultLP.toString());
+        /*Context context = getApplicationContext();
+        ListView listView = getListView();
+        listView.setBackgroundColor(getResources().getColor(R.color.a_material_dark));
+        for(int i = 0; i < listView.getChildCount() - 1; i++){
+            try{
+                EditTextPreference temp = (EditTextPreference)listView.getChildAt(i);
+            }catch (Exception e){
 
+            }
+        }*/
     }
 
 
 
-    public static void doThing(){}
+    public static void doThing(){
+    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

@@ -36,11 +36,10 @@
         android:layout_x="309dp"
         android:layout_y="433dp"
         android:baselineAligned="false"
-        android:background="@color/trans">
+        android:background="@color/a_material_dark">
         <!--Ad view goes here -->
-
         <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
+            android:id="@+id/adView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

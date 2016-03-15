@@ -28,5 +28,11 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
     </style>
+    <style name="PreferenceScreen" parent="MyMaterialTheme">
+        <item name="android:textColor">@color/a_material_white</item>
+        <item name="android:background">@color/a_material_dark</item>
+        <item name="android:textColorSecondary">@color/a_material_accent</item>
+        <item name="android:textColorTertiary">@color/a_material_white</item>
+    </style>
 
 </resources>

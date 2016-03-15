@@ -3,7 +3,9 @@ package com.outplaysoftworks.sidedeck;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -31,12 +34,18 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.util.prefs.Preferences;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String KEY_PLAYER_ONE_DEF_NAME = "playerOneDefaultNameSetting"; //NON-NLS
     public static final String KEY_PLAYER_TWO_DEF_NAME = "playerTwoDefaultNameSetting"; //NON-NLS
     public static final String KEY_SOUND_ONOFF = "soundOnOff"; //NON-NLS
     public static final String KEY_DEFAULT_LP = "defaultLpSetting"; //NON-NLS
+    public static final String KEY_AMOLED_BLACK = "amoledBlackTheme"; //NON-NLS
+
+    public static final String THEME_A_MATERIAL = "a_material_theme"; //NON-NLS
+    public static final String THEME_A_MATERIAL_DARK = "a_material_theme_dark"; //NON-NLS
 
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
@@ -55,18 +64,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myContext = this;
-/*
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,14 +78,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "", Snackbar.LENGTH_LONG)
-                        .setAction("", null).show();
-            }
-        });*/
         //End of pure layout stuff
         playerOneName = (TextView)findViewById(R.id.playerOneName);
         playerTwoName= (TextView)findViewById(R.id.playerTwoName);
@@ -174,20 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
-        // Create a new fragment and specify the planet to show based on position
-/*
-        Fragment fragment = new PlanetFragment();
-        Bundle args = new Bundle();
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
-*/
-
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mPlanetTitles[position]);
@@ -263,17 +238,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static void setPreferences(){
+    public static   void setPreferences() {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(myContext);
         CalcFragment.playerOneNameString = sharedPrefs.getString(KEY_PLAYER_ONE_DEF_NAME, "");
         CalcFragment.playerTwoNameString = sharedPrefs.getString(KEY_PLAYER_TWO_DEF_NAME, "");
         CalcFragment.soundOn = sharedPrefs.getBoolean(KEY_SOUND_ONOFF, true);
         CalcFragment.defaultLP = Integer.parseInt(sharedPrefs.getString(KEY_DEFAULT_LP, "8000"));
-        if(!firstRun){
+        if (!firstRun) {
             CalcFragment.playerTwoName.setText(CalcFragment.playerTwoNameString);
             CalcFragment.playerOneName.setText(CalcFragment.playerOneNameString);
         }
         firstRun = false;
-    }
 
+    }
 }

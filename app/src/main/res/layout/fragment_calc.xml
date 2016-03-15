@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:visibility="visible"
+    android:animateLayoutChanges="true">
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -560,20 +562,29 @@
             </LinearLayout>
             <LinearLayout android:id="@+id/adHolder"
                 android:layout_width="match_parent"
-                android:layout_height="120px"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
-                android:background="#000000"
-                android:visibility="gone">
-                <!--<com.google.android.gms.ads.AdView
-                    android:id="@+id/adView"
+                android:background="@color/a_material_dark_tinted_dark"
+                android:visibility="visible">
+                <!--Ad view goes here -->
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    ads:adSize="BANNER"
-                    ads:adUnitId="@string/banner_ad_unit_id"
-                    android:background="#000000">
-                </com.google.android.gms.ads.AdView>-->
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/a_material_dark"
+                    android:clickable="true">
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/adView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="@string/banner_ad_unit_id"
+                        android:clickable="false"
+                        android:layout_gravity="center">
+                    </com.google.android.gms.ads.AdView>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -588,7 +599,8 @@
         android:id="@+id/quickCalcHolder"
         android:visibility="gone"
         android:onClick="qcHide"
-        android:clickable="true">
+        android:clickable="true"
+        android:animateLayoutChanges="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -632,7 +644,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="123456789012345"
                             android:layout_marginLeft="0dp"
                             android:layout_marginRight="0dp"
                             android:layout_alignParentBottom="true"
@@ -642,19 +653,20 @@
                             android:textAlignment="viewEnd"
                             android:textColor="@color/a_material_white"
                             android:id="@+id/qcWorkDisplay"
-                            android:typeface="monospace" />
+                            android:typeface="monospace"
+                            android:maxLines="2"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="9999999"
                             android:id="@+id/qcResultDisplay"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentEnd="true"
-                            android:textSize="18dp"
+                            android:textSize="14dp"
                             android:textColor="@color/a_material_accent"
                             android:typeface="monospace"
-                            android:textIsSelectable="false" />
+                            android:textIsSelectable="false"
+                            android:maxLines="2"/>
 
                         <View
                             android:layout_width="match_parent"
@@ -883,6 +895,42 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="1dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:visibility="gone">
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_margin="1dp"
+                            android:background="@drawable/button_pressed_operator"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:text="("
+                            android:textColor="@color/a_material_white"
+                            android:textSize="17.5dp"
+                            android:nestedScrollingEnabled="false"
+                            android:onClick="qcOpperators"
+                            android:tag="(" />
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_margin="1dp"
+                            android:background="@drawable/button_pressed_operator"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:text=")"
+                            android:textColor="@color/a_material_white"
+                            android:textSize="17.5dp"
+                            android:nestedScrollingEnabled="false"
+                            android:onClick="qcOpperators"
+                            android:tag=")" />
+
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -983,6 +1031,37 @@
                 android:layout_weight="1"
                 android:clickable="false" />
         </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/a_material_dark_trans"
+        android:visibility="visible">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gotIt"
+            android:layout_marginTop="162dp"
+            android:background="@drawable/button_pressed_accent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="67dp"
+            android:elevation="10dp"
+            android:padding="1dp"
+            android:id="@+id/button2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clearButtonTutorialMessage"
+            android:id="@+id/textView3"
+            android:layout_marginBottom="49dp"
+            android:textColor="@color/a_material_accent"
+            android:layout_alignBottom="@+id/button2"
+            android:layout_alignStart="@+id/button2"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </RelativeLayout>
