@@ -34,5 +34,9 @@
         <item name="android:textColorSecondary">@color/a_material_accent</item>
         <item name="android:textColorTertiary">@color/a_material_white</item>
     </style>
+    
+    <style name="SplashTheme" parent="MyMaterialTheme">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
 
 </resources>

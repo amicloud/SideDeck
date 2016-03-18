@@ -91,8 +91,7 @@ public class LogFragment extends Fragment {
     public static void resetLog(){
         currentTurn = 1;
 
-        for(int i = 1; i < lastDuelMaxTurns + 1; i++){  //TODO Crahses here when run for first time but doesn't crash if run without "+ 1" and then run again what the fuck
-            System.out.println(i);
+        for(int i = 1; i < lastDuelMaxTurns + 1; i++){  //TODO Crashes here when run for first time but doesn't crash if run without "+ 1" and then run again what the fuck
             sections[i].removeAllViews();
             sections[i] = null;
         }

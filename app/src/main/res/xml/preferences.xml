@@ -2,21 +2,21 @@
      android:layout_width="match_parent">
     <SwitchPreference
         android:defaultValue="true"
-        android:key="soundOnOff"
+        android:key="@string/KEYsoundOnOff"
         android:title="@string/sound"/>
     <SwitchPreference
         android:defaultValue="false"
-        android:key="amoledBlackTheme"
+        android:key="@string/KEYamoledNightModeSetting"
         android:title="@string/amoledBlackTheme"
         android:summary="@string/amoledBlackThemeSummary"/>
     <EditTextPreference
-        android:defaultValue="@string/playerOneDefaultName"
-        android:key="playerOneDefaultNameSetting"
+        android:defaultValue="@string/playerOne"
+        android:key="@string/KEYplayerOneDefaultNameSetting"
         android:title="@string/playerOneDefaultName"
         android:summary="@string/playerOne"/>
     <EditTextPreference
         android:defaultValue="@string/playerTwo"
-        android:key="playerTwoDefaultNameSetting"
+        android:key="@string/KEYplayerTwoDefaultNameSetting"
         android:title="@string/playerTwoDefaultName"
         android:summary="@string/playerTwo"/>
     <EditTextPreference

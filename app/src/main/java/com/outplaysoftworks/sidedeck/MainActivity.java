@@ -1,15 +1,15 @@
 package com.outplaysoftworks.sidedeck;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -25,31 +25,29 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
-import java.util.prefs.Preferences;
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String KEY_PLAYER_ONE_DEF_NAME = "playerOneDefaultNameSetting"; //NON-NLS
-    public static final String KEY_PLAYER_TWO_DEF_NAME = "playerTwoDefaultNameSetting"; //NON-NLS
-    public static final String KEY_SOUND_ONOFF = "soundOnOff"; //NON-NLS
-    public static final String KEY_DEFAULT_LP = "defaultLpSetting"; //NON-NLS
-    public static final String KEY_AMOLED_BLACK = "amoledBlackTheme"; //NON-NLS
+    private static boolean debug = true;
+
+    public static final String KEY_PLAYER_ONE_DEF_NAME = "KEYplayerOneDefaultNameSetting"; //NON-NLS
+    public static final String KEY_PLAYER_TWO_DEF_NAME = "KEYplayerTwoDefaultNameSetting"; //NON-NLS
+    public static final String KEY_SOUND_ONOFF = "KEYsoundOnOff"; //NON-NLS
+    public static final String KEY_DEFAULT_LP = "KEYdefaultLpSetting"; //NON-NLS
+    public static final String KEY_AMOLED_BLACK = "KEYamoledNightModeSetting"; //NON-NLS
+    public static final String KEY_HAS_USER_RATED = "KEYhasUserRatedAppYet"; //NON-NLS
+    private final static String APP_PNAME = "com.outplaysoftworks.sidedeck";// Package Name
 
     public static final String THEME_A_MATERIAL = "a_material_theme"; //NON-NLS
     public static final String THEME_A_MATERIAL_DARK = "a_material_theme_dark"; //NON-NLS
 
-    private String[] mPlanetTitles;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
     PopupMenu popup;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
@@ -58,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     static Context myContext;
     static boolean firstRun = true;
     public static SharedPreferences sharedPrefs;
+    public static SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Pure layout stuff
@@ -77,14 +77,21 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        //End of pure layout stuff
         playerOneName = (TextView)findViewById(R.id.playerOneName);
         playerTwoName= (TextView)findViewById(R.id.playerTwoName);
+
+        //End of pure layout stuff
+        /*sharedPrefs = this.getSharedPreferences("com.outplaysoftworks.sidedeck", 0);*/
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        editor = sharedPrefs.edit();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         setPreferences();
+        /*if(debug){editor.clear().commit();}*/
+        /*sharedPrefs.edit().putLong("launch_count", 0L).commit();*/
+        System.out.println("Launch count should be: " + sharedPrefs.getLong("launch_count", 100));
 
-
+        app_launched(this, sharedPrefs);
+        /*showTutorialAfterViewsPopulated(playerOneName);*/
     }
 
     @Override
@@ -154,21 +161,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
-    /** Swaps fragments in the main content view */
-    private void selectItem(int position) {
-        // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
-    }
-
     //On click method for overflow button
     public void showPopup(final View v) {
         popup = new PopupMenu(this, v);
@@ -232,14 +224,13 @@ public class MainActivity extends AppCompatActivity {
         CalcFragment.qcHide();
     }
 
-    public void qcOpperators(View view){
-        CalcFragment.qcOpperators(view);
+    public void qcOperators(View view){
+        CalcFragment.qcOperators(view);
 
 
     }
 
-    public static   void setPreferences() {
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(myContext);
+    public static void setPreferences() {
         CalcFragment.playerOneNameString = sharedPrefs.getString(KEY_PLAYER_ONE_DEF_NAME, "");
         CalcFragment.playerTwoNameString = sharedPrefs.getString(KEY_PLAYER_TWO_DEF_NAME, "");
         CalcFragment.soundOn = sharedPrefs.getBoolean(KEY_SOUND_ONOFF, true);
@@ -250,5 +241,109 @@ public class MainActivity extends AppCompatActivity {
         }
         firstRun = false;
 
+    }
+
+
+    private final static int DAYS_UNTIL_PROMPT = 0;//Min number of days
+    private final static int LAUNCHES_UNTIL_PROMPT = 5;//Min number of launches
+    public static void app_launched(Context mContext, SharedPreferences prefs) {
+        if (prefs.getBoolean("dontshowagain", false) ) { return ; }
+        SharedPreferences.Editor editor = prefs.edit();
+        long launch_count = 0;
+        long launch_when_user_pressed_remdind = 0;
+
+
+        // Increment launch counter
+        launch_count = prefs.getLong("launch_count", 0) + 1;
+        launch_when_user_pressed_remdind = prefs.getLong("launch_count_pressed_remind", launch_count);
+        editor.putLong("launch_count", launch_count);
+
+        // Get date of first launch
+        Long date_firstLaunch = prefs.getLong("date_firstlaunch", 0);
+        if (date_firstLaunch == 0) {
+            date_firstLaunch = System.currentTimeMillis();
+            editor.putLong("date_firstlaunch", date_firstLaunch);
+        }
+        editor.commit();
+
+        // Wait at least n days before opening
+        if(prefs.getBoolean("remind_me_later", false) && launch_count <= launch_when_user_pressed_remdind + LAUNCHES_UNTIL_PROMPT) {
+            return;
+        }
+        if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
+            System.out.println("\n\n\n\nLaunch Count: " + launch_count + ", Launches until prompt: " + LAUNCHES_UNTIL_PROMPT);
+            if (System.currentTimeMillis() >= date_firstLaunch/* + (DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000)*/) {
+                System.out.println("Showing Dialog");
+                showRateDialog(mContext, editor, launch_count);
+            }
+        }
+
+    }
+
+
+    public static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor, final Long launches) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(R.string.rateMeText)
+                .setPositiveButton(R.string.rateMe, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        try {
+                            intent.setData(Uri.parse(myContext.getString(R.string.playStoreMarketLink) + APP_PNAME));
+                            myContext.startActivity(intent);
+                        }catch (Exception e){
+                            intent.setData(Uri.parse(myContext.getString(R.string.playStoreHttpLink) + APP_PNAME));
+                            myContext.startActivity(intent);
+
+                        }
+
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.noThanks, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (editor != null) {
+                            editor.putBoolean("dontshowagain", true);
+                            editor.commit();
+                        }
+                        dialog.dismiss();
+                    }
+                })
+                .setNeutralButton(R.string.remindMeLater, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        editor.putLong("launch_count_pressed_remind", launches);
+                        editor.putBoolean("remind_me_later", true);
+                        editor.commit();
+                        System.out.print(sharedPrefs.getLong("launch_count_pressed_remind", 27727));
+                    }
+                });
+        builder.create().show();
+    }
+
+    private void displayTutorial(){
+        if(checkHasLaunched()){
+            //noinspection UnnecessaryReturnStatement
+            return;
+        }
+    }
+
+    private boolean checkHasLaunched(){
+        boolean hasLaunched = sharedPrefs.getBoolean("has_been_launch", false);
+        editor.putBoolean("has_been_launched", true).commit();
+        return hasLaunched;
+    }
+
+    public void showTutorialAfterViewsPopulated(View view){
+        ViewTarget target = new ViewTarget(view);
+        ShowcaseView showcaseView = new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setTarget(target)
+                .setContentTitle("aaaaaaa")
+                .setContentText("bbbbbbbb")
+                .setStyle(R.style.MyMaterialTheme)
+                .setShowcaseEventListener((OnShowcaseEventListener) this) //Wrong as hell
+                .build();
     }
 }

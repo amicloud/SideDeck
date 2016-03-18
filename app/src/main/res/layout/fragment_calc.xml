@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:visibility="visible"
@@ -85,7 +86,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
-                        android:hint="Player 1"
+                        android:hint="@string/playerOne"
                         android:id="@+id/playerOneName"
                         android:singleLine="true"
                         android:maxLines="1"
@@ -127,7 +128,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
-                        android:hint="Player 2"
+                        android:hint="@string/playerTwo"
                         android:id="@+id/playerTwoName"
                         android:textAlignment="center"
                         android:gravity="center_vertical|end"
@@ -169,7 +170,8 @@
                         android:textSize="30dp"
                         android:typeface="sans"
                         android:textAlignment="center"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
 
                     <Button
                         android:layout_width="0dp"
@@ -199,7 +201,8 @@
                         android:textSize="30dp"
                         android:typeface="sans"
                         android:textAlignment="center"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
 
                 </LinearLayout>
 
@@ -223,7 +226,8 @@
                         android:textSize="30dp"
                         android:typeface="sans"
                         android:textAlignment="center"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
 
                     <Button
                         android:layout_width="0dp"
@@ -253,7 +257,8 @@
                         android:textSize="30dp"
                         android:typeface="sans"
                         android:textAlignment="center"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
 
                 </LinearLayout>
 
@@ -294,7 +299,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
                     <Button
                         android:tag="8"
                         android:layout_width="0dp"
@@ -315,7 +321,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
                     <Button
                         android:tag="9"
                         android:layout_width="0dp"
@@ -336,7 +343,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
 
                 </LinearLayout>
 
@@ -366,7 +374,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
                     <Button
                         android:tag="5"
                         android:layout_width="0dp"
@@ -387,7 +396,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
                     <Button
                         android:tag="6"
                         android:layout_width="0dp"
@@ -408,7 +418,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -439,7 +450,8 @@
                         android:background="@drawable/button_pressed_number"
                         android:shadowColor="#000000"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
                     <Button
                         android:tag="2"
                         android:layout_width="0dp"
@@ -462,7 +474,8 @@
                         android:shadowColor="#000000"
                         android:nestedScrollingEnabled="false"
                         android:textColor="@color/primary_text"
-                        android:textColorHighlight="@color/a_material_light" />
+                        android:textColorHighlight="@color/a_material_light"
+                        tools:ignore="HardcodedText" />
                     <Button
                         android:tag="3"
                         android:layout_width="0dp"
@@ -484,7 +497,8 @@
                         android:background="@drawable/button_pressed_number"
                         android:shadowColor="#000000"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
 
                 </LinearLayout>
 
@@ -514,7 +528,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
                     <Button
                         android:tag="00"
                         android:layout_width="0dp"
@@ -535,7 +550,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
                     <Button
                         android:tag="000"
                         android:layout_width="0dp"
@@ -556,7 +572,8 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:background="@drawable/button_pressed_number"
                         android:nestedScrollingEnabled="false"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        tools:ignore="HardcodedText" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -718,7 +735,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="7"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
                             <Button
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -731,7 +749,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="8"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
                             <Button
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -744,7 +763,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="9"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
 
                         </LinearLayout>
                         <LinearLayout
@@ -763,7 +783,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="4"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
                             <Button
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -776,7 +797,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="5"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
                             <Button
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -789,7 +811,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="6"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
 
                         </LinearLayout>
                         <LinearLayout
@@ -808,7 +831,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="1"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
                             <Button
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -821,7 +845,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="2"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
                             <Button
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -834,7 +859,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:tag="3"
-                                android:onClick="qcAddToWorkHolder" />
+                                android:onClick="qcAddToWorkHolder"
+                                tools:ignore="HardcodedText" />
 
                         </LinearLayout>
                         <LinearLayout
@@ -853,7 +879,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:onClick="qcAddToWorkHolder"
-                                android:tag="0"/>
+                                android:tag="0"
+                                tools:ignore="HardcodedText" />
                             <Button
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -866,7 +893,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:onClick="qcAddToWorkHolder"
-                                android:tag="00"/>
+                                android:tag="00"
+                                tools:ignore="HardcodedText" />
                             <Button
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -879,7 +907,8 @@
                                 android:textColor="@color/a_material_white"
                                 android:textSize="17.5dp"
                                 android:onClick="qcAddToWorkHolder"
-                                android:tag="000"/>
+                                android:tag="000"
+                                tools:ignore="HardcodedText" />
 
                         </LinearLayout>
 
@@ -912,8 +941,9 @@
                             android:textColor="@color/a_material_white"
                             android:textSize="17.5dp"
                             android:nestedScrollingEnabled="false"
-                            android:onClick="qcOpperators"
-                            android:tag="(" />
+                            android:onClick="qcOperators"
+                            android:tag="("
+                            tools:ignore="HardcodedText" />
                         <Button
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -926,8 +956,9 @@
                             android:textColor="@color/a_material_white"
                             android:textSize="17.5dp"
                             android:nestedScrollingEnabled="false"
-                            android:onClick="qcOpperators"
-                            android:tag=")" />
+                            android:onClick="qcOperators"
+                            android:tag=")"
+                            tools:ignore="HardcodedText" />
 
 
                     </LinearLayout>
@@ -949,8 +980,9 @@
                             android:textColor="@color/a_material_white"
                             android:textSize="17.5dp"
                             android:nestedScrollingEnabled="false"
-                            android:onClick="qcOpperators"
-                            android:tag="/" />
+                            android:onClick="qcOperators"
+                            android:tag="/"
+                            tools:ignore="HardcodedText" />
                         <Button
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -963,8 +995,9 @@
                             android:textColor="@color/a_material_white"
                             android:textSize="17.5dp"
                             android:nestedScrollingEnabled="false"
-                            android:onClick="qcOpperators"
-                            android:tag="-" />
+                            android:onClick="qcOperators"
+                            android:tag="-"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
                     <LinearLayout
@@ -984,8 +1017,9 @@
                             android:textColor="@color/a_material_white"
                             android:textSize="17.5dp"
                             android:nestedScrollingEnabled="false"
-                            android:onClick="qcOpperators"
-                            android:tag="x" />
+                            android:onClick="qcOperators"
+                            android:tag="x"
+                            tools:ignore="HardcodedText" />
                         <Button
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -998,8 +1032,9 @@
                             android:textColor="@color/a_material_white"
                             android:textSize="17.5dp"
                             android:nestedScrollingEnabled="false"
-                            android:onClick="qcOpperators"
-                            android:tag="+" />
+                            android:onClick="qcOperators"
+                            android:tag="+"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
                     <LinearLayout
@@ -1019,7 +1054,8 @@
                             android:textColor="@color/a_material_white"
                             android:textSize="17.5dp"
                             android:tag="="
-                            android:onClick="qcOpperators" />
+                            android:onClick="qcOperators"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -1037,7 +1073,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/a_material_dark_trans"
-        android:visibility="visible">
+        android:id="@+id/tutorialHolder1"
+        android:visibility="gone">
 
         <Button
             android:layout_width="wrap_content"

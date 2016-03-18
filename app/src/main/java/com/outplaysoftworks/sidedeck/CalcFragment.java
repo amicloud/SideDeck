@@ -2,14 +2,16 @@ package com.outplaysoftworks.sidedeck;
 
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +23,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import net.sourceforge.jeval.*;
 import java.util.Random;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CalcFragment extends Fragment {
 
     static String playerOneNameString = "";
@@ -66,7 +67,7 @@ public class CalcFragment extends Fragment {
     static Integer numberHolderNumber = 0;
     static String toastText = "";
     public static boolean firstRun = true;
-    static boolean justPressedOppeator = false;
+    static boolean justPressedOpeator = false;
 
     static String qcWorkString = "";
     static String qcResultString = "";
@@ -74,7 +75,7 @@ public class CalcFragment extends Fragment {
     static RelativeLayout qcHolderView;
     static Resources resources;
     private static String lastButtonPressed;
-    private static String lastOpperatorPressed;
+    private static String lastOperatorPressed;
 
 
     public CalcFragment() {
@@ -153,6 +154,7 @@ public class CalcFragment extends Fragment {
     }
 
     //Assigns view variables with java ids
+    @SuppressLint("SetTextI18n")
     private void assignVariableIds(View view){
         numberHolder = (TextView)view.findViewById(R.id.numberHolder);
         playerOneLP = (TextView)view.findViewById(R.id.playerOneLP);
@@ -277,10 +279,11 @@ public class CalcFragment extends Fragment {
         coinButton.setText(R.string.coinFlip);
         qcResultString = "";
         qcWorkString = "";
-        if(firstRun == false) {
+        if(!firstRun) {
             LogFragment.resetLog();
         }
         firstRun = false;
+        /*MainActivity.app_launched(ourContext);*/
     }
 
     public static void addToNumberHolder(View view){
@@ -306,7 +309,7 @@ public class CalcFragment extends Fragment {
     //Animates the transition between numbers when calculation is performed
     public static void animateTextView(int initialValue, int finalValue, final TextView textview) {
         if(initialValue != finalValue) { //will not do anything if both values are equal
-            ValueAnimator valueAnimator = ValueAnimator.ofInt((int) initialValue, (int) finalValue);
+            ValueAnimator valueAnimator = ValueAnimator.ofInt(initialValue, finalValue);
             valueAnimator.setDuration(numberTransitionDuration);
 
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -327,11 +330,11 @@ public class CalcFragment extends Fragment {
     }
 
     public static void qcAddToWorkHolder(View view){
-        if(justPressedOppeator){
+        if(justPressedOpeator){
             qcWorkString = "";
             qcWorkHolder.setText("");
         }
-        justPressedOppeator = false;
+        justPressedOpeator = false;
         String tag = view.getTag().toString();
         String temp = "";
         Integer tagSizeAppended = tag.toString().length() + qcWorkHolder.getText().toString().length();
@@ -341,7 +344,6 @@ public class CalcFragment extends Fragment {
         }
 
     }
-
 
     public static void qcResetHolder(View view) {
         if(qcWorkHolder.getText().toString().equals("")){
@@ -356,7 +358,6 @@ public class CalcFragment extends Fragment {
         }
     }
 
-    //TODO: Make qcShow and qcHide
     public static void qcShow() {
         qcHolderView.setVisibility(View.VISIBLE);
     }
@@ -365,13 +366,13 @@ public class CalcFragment extends Fragment {
         qcHolderView.setVisibility(View.GONE);
     }
 
-    public static void qcOpperators(View view) {
+    public static void qcOperators(View view) {
         lastButtonPressed = view.getTag().toString();
         //Don't add another operator to the string if the user just added one
-        if(justPressedOppeator){
+        if(justPressedOpeator){
             return;
         }
-        justPressedOppeator = true;
+        justPressedOpeator = true;
         String answer;
         String tag = view.getTag().toString();
         if (tag.equals(ourContext.getString(R.string.x))) {
@@ -429,10 +430,7 @@ public class CalcFragment extends Fragment {
     }
 
     public static boolean checkIfHasDecimal(String input){
-        if(input.contains(".")){
-            return true;
-        }
-        return false;
+        return input.contains(".");
     }
 
     public static String removeDecimalPart(String input){
@@ -440,5 +438,9 @@ public class CalcFragment extends Fragment {
         String temp = input.substring(0, inputLength - 2);
         return temp;
     }
+
+
 }
+
+
 
