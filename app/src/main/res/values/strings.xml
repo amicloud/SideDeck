@@ -6,7 +6,7 @@
     <string name="KEYplayerTwoDefaultNameSetting" translatable="false">KEYplayerTwoDefaultNameSetting</string>
     <string name="KEYsoundOnOff" translatable="false">KEYsoundOnOff</string>
     <string name="KEYdefaultLpSetting" translatable="false">KEYdefaultLpSetting</string>
-    <string name="KEYamoledNightModeSetting" translatable="false">KEYamoledBlackTheme</string>
+    <string name="KEYamoledNightModeSetting" translatable="false">KEYamoledNightModeSetting</string>
     <string name="KEYhasUserRatedAppYet" translatable="false">KEYhasUserRatedAppYet</string>
     <string name="KEYlaunchWhenUserPressedRemind" translatable="false">KEYlaunchWhenUserPressedRemind</string>
 
@@ -28,7 +28,7 @@
     <string name="playerTwoDefaultName">Player 2 default name</string>
     <string name="sound">Sound</string>
     <string name="lpAddedTo">" LP added to "</string>
-    <string name="lpSubtracedFrom">" LP Subtracted from "</string>
+    <string name="lpSubtracedFrom">" LP subtracted from "</string>
     <string name="x" translatable="false">x</string>
     <string name="blankSpace" translatable="false">" "</string>
     <string name="duelLog">Duel Log</string>
@@ -43,9 +43,16 @@
 
 
     <string name="rateMe">Rate Me!</string>
-    <string name="noThanks">No Thanks and Do Not Ask Me Again</string>
+    <string name="noThanksAndDoNotAskAgain">No Thanks and Do Not Ask Me Again</string>
     <string name="remindMeLater">Remind Me Later</string>
     <string name="playStoreMarketLink" translatable="false">"market://details?id=</string>
     <string name="playStoreHttpLink" translatable="false">http://play.google.com/store/apps/details?id=</string>
     <string name="rateMeText">If you like SideDeck, please rate it on the Google Play Store!</string>
+    <string name="enjoyingSidedeck">Enjoying SideDeck?</string>
+    <string name="yes">Yes!</string>
+    <string name="notReally">Not really</string>
+    <string name="giveFeedback">Would you mind giving us some feedback?</string>
+    <string name="okSure">Ok, sure</string>
+    <string name="mailTo" translatable="false">mailto:outplaysoftworks@gmail.com?subject=SideDeck%20Feedback</string>
+    <string name="noThanks">No, thanks</string>
 </resources>

@@ -31,4 +31,10 @@
     <string name="rateMeText"> あなたがSideDeckのような場合は、 Google Playストアでそれを評価してください！</string>
     <string name="rateMe">私を評価！</string>
     <string name="noThanks"> いいえおかげでと再び私を掲載しません</string>
+    <string name="enjoyingSidedeck">SideDeckを楽しみますか？</string>
+    <string name="noThanksAndDoNotAskAgain">いいえおかげでと再び私を掲載しません</string>
+    <string name="notReally">あんまり</string>
+    <string name="okSure">確か</string>
+    <string name="giveFeedback">あなたは私たちにいくつかのフィードバックを与えていただけませんか</string>
+    <string name="yes">はい</string>
 </resources>

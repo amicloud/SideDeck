@@ -18,7 +18,12 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
-
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:background">@color/primary_dark</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -37,6 +42,13 @@
     
     <style name="SplashTheme" parent="MyMaterialTheme">
         <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">@color/a_material_dark_opaque</item>
+        <item name="sv_showcaseColor">#00801A</item>
+        <item name="sv_tintButtonColor">false</item>
+
     </style>
 
 </resources>

@@ -14,6 +14,8 @@
 
     <color name="a_material_dark">#252525</color>
     <color name="a_material_dark_tinted">#535E69</color>
+    <color name="a_material_dark_trans">#86252525</color>
+    <color name="a_material_dark_opaque">#d4252525</color>
     <color name="a_material_dark_tinted_dark">#212c37</color>
     <color name="a_material_light">#787878</color>
     <color name="a_material_light_dark">#505050</color>
@@ -25,7 +27,7 @@
     <color name="a_material_green_dark">#8e00ad17</color>
     <color name="a_material_white">#FFFFFF</color>
     <color name="a_material_black">#000000</color>
-    <color name="a_material_dark_trans">#86252525</color>
+
 
 
 </resources>

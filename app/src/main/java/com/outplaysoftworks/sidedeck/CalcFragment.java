@@ -6,23 +6,34 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.AdRequest;
@@ -50,9 +61,11 @@ public class CalcFragment extends Fragment {
     static Button coinButton;
     static View thisView;
     static ViewGroup parentView;
+    static ImageButton overFlowButton;
 
     static TextView qcWorkHolder;
     static TextView qcResultHolder;
+    static AppBarLayout appBarLayout;
 
     static Integer numberTransitionDuration = 1050;
     public static Integer defaultLP = 8000;
@@ -77,6 +90,8 @@ public class CalcFragment extends Fragment {
     private static String lastButtonPressed;
     private static String lastOperatorPressed;
 
+    static LinearLayout topHalf;
+    static LinearLayout bottomHalf;
 
     public CalcFragment() {
         // Required empty public constructor
@@ -103,6 +118,8 @@ public class CalcFragment extends Fragment {
         AdView mAdView = (AdView) view.findViewById(R.id.adView1);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        showTutorial(numberHolder, 1);
+        amoledBlackToggle();
         return view;
     }
 
@@ -172,6 +189,8 @@ public class CalcFragment extends Fragment {
         qcHolderView = (RelativeLayout)view.findViewById(R.id.quickCalcHolder);
         playerOneName.setText(playerOneNameString);
         playerTwoName.setText(playerTwoNameString);
+        overFlowButton = (ImageButton)view.findViewById(R.id.overFlowButton);
+        appBarLayout = MainActivity.appbar;
     }
 
     //Performs dice roll
@@ -323,10 +342,10 @@ public class CalcFragment extends Fragment {
 
     }
 
-    public static void displayToastAndSendToLog(){
+    public static void displayToastAndSendToLog() {
         lpToast = Toast.makeText(ourContext, toastText, Toast.LENGTH_SHORT);
         lpToast.show();
-        LogFragment.addDataToSection(turnNumber,toastText);
+        LogFragment.addDataToSection(turnNumber, toastText);
     }
 
     public static void qcAddToWorkHolder(View view){
@@ -437,6 +456,132 @@ public class CalcFragment extends Fragment {
         int inputLength = input.length();
         String temp = input.substring(0, inputLength - 2);
         return temp;
+    }
+    /*TODO: Create a tutorial, can probably do it by linking a bunch of showcase views together
+    since the ShowcaseViews class was apparently removed...  Really like the effect though
+    Should be able to make it work just fine
+    This should probably be one of the final things to actually do for the app*/
+    public void showTutorial(View targetView, int i){
+        ViewTarget target = new ViewTarget(targetView);
+        final ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setTarget(target)
+                .setContentTitle("Clear this number by tapping it")
+                .setContentText("")//NON-NLS
+                .setStyle(R.style.CustomShowcaseTheme)
+                .hideOnTouchOutside()
+                .setShowcaseEventListener(new OnShowcaseEventListener() {
+                    @Override
+                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                        showTutorialTurnButton();
+                    }
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                    }
+                })
+                .build();
+        showcaseView.show();
+    }
+
+    public void showTutorialTurnButton(){
+        ViewTarget target = new ViewTarget(turnButton);
+        final ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setTarget(target)
+                .setContentTitle("Tap to increment the turn, long press to decrement the turn")
+                .setContentText("")
+                .setStyle(R.style.CustomShowcaseTheme)
+                .hideOnTouchOutside()
+                .setShowcaseEventListener(new OnShowcaseEventListener() {
+                    @Override
+                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                        showTutorialOverFlow();
+                    }
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                    }
+                })
+                .build();
+        showcaseView.show();
+    }
+
+    public void showTutorialOverFlow(){
+        ViewTarget target = new ViewTarget(appBarLayout.findViewById(R.id.overFlowButton));
+        final ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setTarget(target)
+                .setContentTitle("Press the menu button to find the Reset, QuickCalc, and Settings buttons")
+                .setContentText("")
+                .setStyle(R.style.CustomShowcaseTheme)
+                .hideOnTouchOutside()
+                .setShowcaseEventListener(new OnShowcaseEventListener() {
+                    @Override
+                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                    }
+
+                    @Override
+                    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                    }
+                })
+                .build();
+        showcaseView.show();
+
+    }
+
+    public static void amoledBlackToggle(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(thisView.getContext().getApplicationContext());
+        boolean on = preferences.getBoolean(MainActivity.KEY_AMOLED_BLACK, false);
+        if(on) {
+            thisView.findViewById(R.id.holderQC).setBackgroundColor(resources.getColor(R.color.a_material_black));
+            thisView.findViewById(R.id.holderBottom).setBackgroundColor(resources.getColor(R.color.a_material_black));
+            thisView.findViewById(R.id.holderholder).setBackgroundColor(resources.getColor(R.color.a_material_black));
+            thisView.findViewById(R.id.holderTop).setBackgroundColor(resources.getColor(R.color.a_material_black));
+            thisView.findViewById(R.id.adHolder).setBackgroundColor(resources.getColor(R.color.a_material_black));
+            appBarLayout.findViewById(R.id.tabs).setBackgroundColor(resources.getColor(R.color.a_material_black));
+        }else if(!on){
+            thisView.findViewById(R.id.holderQC).setBackgroundColor(resources.getColor(R.color.a_material_dark));
+            thisView.findViewById(R.id.holderBottom).setBackgroundColor(resources.getColor(R.color.a_material_dark_tinted_dark));
+            thisView.findViewById(R.id.holderholder).setBackgroundColor(resources.getColor(R.color.a_material_dark));
+            thisView.findViewById(R.id.holderTop).setBackgroundColor(resources.getColor(R.color.a_material_dark));
+            thisView.findViewById(R.id.adHolder).setBackgroundColor(resources.getColor(R.color.a_material_dark));
+            appBarLayout.findViewById(R.id.tabs).setBackgroundColor(resources.getColor(R.color.a_material_dark));
+        }
     }
 
 

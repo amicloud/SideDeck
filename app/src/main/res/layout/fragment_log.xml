@@ -26,7 +26,7 @@
             </LinearLayout>
         </ScrollView>
         </LinearLayout>
-    <RelativeLayout android:id="@+id/adHolder"
+    <RelativeLayout android:id="@+id/adHolder2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -36,7 +36,8 @@
         android:layout_x="309dp"
         android:layout_y="433dp"
         android:baselineAligned="false"
-        android:background="@color/a_material_dark">
+        android:background="@color/a_material_dark"
+        android:layout_alignParentLeft="false">
         <!--Ad view goes here -->
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView2"

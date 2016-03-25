@@ -1,9 +1,12 @@
 package com.outplaysoftworks.sidedeck;
 
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -47,6 +50,7 @@ public class LogFragment extends Fragment {
         AdView mAdView = (AdView) view.findViewById(R.id.adView2);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        amoledBlackToggle();
 
         return view;
     }
@@ -70,7 +74,9 @@ public class LogFragment extends Fragment {
             turnLabel.setTextColor(Color.WHITE);
             String temp = resources.getText(R.string.turnColon)+ currentTurn.toString();
             turnLabel.setText(temp);
-            turnLabel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                turnLabel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            }
             turnLabel.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             sections[currentTurn].addView(turnLabel);
             myLayout.addView(sections[currentTurn], 0);
@@ -91,11 +97,23 @@ public class LogFragment extends Fragment {
     public static void resetLog(){
         currentTurn = 1;
 
-        for(int i = 1; i < lastDuelMaxTurns + 1; i++){  //TODO Crashes here when run for first time but doesn't crash if run without "+ 1" and then run again what the fuck
+        for(int i = 1; i < lastDuelMaxTurns + 1; i++){
             sections[i].removeAllViews();
             sections[i] = null;
         }
         addSection();
+    }
+
+    public static void amoledBlackToggle(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(view.getContext().getApplicationContext());
+        boolean on = preferences.getBoolean(MainActivity.KEY_AMOLED_BLACK, false);
+        if(on) {
+            view.findViewById(R.id.viewHolder).setBackgroundColor(resources.getColor(R.color.a_material_black));
+            view.findViewById(R.id.adHolder2).setBackgroundColor(resources.getColor(R.color.a_material_black));
+        }else if(!on){
+            view.findViewById(R.id.viewHolder).setBackgroundColor(resources.getColor(R.color.a_material_dark));
+            view.findViewById(R.id.adHolder2).setBackgroundColor(resources.getColor(R.color.a_material_dark));
+        }
     }
 
 }

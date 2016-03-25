@@ -45,9 +45,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        System.out.println("\nShared Preference has been changed, " + key);
         if(key.equals(KEY_PLAYER_ONE_DEF_NAME)) {
-            System.out.println("\nChanging summary");
             Preference player1Pref = findPreference(key);
             // Set summary to be the user-description for the selected value
             player1Pref.setSummary(sharedPreferences.getString(key, ""));
@@ -66,7 +64,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
@@ -76,7 +73,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
      */
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
 
         getPreferenceScreen().getSharedPreferences()
