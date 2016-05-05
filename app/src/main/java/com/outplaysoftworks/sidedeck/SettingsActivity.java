@@ -15,10 +15,11 @@ import android.widget.ListView;
 
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final String KEY_PLAYER_ONE_DEF_NAME = MainActivity.KEY_PLAYER_ONE_DEF_NAME;
-    private static final String KEY_PLAYER_TWO_DEF_NAME = MainActivity.KEY_PLAYER_TWO_DEF_NAME;
-    private static final String KEY_SOUND_ONOFF = MainActivity.KEY_SOUND_ONOFF;
-    private static final String KEY_DEFAULT_LP = MainActivity.KEY_DEFAULT_LP;
+    private static final String KEY_PLAYER_ONE_DEF_NAME = Constants.KEY_PLAYER_ONE_DEF_NAME;
+    private static final String KEY_PLAYER_TWO_DEF_NAME = Constants.KEY_PLAYER_TWO_DEF_NAME;
+    private static final String KEY_SOUND_ONOFF = Constants.KEY_SOUND_ONOFF;
+    private static final String KEY_DEFAULT_LP = Constants.KEY_DEFAULT_LP;
+    private static final String KEY_AMOLED_BLACK_TOGGLE = Constants.KEY_AMOLED_BLACK;
     private static SharedPreferences sharedPrefs = MainActivity.sharedPrefs;
 
     @Override
@@ -26,21 +27,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         try {
-            findPreference(KEY_PLAYER_ONE_DEF_NAME).setSummary(CalcFragment.playerOneNameString);
-            findPreference(KEY_PLAYER_TWO_DEF_NAME).setSummary(CalcFragment.playerTwoNameString);
-            findPreference(KEY_DEFAULT_LP).setSummary(CalcFragment.defaultLP.toString());
+            findPreference(KEY_PLAYER_ONE_DEF_NAME).setSummary(sharedPrefs.getString(KEY_PLAYER_ONE_DEF_NAME, ""));
+            findPreference(KEY_PLAYER_TWO_DEF_NAME).setSummary(sharedPrefs.getString(KEY_PLAYER_TWO_DEF_NAME, ""));
+            findPreference(KEY_DEFAULT_LP).setSummary(sharedPrefs.getString(KEY_DEFAULT_LP, ""));
         } catch (Exception e){
         }
-        /*Context context = getApplicationContext();
-        ListView listView = getListView();
-        listView.setBackgroundColor(getResources().getColor(R.color.a_material_dark));
-        for(int i = 0; i < listView.getChildCount() - 1; i++){
-            try{
-                EditTextPreference temp = (EditTextPreference)listView.getChildAt(i);
-            }catch (Exception e){
 
-            }
-        }*/
     }
 
     @Override
@@ -49,17 +41,26 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             Preference player1Pref = findPreference(key);
             // Set summary to be the user-description for the selected value
             player1Pref.setSummary(sharedPreferences.getString(key, ""));
+            MainActivity.setPlayerOneNamePreference();
         }
         if(key.equals(KEY_PLAYER_TWO_DEF_NAME)) {
             Preference player2Pref = findPreference(key);
             // Set summary to be the user-description for the selected value
             player2Pref.setSummary(sharedPreferences.getString(key, ""));
+            MainActivity.setPlayerTwoNamePreference();
         }
         if(key.equals(KEY_DEFAULT_LP)){
             Preference temp = findPreference(key);
             temp.setSummary(sharedPreferences.getString(key, ""));
+            MainActivity.setDefaultLPPreference();
         }
-        MainActivity.setPreferences();
+        if(key.equals(KEY_SOUND_ONOFF)){
+            MainActivity.setSoundOnOffPreference();
+        }
+        if(key.equals(KEY_AMOLED_BLACK_TOGGLE)){
+            MainActivity.setAmoledBlackTogglePreference();
+        }
+        /*MainActivity.setPreferences();*/
     }
 
     @Override

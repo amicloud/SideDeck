@@ -4,11 +4,11 @@
         android:defaultValue="true"
         android:key="@string/KEYsoundOnOff"
         android:title="@string/sound"/>
-    <SwitchPreference
+<!--    <SwitchPreference
         android:defaultValue="false"
         android:key="@string/KEYamoledNightModeSetting"
         android:title="@string/amoledBlackTheme"
-        android:summary="@string/amoledBlackThemeSummary"/>
+        android:summary="@string/amoledBlackThemeSummary"/>-->
     <EditTextPreference
         android:defaultValue="@string/playerOne"
         android:key="@string/KEYplayerOneDefaultNameSetting"

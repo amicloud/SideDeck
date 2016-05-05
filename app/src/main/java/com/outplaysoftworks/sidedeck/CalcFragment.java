@@ -4,21 +4,23 @@ package com.outplaysoftworks.sidedeck;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
-import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,21 +38,56 @@ import android.widget.Toast;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import net.sourceforge.jeval.*;
 import java.util.Random;
 
+import me.grantland.widget.AutofitHelper;
+
 public class CalcFragment extends Fragment {
 
     static String playerOneNameString = "";
+
+    public static void setPlayerTwoNameString(String playerTwoNameString) {
+        CalcFragment.playerTwoNameString = playerTwoNameString;
+    }
+
+    public static void setPlayerOneNameString(String playerOneNameString) {
+        CalcFragment.playerOneNameString = playerOneNameString;
+    }
+
     static String playerTwoNameString = "";
+
+    public static boolean isSoundOn() {
+        return soundOn;
+    }
+
+    public static void setSoundOn(boolean soundOn) {
+        CalcFragment.soundOn = soundOn;
+    }
+
     static boolean soundOn;
     static TextView numberHolder;
     static TextView playerOneLP;
     static TextView playerTwoLP;
     static Button turnButton;
+
+    public static String getPlayerOneNameString() {
+        return playerOneNameString;
+    }
+
+    public static String getPlayerTwoNameString() {
+        return playerTwoNameString;
+    }
+
+    public static EditText getPlayerOneName() {
+        return playerOneName;
+    }
+
+    public static EditText getPlayerTwoName() {
+        return playerTwoName;
+    }
+    private static Activity activity;
     static EditText playerOneName;
     static EditText playerTwoName;
     static SoundPool soundPool;
@@ -67,7 +104,13 @@ public class CalcFragment extends Fragment {
     static TextView qcResultHolder;
     static AppBarLayout appBarLayout;
 
-    static Integer numberTransitionDuration = 1050;
+    private static Integer numberTransitionDuration = 1050;
+    private static Integer numberTransitionDurationShort = numberTransitionDuration/2;
+
+    public static void setDefaultLP(Integer defaultLP) {
+        CalcFragment.defaultLP = defaultLP;
+    }
+
     public static Integer defaultLP = 8000;
     static Integer turnNumber = 1;
     static Integer currentLP1 = defaultLP;
@@ -103,6 +146,7 @@ public class CalcFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calc, container, false);
         resources = view.getContext().getResources();
+        activity = getActivity();
         //Assign view variables after inflation is done
         parentView = container;
         assignVariableIds(view);
@@ -113,17 +157,38 @@ public class CalcFragment extends Fragment {
         lpCounterSoundId = soundPool.load(view.getContext(), R.raw.lpcountersound, 1);
 
         //return that view
-        playerTwoName.setText(CalcFragment.playerTwoNameString);
-        playerOneName.setText(CalcFragment.playerOneNameString);
-        AdView mAdView = (AdView) view.findViewById(R.id.adView1);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        showTutorial(numberHolder, 1);
+        playerOneName.setText(getPlayerOneNameString());
+        playerTwoName.setText(getPlayerTwoNameString());
+        AutofitHelper.create(playerOneName);
+        AutofitHelper.create(playerTwoName);
+        AutofitHelper.create(qcWorkHolder);
+        AutofitHelper.create(qcResultHolder);
+        //AdView mAdView = (AdView) view.findViewById(R.id.adView1);
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        //mAdView.loadAd(adRequest);
+        tutorial();
         amoledBlackToggle();
         return view;
     }
 
-    private void makeListeners(){
+    private void makeListeners() {
+        playerOneName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String temp = playerOneName.getText().toString();
+                playerOneNameString = temp;
+            }
+        });
         playerOneName.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -133,6 +198,24 @@ public class CalcFragment extends Fragment {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        playerTwoName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String temp = playerTwoName.getText().toString();
+                playerTwoNameString = temp;
             }
         });
         playerTwoName.setOnKeyListener(new View.OnKeyListener() {
@@ -196,10 +279,78 @@ public class CalcFragment extends Fragment {
     //Performs dice roll
     public static void diceRoll(){
         Integer temp = random.nextInt(6);
+        diceButton.setText("");
         temp++;//Can't roll a zero
-        diceButton.setText(temp.toString());
-        String diceRoll = resources.getText(R.string.diceRoll).toString();
-        LogFragment.addDataToSection(turnNumber, diceRoll + ": " + temp);
+        drawDiceButton(temp);
+    }
+
+    private static void drawDiceButton(int temp) {
+
+        Drawable png = null;
+        switch (temp) {
+            case 0:
+                png = resources.getDrawable(R.drawable.button_pressed_operator);
+                diceButton.setText(R.string.diceRoll);
+                break;
+            case 1:
+                png = getScaledPng(R.drawable.dice_1, turnButton);
+                resetDiceAfterDelay();
+                break;
+            case 2:
+                png = getScaledPng(R.drawable.dice_2, turnButton);
+                resetDiceAfterDelay();
+                break;
+            case 3:
+                png = getScaledPng(R.drawable.dice_3, turnButton);
+                resetDiceAfterDelay();
+                break;
+            case 4:
+                png = getScaledPng(R.drawable.dice_4, turnButton);
+                resetDiceAfterDelay();
+                break;
+            case 5:
+                png = getScaledPng(R.drawable.dice_5, turnButton);
+                resetDiceAfterDelay();
+                break;
+            case 6:
+                png = getScaledPng(R.drawable.dice_6, turnButton);//TODO: Fix this shit
+                resetDiceAfterDelay();
+                break;
+        }
+        try {
+            diceButton.setBackground(png);
+        }catch (Exception e){};
+
+
+    }
+
+    private static void resetDiceAfterDelay(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 5000ms
+                drawDiceButton(0);
+            }
+        }, 5000);
+    }
+
+    private static void resetCoinFlipAfterDelay(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 5000ms
+                coinButton.setText(ourContext.getString(R.string.coinFlip));
+            }
+        }, 5000);
+    }
+
+    private static Drawable getScaledPng(int resource, Button button){
+        Bitmap bitmap = BitmapFactory.decodeResource(resources, resource);
+        bitmap = Bitmap.createScaledBitmap(bitmap, button.getWidth(), button.getHeight(), true);
+        Drawable drawable = new BitmapDrawable(resources, bitmap);
+        return drawable;
     }
 
     //Performs coin flip
@@ -208,71 +359,93 @@ public class CalcFragment extends Fragment {
         Double temp = Math.random();
         if(temp>0.5){
             coinButton.setText(R.string.coinHeads);
-            LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinHeads).toString());
+            //LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinHeads).toString());
         }else if(temp<=0.5){
             coinButton.setText(R.string.coinsTails);
-            LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinsTails).toString());
+            //LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinsTails).toString());
         }
     }
 
-    public static void setNumberHolderText(String value){
+    public static void setNumberHolderText(String value, String end, TextView textView){
+        if (value.equals("")) value = "0";
+        if (end.equals("")) end = "0";
+        //animateTextView(Integer.parseInt(end), Integer.parseInt(value), textView, numberTransitionDurationShort);
         numberHolder.setText(value);
     }
 
     //Changes LP
     public static void modLP(String tag){
         Integer value = numberHolderNumber;
+        String damage = numberHolderString;
         previousLP1 = currentLP1;
+        String previousLP1String = previousLP1.toString();
         previousLP2 = currentLP2;
+        String previousLP2String = previousLP2.toString();
 
         if(value != 0) {
             if(soundOn)soundPool.play(lpCounterSoundId, 1, 1, 1, 0, 1);
             switch (tag) {
                 case "1+":
                     if (currentLP1 + value < 999999) {
+                        damage = "+" + damage;
                         currentLP1 += value;
                         toastText = value + resources.getText(R.string.lpAddedTo).toString() + playerOneNameString;
-                        displayToastAndSendToLog();
+                        makeToast();
+                        sendToLog(currentLP1.toString(), damage, true, false);
                     } else {
                         currentLP1 = 999999;
                     }
                     break;
                 case "1-":
                     if (currentLP1 - value > 0) {
+                        damage = "-" + damage;
                         currentLP1 -= value;
                         toastText = value + resources.getText(R.string.lpSubtracedFrom).toString() + playerOneNameString;
-                        displayToastAndSendToLog();
+                        makeToast();
+                        sendToLog(currentLP1.toString(), damage, true, true);
                     } else {
+                        damage = "-" + damage;
                         currentLP1 = 0;
                         toastText = value + resources.getText(R.string.lpSubtracedFrom).toString() + playerOneNameString;
-                        displayToastAndSendToLog();
+                        makeToast();
+                        sendToLog(currentLP1.toString(), damage, true, true);
                     }
                     break;
                 case "2+":
                     if (currentLP2 + value < 999999) {
+                        damage = "+" + damage;
                         currentLP2 += value;
                         toastText = value + resources.getText(R.string.lpAddedTo).toString() + playerTwoNameString;
-                        displayToastAndSendToLog();
+                        makeToast();
+                        sendToLog(currentLP2.toString(), damage, false, false);
                     } else {
                         currentLP2 = 999999;
                     }
                     break;
                 case "2-":
                     if (currentLP2 - value > 0) {
+                        damage = "-" + damage;
                         currentLP2 -= value;
                         toastText = value + resources.getText(R.string.lpSubtracedFrom).toString() + playerTwoNameString;
-                        displayToastAndSendToLog();
+                        makeToast();
+                        sendToLog(currentLP2.toString(), damage, false, true);
                     } else {
+                        damage = "-" + damage;
                         currentLP2 = 0;
                         toastText = value + resources.getText(R.string.lpSubtracedFrom).toString() + playerTwoNameString;
-                        displayToastAndSendToLog();
+                        makeToast();
+                        sendToLog(currentLP2.toString(), damage, false, true);
                     }
                     break;
             }
             resetNumberHolder();
-            animateTextView(previousLP1, currentLP1, playerOneLP);
-            animateTextView(previousLP2, currentLP2, playerTwoLP);
+            animateTextView(previousLP1, currentLP1, playerOneLP, numberTransitionDuration);
+            animateTextView(previousLP2, currentLP2, playerTwoLP, numberTransitionDuration);
         }
+    }
+
+    private static void sendToLog(String previousLP1, String damage, boolean b, boolean isDamage) {
+        LogFragment.addDataToSection(previousLP1, damage, b, isDamage);
     }
 
     public static void hideKeyboardFrom(Context context, View view) {
@@ -294,6 +467,7 @@ public class CalcFragment extends Fragment {
         playerTwoLP.setText(defaultLP.toString());
         String temp = resources.getText(R.string.turn).toString() + turnNumber;
         turnButton.setText(temp);
+        drawDiceButton(0);
         diceButton.setText(R.string.diceRoll);
         coinButton.setText(R.string.coinFlip);
         qcResultString = "";
@@ -306,30 +480,31 @@ public class CalcFragment extends Fragment {
     }
 
     public static void addToNumberHolder(View view){
+        String temp = numberHolderString;
         if(numberHolderString.length()<5){
             numberHolderString += view.getTag();
             numberHolderNumber = Integer.parseInt(numberHolderString);
-            CalcFragment.setNumberHolderText(numberHolderString);
+            CalcFragment.setNumberHolderText(numberHolderString, temp, numberHolder);
         }
 
         if(numberHolderString.length() > 5){
             numberHolderString = "99999";
             numberHolderNumber = 99999;
-            CalcFragment.setNumberHolderText(numberHolderString);
+            CalcFragment.setNumberHolderText(numberHolderString, temp, numberHolder);
         }
     }
 
     public static void resetNumberHolder(){
         numberHolderNumber = 0;
         numberHolderString = "";
-        CalcFragment.setNumberHolderText(numberHolderString);
+        CalcFragment.numberHolder.setText("");
     }
 
     //Animates the transition between numbers when calculation is performed
-    public static void animateTextView(int initialValue, int finalValue, final TextView textview) {
+    public static void animateTextView(int initialValue, int finalValue, final TextView textview, int duration) {
         if(initialValue != finalValue) { //will not do anything if both values are equal
             ValueAnimator valueAnimator = ValueAnimator.ofInt(initialValue, finalValue);
-            valueAnimator.setDuration(numberTransitionDuration);
+            valueAnimator.setDuration(duration);
 
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -342,10 +517,10 @@ public class CalcFragment extends Fragment {
 
     }
 
-    public static void displayToastAndSendToLog() {
+    public static void makeToast() {
         lpToast = Toast.makeText(ourContext, toastText, Toast.LENGTH_SHORT);
         lpToast.show();
-        LogFragment.addDataToSection(turnNumber, toastText);
+        //LogFragment.addDataToSection(turnNumber, toastText);
     }
 
     public static void qcAddToWorkHolder(View view){
@@ -436,8 +611,6 @@ public class CalcFragment extends Fragment {
     public static String unDecimalizeIntegers(String input){
         Double inputDub = Double.parseDouble(input);
         String decString = inputDub.toString();
-        decString = decString.substring(decString.indexOf("."), decString.length());
-
         if(checkIfHasDecimal(input)) {
             double moduloed = inputDub % 1;
             if((moduloed == 0.0d)){
@@ -457,16 +630,27 @@ public class CalcFragment extends Fragment {
         String temp = input.substring(0, inputLength - 2);
         return temp;
     }
-    /*TODO: Create a tutorial, can probably do it by linking a bunch of showcase views together
-    since the ShowcaseViews class was apparently removed...  Really like the effect though
-    Should be able to make it work just fine
-    This should probably be one of the final things to actually do for the app*/
-    public void showTutorial(View targetView, int i){
-        ViewTarget target = new ViewTarget(targetView);
-        final ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+
+    private static void tutorial(){
+        long count = getLaunchNumber();
+        if(count < 2){
+            showTutorial();
+        }
+    }
+
+    private static long getLaunchNumber(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ourContext.getApplicationContext());
+        long launch_count = preferences.getLong(Constants.KEY_LAUNCH_COUNT, 0l);
+        return launch_count;
+    }
+
+    public static void showTutorial(){
+        ViewTarget target = new ViewTarget(numberHolder);
+        numberHolder.setText("2000");
+        final ShowcaseView showcaseView = new ShowcaseView.Builder(activity)
                 .withMaterialShowcase()
                 .setTarget(target)
-                .setContentTitle("Clear this number by tapping it")
+                .setContentTitle(activity.getString(R.string.TutorialMessage1))
                 .setContentText("")//NON-NLS
                 .setStyle(R.style.CustomShowcaseTheme)
                 .hideOnTouchOutside()
@@ -495,12 +679,12 @@ public class CalcFragment extends Fragment {
         showcaseView.show();
     }
 
-    public void showTutorialTurnButton(){
+    private static void showTutorialTurnButton(){
         ViewTarget target = new ViewTarget(turnButton);
-        final ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+        final ShowcaseView showcaseView = new ShowcaseView.Builder(activity)
                 .withMaterialShowcase()
                 .setTarget(target)
-                .setContentTitle("Tap to increment the turn, long press to decrement the turn")
+                .setContentTitle(activity.getString(R.string.TutorialMessage2))
                 .setContentText("")
                 .setStyle(R.style.CustomShowcaseTheme)
                 .hideOnTouchOutside()
@@ -529,12 +713,12 @@ public class CalcFragment extends Fragment {
         showcaseView.show();
     }
 
-    public void showTutorialOverFlow(){
+    private static void showTutorialOverFlow(){
         ViewTarget target = new ViewTarget(appBarLayout.findViewById(R.id.overFlowButton));
-        final ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+        final ShowcaseView showcaseView = new ShowcaseView.Builder(activity)
                 .withMaterialShowcase()
                 .setTarget(target)
-                .setContentTitle("Press the menu button to find the Reset, QuickCalc, and Settings buttons")
+                .setContentTitle(activity.getString(R.string.TutorialMessage3))
                 .setContentText("")
                 .setStyle(R.style.CustomShowcaseTheme)
                 .hideOnTouchOutside()
@@ -561,29 +745,29 @@ public class CalcFragment extends Fragment {
                 })
                 .build();
         showcaseView.show();
-
+        CalcFragment.reset();
+        LogFragment.resetLog();
     }
 
     public static void amoledBlackToggle(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(thisView.getContext().getApplicationContext());
-        boolean on = preferences.getBoolean(MainActivity.KEY_AMOLED_BLACK, false);
+        boolean on = preferences.getBoolean(Constants.KEY_AMOLED_BLACK, false);
         if(on) {
             thisView.findViewById(R.id.holderQC).setBackgroundColor(resources.getColor(R.color.a_material_black));
             thisView.findViewById(R.id.holderBottom).setBackgroundColor(resources.getColor(R.color.a_material_black));
             thisView.findViewById(R.id.holderholder).setBackgroundColor(resources.getColor(R.color.a_material_black));
             thisView.findViewById(R.id.holderTop).setBackgroundColor(resources.getColor(R.color.a_material_black));
-            thisView.findViewById(R.id.adHolder).setBackgroundColor(resources.getColor(R.color.a_material_black));
+            //thisView.findViewById(R.id.adHolder).setBackgroundColor(resources.getColor(R.color.a_material_black));
             appBarLayout.findViewById(R.id.tabs).setBackgroundColor(resources.getColor(R.color.a_material_black));
         }else if(!on){
             thisView.findViewById(R.id.holderQC).setBackgroundColor(resources.getColor(R.color.a_material_dark));
             thisView.findViewById(R.id.holderBottom).setBackgroundColor(resources.getColor(R.color.a_material_dark_tinted_dark));
             thisView.findViewById(R.id.holderholder).setBackgroundColor(resources.getColor(R.color.a_material_dark));
             thisView.findViewById(R.id.holderTop).setBackgroundColor(resources.getColor(R.color.a_material_dark));
-            thisView.findViewById(R.id.adHolder).setBackgroundColor(resources.getColor(R.color.a_material_dark));
+            //thisView.findViewById(R.id.adHolder).setBackgroundColor(resources.getColor(R.color.a_material_dark));
             appBarLayout.findViewById(R.id.tabs).setBackgroundColor(resources.getColor(R.color.a_material_dark));
         }
     }
-
 
 }
 

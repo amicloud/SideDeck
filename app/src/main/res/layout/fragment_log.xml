@@ -1,57 +1,88 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:background="@color/a_material_dark"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/logP1Name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Player 1"
+                android:textColor="@color/a_material_white" />
+
+            <TextView
+                android:id="@+id/logP2Name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Player 2"
+                android:textColor="@color/a_material_white" />
+        </LinearLayout>
+
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            tools:context="com.outplaysoftworks.sidedeck.LogFragment"
             android:fillViewport="true"
             android:orientation="vertical"
-            android:background="@color/primary">
+            tools:context="com.outplaysoftworks.sidedeck.LogFragment">
+
             <LinearLayout
+                android:id="@+id/viewHolder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/viewHolder"
-                android:orientation="vertical"
-                android:background="@color/a_material_dark">
+                android:orientation="vertical">
+
             </LinearLayout>
         </ScrollView>
-        </LinearLayout>
-    <RelativeLayout android:id="@+id/adHolder2"
+
+    </LinearLayout>
+
+    <!--<RelativeLayout
+        android:id="@+id/adHolder2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="false"
         android:layout_alignParentStart="false"
+        android:layout_alignParentTop="true"
         android:layout_x="309dp"
         android:layout_y="433dp"
-        android:baselineAligned="false"
         android:background="@color/a_material_dark"
-        android:layout_alignParentLeft="false">
-        <!--Ad view goes here -->
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        &lt;!&ndash;Ad view goes here &ndash;&gt;
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:clickable="false"
-            android:layout_gravity="center">
-        </com.google.android.gms.ads.AdView>
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 
 </LinearLayout>

@@ -1,6 +1,9 @@
 package com.outplaysoftworks.sidedeck;
 
-import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +21,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,32 +29,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.android.vending.billing.IInAppBillingService;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String KEY_DONT_SHOW_AGAIN = "dontshowagain";
-    private static final String KEY_LAUNCH_COUNT = "launch_count";
-    private static final String KEY_LAUNCH_COUNT_PRESSED_REMIND = "launch_count_pressed_remind";
-    private static final String KEY_DATE_FIRSTLAUNCH = "date_firstlaunch";
-    private static final String KEY_REMIND_ME_LATER = "remind_me_later";
-    private static final String KEY_HAS_BEEN_LAUNCH = "has_been_launch";
-    private static final String KEY_HAS_BEEN_LAUNCHED = "has_been_launched";
-    private static boolean debug = true;
-
-    public static final String KEY_PLAYER_ONE_DEF_NAME = "KEYplayerOneDefaultNameSetting"; //NON-NLS
-    public static final String KEY_PLAYER_TWO_DEF_NAME = "KEYplayerTwoDefaultNameSetting"; //NON-NLS
-    public static final String KEY_SOUND_ONOFF = "KEYsoundOnOff"; //NON-NLS
-    public static final String KEY_DEFAULT_LP = "KEYdefaultLpSetting"; //NON-NLS
-    public static final String KEY_AMOLED_BLACK = "KEYamoledNightModeSetting"; //NON-NLS
-    public static final String KEY_HAS_USER_RATED = "KEYhasUserRatedAppYet"; //NON-NLS
-    private final static String APP_PNAME = "com.outplaysoftworks.sidedeck"; //NON-NLS
-
-    public static final String THEME_A_MATERIAL = "a_material_theme"; //NON-NLS
-    public static final String THEME_A_MATERIAL_DARK = "a_material_theme_dark"; //NON-NLS
-
+    static IInAppBillingService mService;
+    static ServiceConnection mServiceConn;
     static PopupMenu popup;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
@@ -63,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
     public static SharedPreferences sharedPrefs;
     public static SharedPreferences.Editor editor;
     public static AppBarLayout appbar;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +61,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         myContext = this;
 
+        //iapCreate();
+        //TODO: Finish iapCreate stuff http://developer.android.com/google/play/billing/billing_integrate.html
+        mServiceConn = new ServiceConnection() {
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mService = null;
+            }
+
+            @Override
+            public void onServiceConnected(ComponentName name,
+                                           IBinder service) {
+                mService = IInAppBillingService.Stub.asInterface(service);
+            }
+        };
+        Intent serviceIntent =
+                new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
+        bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -78,11 +87,11 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+        //Setup the tab layout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        playerOneName = (TextView)findViewById(R.id.playerOneName);
-        playerTwoName= (TextView)findViewById(R.id.playerTwoName);
+        playerOneName = (TextView) findViewById(R.id.playerOneName);
+        playerTwoName = (TextView) findViewById(R.id.playerTwoName);
 
         //End of pure layout stuff
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -93,9 +102,12 @@ public class MainActivity extends AppCompatActivity {
         /*sharedPrefs.edit().putLong("launch_count", 5L).commit();
         sharedPrefs.edit().putBoolean("dontshowagain", false).commit();
         editor.putBoolean("remind_me_later", false).commit();*/
-        appbar = (AppBarLayout)findViewById(R.id.appbar);
+        appbar = (AppBarLayout) findViewById(R.id.appbar);
 
         app_launched(this, sharedPrefs);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -126,6 +138,46 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+ /*   @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.outplaysoftworks.sidedeck/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.outplaysoftworks.sidedeck/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
+*/
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -141,9 +193,11 @@ public class MainActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1);
-            switch(position){
-                case 0: return new CalcFragment();
-                case 1: return new LogFragment();
+            switch (position) {
+                case 0:
+                    return new CalcFragment();
+                case 1:
+                    return new LogFragment();
             }
             return new LogFragment();
         }
@@ -175,18 +229,18 @@ public class MainActivity extends AppCompatActivity {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getTitle().toString().equals(myContext.getResources().getText(R.string.reset).toString())){
+                if (item.getItemId() == R.id.menuItemReset) {
                     AlertDialog.Builder confirm = new AlertDialog.Builder(myContext);
-                    confirm.setMessage("Are you sure?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    confirm.setMessage(myContext.getString(R.string.AreYouSure))
+                            .setPositiveButton(myContext.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast toast = Toast.makeText(myContext, "Resetting", Toast.LENGTH_SHORT);
+                                    Toast toast = Toast.makeText(myContext, R.string.Resetting, Toast.LENGTH_SHORT);
                                     toast.show();
                                     CalcFragment.reset();
                                 }
                             })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(myContext.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                 }
@@ -194,11 +248,17 @@ public class MainActivity extends AppCompatActivity {
                             .create().show();
 
                     return true;
-                }else if(item.getTitle().toString().equals(myContext.getResources().getText(R.string.quickCalc).toString())){
+                } else if (item.getItemId() == R.id.menuItemShowQuickCalc) {
                     CalcFragment.qcShow();
-                }else if(item.getTitle().toString().equals(myContext.getResources().getText(R.string.settings).toString())){
+                } else if (item.getItemId() == R.id.menuItemSettings) {
                     Intent intent = new Intent(v.getContext(), SettingsActivity.class);
                     myContext.startActivity(intent);
+/*                } else if (item.getItemId() == R.id.debugRating) {
+                    showEnjoyOrNotDialog(myContext, sharedPrefs.edit(), 100l);
+                } else if (item.getItemId() == R.id.debugTutorial) {
+                    CalcFragment.showTutorial();
+                } else if (item.getItemId() == R.id.clearPreferences) {
+                    clearPreferences();*/
                 }
                 return false;
             }
@@ -206,101 +266,122 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Appends whatever numerical button is pressed to the lp calc preview
-    public void addToNumberHolder(View view){
+    public void addToNumberHolder(View view) {
         CalcFragment.addToNumberHolder(view);
     }
 
     //Sets everything related to lp calc preview to 0 or empty
-    public void resetNumberHolder(View view){
+    public void resetNumberHolder(View view) {
         CalcFragment.resetNumberHolder();
     }
 
-    public void modLP(View view){
+    public void modLP(View view) {
         CalcFragment.modLP(view.getTag().toString());
     }
 
-    public void diceRoll(View view){
+    public void diceRoll(View view) {
         CalcFragment.diceRoll();
     }
 
-    public void coinFlip(View view){
+    public void coinFlip(View view) {
         CalcFragment.coinFlip();
     }
 
-    public void qcAddToWorkHolder(View view){
+    public void qcAddToWorkHolder(View view) {
         CalcFragment.qcAddToWorkHolder(view);
     }
 
-    public void qcResetHolder(View view){
+    public void qcResetHolder(View view) {
         CalcFragment.qcResetHolder(view);
     }
 
-    public void qcShow(View view){
+    public void qcShow(View view) {
         CalcFragment.qcShow();
     }
 
-    public void qcHide(View view){
+    public void qcHide(View view) {
         CalcFragment.qcHide();
     }
 
-    public void qcOperators(View view){
+    public void qcOperators(View view) {
         CalcFragment.qcOperators(view);
     }
 
-    public static void setPreferences() {
-        CalcFragment.playerOneNameString = sharedPrefs.getString(KEY_PLAYER_ONE_DEF_NAME, "");
-        CalcFragment.playerTwoNameString = sharedPrefs.getString(KEY_PLAYER_TWO_DEF_NAME, "");
-        CalcFragment.soundOn = sharedPrefs.getBoolean(KEY_SOUND_ONOFF, true);
-        CalcFragment.defaultLP = Integer.parseInt(sharedPrefs.getString(KEY_DEFAULT_LP, "8000"));
-        try {
-            CalcFragment.amoledBlackToggle();
-            LogFragment.amoledBlackToggle();
-        }catch (Exception e){}
+    public static void setPlayerOneNamePreference() {
+        CalcFragment.setPlayerOneNameString(sharedPrefs.getString(Constants.KEY_PLAYER_ONE_DEF_NAME,
+                myContext.getResources().getString(R.string.playerOne)));
         if (!firstRun) {
-            CalcFragment.playerTwoName.setText(CalcFragment.playerTwoNameString);
-            CalcFragment.playerOneName.setText(CalcFragment.playerOneNameString);
+            CalcFragment.getPlayerOneName().setText(CalcFragment.playerOneNameString);
         }
-        firstRun = false;
-
     }
 
-    private final static int DAYS_UNTIL_PROMPT = 0;//Min number of days
-    private final static int LAUNCHES_UNTIL_PROMPT = 10;//Min number of launches
+    public static void setPlayerTwoNamePreference() {
+        CalcFragment.setPlayerTwoNameString(sharedPrefs.getString(Constants.KEY_PLAYER_TWO_DEF_NAME,
+                myContext.getResources().getString(R.string.playerTwo)));
+        if (!firstRun) {
+            CalcFragment.getPlayerTwoName().setText(CalcFragment.playerTwoNameString);
+        }
+    }
+
+    public static void setSoundOnOffPreference() {
+        CalcFragment.setSoundOn(sharedPrefs.getBoolean(Constants.KEY_SOUND_ONOFF, true));
+    }
+
+    public static void setDefaultLPPreference() {
+        CalcFragment.setDefaultLP(Integer.parseInt(sharedPrefs.getString(Constants.KEY_DEFAULT_LP, "8000")));
+    }
+
+    public static void setAmoledBlackTogglePreference() {
+        try {
+            CalcFragment.amoledBlackToggle();
+            LogFragment.amoledBlackToggle();//TODO: Implement this method
+        } catch (Exception e) {
+        }
+    }
+
+    public static void setPreferences() {
+        setDefaultLPPreference();
+        setPlayerTwoNamePreference();
+        setPlayerOneNamePreference();
+        setAmoledBlackTogglePreference();
+        setSoundOnOffPreference();
+    }
+
+
     public static void app_launched(Context mContext, SharedPreferences prefs) {
-        if (prefs.getBoolean(KEY_DONT_SHOW_AGAIN, false) ) { return ; }
+        if (prefs.getBoolean(Constants.KEY_DONT_SHOW_AGAIN, false)) {
+            return;
+        }
         SharedPreferences.Editor editor = prefs.edit();
         long launch_count = 0;
-        long launch_when_user_pressed_remdind = 0;
+        long launch_when_user_pressed_remind = 0;
 
         // Increment launch counter
-        launch_count = prefs.getLong(KEY_LAUNCH_COUNT, 0) + 1;
-        launch_when_user_pressed_remdind = prefs.getLong(KEY_LAUNCH_COUNT_PRESSED_REMIND, launch_count);
-        editor.putLong(KEY_LAUNCH_COUNT, launch_count);
+        launch_count = prefs.getLong(Constants.KEY_LAUNCH_COUNT, 0) + 1;
+        launch_when_user_pressed_remind = prefs.getLong(Constants.KEY_LAUNCH_COUNT_PRESSED_REMIND, launch_count);
+        editor.putLong(Constants.KEY_LAUNCH_COUNT, launch_count);
 
         // Get date of first launch
-        Long date_firstLaunch = prefs.getLong(KEY_DATE_FIRSTLAUNCH, 0);
+        Long date_firstLaunch = prefs.getLong(Constants.KEY_DATE_FIRSTLAUNCH, 0);
         if (date_firstLaunch == 0) {
             date_firstLaunch = System.currentTimeMillis();
-            editor.putLong(KEY_DATE_FIRSTLAUNCH, date_firstLaunch);
+            editor.putLong(Constants.KEY_DATE_FIRSTLAUNCH, date_firstLaunch);
         }
         editor.commit();
 
         // Wait at least n days before opening
-        if(prefs.getBoolean(KEY_REMIND_ME_LATER, false) && launch_count <= launch_when_user_pressed_remdind + LAUNCHES_UNTIL_PROMPT) {
+        if (prefs.getBoolean(Constants.KEY_REMIND_ME_LATER, false) && launch_count <= launch_when_user_pressed_remind + Constants.LAUNCHES_UNTIL_PROMPT) {
             return;
         }
-        if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
-            System.out.println("\n\n\n\nLaunch Count: " + launch_count + ", Launches until prompt: " + LAUNCHES_UNTIL_PROMPT); //NON-NLS
+        if (launch_count >= Constants.LAUNCHES_UNTIL_PROMPT) {
             if (System.currentTimeMillis() >= date_firstLaunch/* + (DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000)*/) {
-                System.out.println("Showing Dialog");//NON-NLS
-                /*showRateDialog(mContext, editor, launch_count);*/
                 showEnjoyOrNotDialog(mContext, editor, launch_count);
             }
         }
 
     }
 
-    public static void showEnjoyOrNotDialog(final Context mContext, final SharedPreferences.Editor editor,final long launches){
+    public static void showEnjoyOrNotDialog(final Context mContext, final SharedPreferences.Editor editor, final long launches) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setMessage(R.string.enjoyingSidedeck)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -329,14 +410,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         sendFeedBack(mContext);
-                        editor.putBoolean(KEY_DONT_SHOW_AGAIN, true).apply();
+                        editor.putBoolean(Constants.KEY_DONT_SHOW_AGAIN, true);
+                        editor.apply();
                         dialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.noThanks, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        editor.putBoolean(KEY_DONT_SHOW_AGAIN, true).apply();
+                        editor.putBoolean(Constants.KEY_DONT_SHOW_AGAIN, true);
+                        editor.apply();
                         dialog.dismiss();
                     }
                 })
@@ -348,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.CATEGORY_APP_EMAIL);
             intent.setData(Uri.parse(mContext.getString(R.string.mailTo)));
             myContext.startActivity(intent);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -361,13 +444,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        editor.putBoolean(KEY_REMIND_ME_LATER, false);
-                        editor.commit();
+                        editor.putBoolean(Constants.KEY_REMIND_ME_LATER, false);
+                        editor.putBoolean(Constants.KEY_DONT_SHOW_AGAIN, true);
+                        editor.apply();
                         try {
-                            intent.setData(Uri.parse(myContext.getString(R.string.playStoreMarketLink) + APP_PNAME));
+                            intent.setData(Uri.parse(myContext.getString(R.string.playStoreMarketLink) + Constants.APP_PNAME));
                             myContext.startActivity(intent);
-                        }catch (Exception e){
-                            intent.setData(Uri.parse(myContext.getString(R.string.playStoreHttpLink) + APP_PNAME));
+                        } catch (Exception e) {
+                            intent.setData(Uri.parse(myContext.getString(R.string.playStoreHttpLink) + Constants.APP_PNAME));
                             myContext.startActivity(intent);
 
                         }
@@ -378,10 +462,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (editor != null) {
-                            editor.putBoolean(KEY_REMIND_ME_LATER, false);
-                            editor.commit();
-                            /*editor.putBoolean("dontshowagain", true);*/
-                            editor.commit();
+                            editor.putBoolean(Constants.KEY_REMIND_ME_LATER, false);
+                            editor.putBoolean(Constants.KEY_DONT_SHOW_AGAIN, true);
+                            editor.apply();
                         }
                         dialog.dismiss();
                     }
@@ -389,26 +472,44 @@ public class MainActivity extends AppCompatActivity {
                 .setNeutralButton(R.string.remindMeLater, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        editor.putLong(KEY_LAUNCH_COUNT_PRESSED_REMIND, launches);
-                        editor.putBoolean(KEY_REMIND_ME_LATER, true);
-                        editor.commit();
-                        System.out.print(sharedPrefs.getLong(KEY_LAUNCH_COUNT_PRESSED_REMIND, 27727));
+                        editor.putLong(Constants.KEY_LAUNCH_COUNT_PRESSED_REMIND, launches);
+                        editor.putBoolean(Constants.KEY_REMIND_ME_LATER, true);
+                        editor.apply();
                         dialog.dismiss();
                     }
                 });
         builder.create().show();
     }
 
-    private void displayTutorial(){
-        if(checkHasLaunched()){
-            //noinspection UnnecessaryReturnStatement
-            return;
+    private static void displayTutorial() {
+        if (checkHasLaunched()) {
+            CalcFragment.showTutorial();
         }
     }
 
-    private boolean checkHasLaunched(){
-        boolean hasLaunched = sharedPrefs.getBoolean(KEY_HAS_BEEN_LAUNCH, false);
-        editor.putBoolean(KEY_HAS_BEEN_LAUNCHED, true).commit();
+    private static boolean checkHasLaunched() {
+        boolean hasLaunched = sharedPrefs.getBoolean(Constants.KEY_HAS_BEEN_LAUNCHED, false);
+        editor.putBoolean(Constants.KEY_HAS_BEEN_LAUNCHED, true).commit();
         return hasLaunched;
+    }
+
+    public static void clearPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(myContext.getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    private static void iapCreate() {
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mService != null) {
+            unbindService(mServiceConn);
+        }
     }
 }

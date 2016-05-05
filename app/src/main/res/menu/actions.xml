@@ -6,4 +6,10 @@
         android:title="@string/quickCalc"/>
     <item android:id="@+id/menuItemSettings"
         android:title="@string/settings"/>
+<!--    <item android:id="@+id/debugRating"
+        android:title="Show Rating Dialog"/>
+    <item android:id="@+id/debugTutorial"
+        android:title="Show Tutorial"/>
+    <item android:id="@+id/clearPreferences"
+        android:title="Clear all preferences"/>-->
 </menu>

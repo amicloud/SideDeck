@@ -37,4 +37,11 @@
     <string name="okSure">確か</string>
     <string name="giveFeedback">あなたは私たちにいくつかのフィードバックを与えていただけませんか</string>
     <string name="yes">はい</string>
+    <string name="logTurn">順番</string>
+    <string name="TutorialMessage1">あなたが番号を入力すると、それがここに表示されます。単にあなたのエントリをクリアするには、番号をタップ</string>
+    <string name="TutorialMessage2">あなたがアクションを実行するたびに、彼らは決闘ログ内のターンごとにグループ化されます。ターンを高めるためにこのボタンをタップして、長押しは、それはターンを減少させます</string>
+    <string name="TutorialMessage3">リセット、電卓、および設定ボタンを見つけるために、メニューボタンを押してください</string>
+    <string name="Resetting">再設定</string>
+    <string name="Cancel">キャンセル</string>
+    <string name="AreYouSure">本気ですか？</string>
 </resources>

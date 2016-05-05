@@ -1,24 +1,23 @@
 package com.outplaysoftworks.sidedeck;
 
 
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+
+import me.grantland.widget.AutofitHelper;
 
 
 /**
@@ -27,93 +26,119 @@ import org.w3c.dom.Text;
 public class LogFragment extends Fragment {
     public static Integer currentTurn;
     public static View view;
-    public static LinearLayout[] sections = new LinearLayout[100];
-    private static LinearLayout myLayout;
-    static Resources resources;
-
     public static Integer lastDuelMaxTurns = 0;
+    static Resources resources;
+    private static LinearLayout myLayout;
+    private static ArrayList<LinearLayout> data = new ArrayList<LinearLayout>();
+    private static ArrayList<LinearLayout> sections = new ArrayList<LinearLayout>();
+    private static LayoutInflater ourInflater;
+    private TextView p1Name;
+    private TextView p2Name;
 
     public LogFragment() {
         // Required empty public constructor
     }
 
+    public static void init() {
+        currentTurn = 1;
+        LinearLayout layout = createNewSection(currentTurn);
+        myLayout.addView(layout, 0);
+    }
+
+    public static void resetLog() {
+        sections.clear();
+        sections.trimToSize();
+        data.clear();
+        data.trimToSize();
+        myLayout.removeAllViews();
+        init();
+    }
+
+
+    private static LinearLayout createNewSection(int turn) {
+        LinearLayout mainView = new LinearLayout(view.getContext());
+        View temp = ourInflater.inflate(R.layout.section, mainView, false);
+        mainView = (LinearLayout) temp;
+        TextView turnLabel = (TextView) mainView.findViewById(R.id.turnLabel);
+        turnLabel.setText(view.getResources().getText(R.string.logTurn) + " " + currentTurn.toString());
+        sections.add(mainView);
+        return mainView;
+    }
+
+    public static void addSection() {
+        try {
+            if (sections.get(getCurrentSection()) != null) {
+                return;
+            }
+        } catch (Exception e) {
+
+        }
+        LinearLayout layout = createNewSection(currentTurn);
+        myLayout.addView(layout, 0);
+    }
+
+    private static int getCurrentSection() {
+        int t = currentTurn - 1;
+        return t;
+    }
+
+    private static View createNewData(String lp, String lpChange, boolean player1, boolean isDamage) {
+        LinearLayout mainView = new LinearLayout(view.getContext());
+        LinearLayout temp = (LinearLayout) ourInflater.inflate(R.layout.data, mainView, false);
+        TextView playerName = (TextView) temp.findViewById(R.id.playerName);
+        AutofitHelper.create(playerName);
+        TextView lpDifference = (TextView) temp.findViewById(R.id.lpDifference);
+        TextView lpAfter = (TextView) temp.findViewById(R.id.lpAfter);
+        String player = "";
+        lpDifference.setText(lpChange);
+        lpAfter.setText(lp);
+
+        if (isDamage) {
+            lpDifference.setTextColor(view.getResources().getColor(R.color.a_material_red));
+        } else if (!isDamage) {
+            lpDifference.setTextColor(view.getResources().getColor(R.color.a_material_green));
+        }
+        if (player1) {
+            player = CalcFragment.getPlayerOneNameString();
+        } else if (!player1) {
+            player = CalcFragment.getPlayerTwoNameString();
+        }
+        playerName.setText(player);
+        data.add(temp);
+        return temp;
+    }
+
+    public static void addDataToSection(String lp, String damage, boolean player1, boolean isDamage) {
+        View newData = createNewData(lp, damage, player1, isDamage);
+        if (sections.get(getCurrentSection()).getChildCount() != 1) {
+            //Add horizontal rule
+            RelativeLayout horizontalRule = new RelativeLayout(view.getContext());
+            View temp = ourInflater.inflate(R.layout.log_horizontal_rule, horizontalRule, false);
+            horizontalRule = (RelativeLayout) temp;
+            sections.get(getCurrentSection()).addView(horizontalRule, 1);
+        }
+        sections.get(getCurrentSection()).addView(newData, 1);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_log, container, false);
-        myLayout = (LinearLayout)view.findViewById(R.id.viewHolder);
+        myLayout = (LinearLayout) view.findViewById(R.id.viewHolder);
+        ourInflater = (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         resources = view.getContext().getResources();
         init();
 
-        AdView mAdView = (AdView) view.findViewById(R.id.adView2);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        amoledBlackToggle();
+        //AdView mAdView = (AdView) view.findViewById(R.id.adView2);
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        //mAdView.loadAd(adRequest);
 
         return view;
     }
 
-    public static void init(){
-        currentTurn = 1;
-        addSection();
+
+    public static void amoledBlackToggle() {
+
     }
-
-    public static void addSection(){
-        if(sections[currentTurn] == null) {
-        /*if(view.findViewById(currentTurn) == null) {*/
-            sections[currentTurn] = new LinearLayout(view.getContext());
-            sections[currentTurn].setId(currentTurn);
-            sections[currentTurn].setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(5, 3, 5, 3);
-            sections[currentTurn].setBackgroundResource(R.color.a_material_dark_tinted_dark);
-            sections[currentTurn].setLayoutParams(params);
-            TextView turnLabel = new TextView(view.getContext());
-            turnLabel.setTextColor(Color.WHITE);
-            String temp = resources.getText(R.string.turnColon)+ currentTurn.toString();
-            turnLabel.setText(temp);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                turnLabel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            }
-            turnLabel.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            sections[currentTurn].addView(turnLabel);
-            myLayout.addView(sections[currentTurn], 0);
-            sections[currentTurn].addView(new TextView(view.getContext()));
-        /*}*/
-        }
-    }
-
-    public static void addDataToSection(int section, String text){
-        TextView temp = (TextView)sections[section].getChildAt(1);
-        String tempString = temp.getText().toString();
-        tempString = text + "\n" + tempString;
-        temp.setTextColor(Color.WHITE);
-        temp.setText(tempString);
-        System.out.print(tempString);
-    }
-
-    public static void resetLog(){
-        currentTurn = 1;
-
-        for(int i = 1; i < lastDuelMaxTurns + 1; i++){
-            sections[i].removeAllViews();
-            sections[i] = null;
-        }
-        addSection();
-    }
-
-    public static void amoledBlackToggle(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(view.getContext().getApplicationContext());
-        boolean on = preferences.getBoolean(MainActivity.KEY_AMOLED_BLACK, false);
-        if(on) {
-            view.findViewById(R.id.viewHolder).setBackgroundColor(resources.getColor(R.color.a_material_black));
-            view.findViewById(R.id.adHolder2).setBackgroundColor(resources.getColor(R.color.a_material_black));
-        }else if(!on){
-            view.findViewById(R.id.viewHolder).setBackgroundColor(resources.getColor(R.color.a_material_dark));
-            view.findViewById(R.id.adHolder2).setBackgroundColor(resources.getColor(R.color.a_material_dark));
-        }
-    }
-
 }
