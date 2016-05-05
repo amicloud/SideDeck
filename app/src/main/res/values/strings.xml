@@ -59,7 +59,7 @@
 
     <string name="TutorialMessage1">When you enter a number, it will appear here.  Simply tap the number to clear your entry</string>
     <string name="TutorialMessage2">Whenever you perform actions, they will be grouped by turn in the duel log. Tap this button to increase the turn, and long-press it to decrease the turn</string>
-    <string name="TutorialMessage3">Press the menu button to find the Reset, Calculator, and Settings buttons</string>
+    <string name="TutorialMessage3">Press the menu button to find the Reset, Calculator, and Settings buttons.  You may want to go ahead and change your default name in the Settings</string>
     <string name="AreYouSure">Are you sure?</string>
     <string name="Resetting">Resetting</string>
     <string name="Cancel">Cancel</string>

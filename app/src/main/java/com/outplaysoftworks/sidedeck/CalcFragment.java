@@ -353,23 +353,20 @@ public class CalcFragment extends Fragment {
         return drawable;
     }
 
-    //Performs coin flip
     public static void coinFlip(){
         String coinflip = resources.getText(R.string.coinFlip).toString() + ": ";
         Double temp = Math.random();
         if(temp>0.5){
             coinButton.setText(R.string.coinHeads);
-            //LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinHeads).toString());
         }else if(temp<=0.5){
             coinButton.setText(R.string.coinsTails);
-            //LogFragment.addDataToSection(turnNumber, coinflip + resources.getText(R.string.coinsTails).toString());
         }
+        resetCoinFlipAfterDelay();
     }
 
     public static void setNumberHolderText(String value, String end, TextView textView){
         if (value.equals("")) value = "0";
         if (end.equals("")) end = "0";
-        //animateTextView(Integer.parseInt(end), Integer.parseInt(value), textView, numberTransitionDurationShort);
         numberHolder.setText(value);
     }
 
@@ -378,10 +375,8 @@ public class CalcFragment extends Fragment {
         Integer value = numberHolderNumber;
         String damage = numberHolderString;
         previousLP1 = currentLP1;
-        String previousLP1String = previousLP1.toString();
         previousLP2 = currentLP2;
-        String previousLP2String = previousLP2.toString();
-
+        //I honestly hate this whole block of code right here.  Please rewrite
         if(value != 0) {
             if(soundOn)soundPool.play(lpCounterSoundId, 1, 1, 1, 0, 1);
             switch (tag) {
