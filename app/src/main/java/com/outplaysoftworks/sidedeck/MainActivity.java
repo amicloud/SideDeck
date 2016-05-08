@@ -306,20 +306,24 @@ public class MainActivity extends AppCompatActivity {
     public void qcOperators(View view) {
         CalcFragment.qcOperators(view);
     }
-
     public static void setPlayerOneNamePreference() {
         CalcFragment.setPlayerOneNameString(sharedPrefs.getString(Constants.KEY_PLAYER_ONE_DEF_NAME,
                 myContext.getResources().getString(R.string.playerOne)));
-        if (!firstRun) {
-            CalcFragment.getPlayerOneName().setText(CalcFragment.playerOneNameString);
+        String name = sharedPrefs.getString(Constants.KEY_PLAYER_ONE_DEF_NAME, myContext
+                .getResources().getString(R.string.playerOne));
+        if(CalcFragment.playerOneName != null){
+            CalcFragment.playerOneName.setText(name);
         }
+
     }
 
     public static void setPlayerTwoNamePreference() {
         CalcFragment.setPlayerTwoNameString(sharedPrefs.getString(Constants.KEY_PLAYER_TWO_DEF_NAME,
                 myContext.getResources().getString(R.string.playerTwo)));
-        if (!firstRun) {
-            CalcFragment.getPlayerTwoName().setText(CalcFragment.playerTwoNameString);
+        String name = sharedPrefs.getString(Constants.KEY_PLAYER_TWO_DEF_NAME, myContext
+                .getResources().getString(R.string.playerTwo));
+        if(CalcFragment.playerTwoName != null){
+            CalcFragment.playerTwoName.setText(name);
         }
     }
 

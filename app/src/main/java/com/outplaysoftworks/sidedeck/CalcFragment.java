@@ -132,10 +132,10 @@ public class CalcFragment extends Fragment {
     static Resources resources;
     private static String lastButtonPressed;
     private static String lastOperatorPressed;
-
-    static LinearLayout topHalf;
-    static LinearLayout bottomHalf;
-
+    private static boolean isDiceResetting = false;
+    private static boolean isCoinResetting = false;
+    static Integer diceRollSoundId;
+    static Integer coinFlipSoundId;
     public CalcFragment() {
         // Required empty public constructor
     }
@@ -155,8 +155,9 @@ public class CalcFragment extends Fragment {
         thisView = view;
         soundPool = new SoundPool(12, AudioManager.STREAM_MUSIC, 0);
         lpCounterSoundId = soundPool.load(view.getContext(), R.raw.lpcountersound, 1);
+        diceRollSoundId = soundPool.load(view.getContext(), R.raw.dicerollsound, 1);
+        coinFlipSoundId = soundPool.load(view.getContext(), R.raw.coinflipsound, 1);
 
-        //return that view
         playerOneName.setText(getPlayerOneNameString());
         playerTwoName.setText(getPlayerTwoNameString());
         AutofitHelper.create(playerOneName);
@@ -278,6 +279,9 @@ public class CalcFragment extends Fragment {
 
     //Performs dice roll
     public static void diceRoll(){
+        if(soundOn) {
+            soundPool.play(diceRollSoundId, 0.6f, 0.6f, 1, 0, 1);
+        }
         Integer temp = random.nextInt(6);
         diceButton.setText("");
         temp++;//Can't roll a zero
@@ -325,25 +329,33 @@ public class CalcFragment extends Fragment {
     }
 
     private static void resetDiceAfterDelay(){
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 5000ms
-                drawDiceButton(0);
-            }
-        }, 5000);
+        if(!isDiceResetting){
+            isDiceResetting = true;
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after 5000ms
+                    drawDiceButton(0);
+                    isDiceResetting = false;
+                }
+            }, 5000);
+        }
     }
 
     private static void resetCoinFlipAfterDelay(){
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 5000ms
-                coinButton.setText(ourContext.getString(R.string.coinFlip));
-            }
-        }, 5000);
+        if(!isCoinResetting) {
+            isCoinResetting = true;
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after 5000ms
+                    coinButton.setText(ourContext.getString(R.string.coinFlip));
+                    isCoinResetting = false;
+                }
+            }, 5000);
+        }
     }
 
     private static Drawable getScaledPng(int resource, Button button){
@@ -354,6 +366,9 @@ public class CalcFragment extends Fragment {
     }
 
     public static void coinFlip(){
+        if(soundOn){
+            soundPool.play(coinFlipSoundId, 1, 1, 1, 0, 1);
+        }
         String coinflip = resources.getText(R.string.coinFlip).toString() + ": ";
         Double temp = Math.random();
         if(temp>0.5){
@@ -471,7 +486,6 @@ public class CalcFragment extends Fragment {
             LogFragment.resetLog();
         }
         firstRun = false;
-        /*MainActivity.app_launched(ourContext);*/
     }
 
     public static void addToNumberHolder(View view){
