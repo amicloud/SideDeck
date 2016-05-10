@@ -385,7 +385,7 @@ public class CalcFragment extends Fragment {
         numberHolder.setText(value);
     }
 
-    //Changes LP
+
     public static void modLP(String tag){
         Integer value = numberHolderNumber;
         String damage = numberHolderString;
