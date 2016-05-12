@@ -221,7 +221,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //On click method for overflow button
-    public static void showPopup(final View v) {
+    public static void showPopup(View view) {
+        final View v = view;
         popup = new PopupMenu(myContext, v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.actions, popup.getMenu());

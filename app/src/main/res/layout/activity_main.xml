@@ -44,10 +44,12 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/abc_ic_menu_overflow_material"
                         android:onClick="showPopup"
-                        android:layout_margin="0dp"
-                        android:id="@+id/overFlowButton" />
+                        android:id="@+id/overFlowButton"
+                        app:srcCompat="@drawable/ic_menu_overflow_material"
+                        android:enabled="true"
+
+                        android:clickable="true" />
 
                 </LinearLayout>
 

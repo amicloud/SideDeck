@@ -11,6 +11,8 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -18,12 +20,12 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
-        <item name="android:textColor">@color/primary_text</item>
+<!--        <item name="android:textColor">@color/primary_text</item>
         <item name="android:background">@color/primary_dark</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="windowActionBar">false</item>
+        <item name="windowActionBar">false</item>-->
     </style>
 
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -39,7 +41,7 @@
         <item name="android:textColorSecondary">@color/a_material_accent</item>
         <item name="android:textColorTertiary">@color/a_material_white</item>
     </style>
-    
+
     <style name="SplashTheme" parent="MyMaterialTheme">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
