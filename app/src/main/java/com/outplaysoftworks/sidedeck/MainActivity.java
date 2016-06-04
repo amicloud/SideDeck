@@ -75,10 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 mService = IInAppBillingService.Stub.asInterface(service);
             }
         };
-        Intent serviceIntent =
-                new Intent("com.android.vending.billing.InAppBillingService.BIND");
-        serviceIntent.setPackage("com.android.vending");
-        bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

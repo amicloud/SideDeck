@@ -523,7 +523,6 @@ public class CalcFragment extends Fragment {
             });
             valueAnimator.start();
         }
-
     }
 
     public static void makeToast() {

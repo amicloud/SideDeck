@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SideDeck</string>
+    <string name="settings">Einstellungen</string>
+    <string name="reset">Reset 	</string>
+    <string name="diceRoll">Würfel 	</string>
+    <string name="coinHeads">Kopf</string>
+    <string name="coinsTails">Zahl</string>
+    <string name="coinFlip">Münze</string>
+    <string name="turn">"Zug\n"</string>
+    <string name="turn1">"Zug\n1"</string>
+    <string name="turnColon">"Zug:"</string>
+    <string name="playerOne">Spieler 1</string>
+    <string name="playerOneDefaultName">Spieler 1 Standard Anzeigename</string>
+    <string name="playerTwo">Spieler 2</string>
+    <string name="defaultLifepoints">Start Lebenspunkte</string>
+    <string name="playerTwoDefaultName">Spieler 2 Standard Anzeigename</string>
+    <string name="sound">Sound</string>
+    <string name="lpAddedTo">" LP hinzugefügt für "</string>
+    <string name="lpSubtracedFrom">" LP abgezogen von "</string>
+    <string name="duelLog">Duell-Protokoll</string>
+    <string name="calculator">Lebenspunkte</string>
+    <string name="quickCalc">Rechner</string>
+    <string name="amoledBlackTheme">AMOLED Schwarzes Theme</string>
+    <string name="amoledBlackThemeSummary">Verringert den Akkuverbrauch bei Geräten mit AMOLED-Display</string>
+    <string name="gotIt">Verstanden!</string>
+    <string name="logTurn">Zug</string>
+    <string name="clearButtonTutorialMessage">Tippe auf die Zahl, um sie zu löschen.</string>
+    <string name="rateMe">Bewerte mich!</string>
+    <string name="noThanksAndDoNotAskAgain">Nein, danke und Nicht mehr nachfragen </string>
+    <string name="remindMeLater">Erinnere mich später</string>
+    <string name="rateMeText">Wenn dir SideDeck gefällt, bewerte es im Google PlayStore!</string>
+    <string name="enjoyingSidedeck">Gefällt dir SideDeck?</string>
+    <string name="yes">Ja!</string>
+    <string name="notReally">Nicht wirklich.</string>
+    <string name="giveFeedback">Würdest du uns dein Feedback hinterlassen?</string>
+    <string name="okSure">Ok, sicher.</string>
+    <string name="noThanks">Nein, danke.</string>
+    <string name="TutorialMessage1">Wenn du eine Zahl eingibst, erscheint sie hier. Tippe einfach auf die Zahl, um sie zu löschen.</string>
+    <string name="TutorialMessage2">Wenn du Berechnungen anstellst, werden sie für den jeweiligen Zug gruppiert protokolliert. Tippe hier, um zum nächsten Zug zu kommen, oder halte gedrückt, um zum letzten Zug zurückzukehren.</string>
+    <string name="TutorialMessage3">Drücke den Menü Button, um zur Reset-Funktion, den Rechner und die Einstellungen zu gelangen. Hier kannst du beispielsweise die Standard Anzeigenamen ändern.</string>
+    <string name="AreYouSure">Bist du sicher?</string>
+    <string name="Resetting">Zurücksetzen</string>
+    <string name="Cancel">Abbrechen</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="title_activity_settings">Einstellungen</string>
+</resources>
