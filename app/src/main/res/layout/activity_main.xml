@@ -46,10 +46,11 @@
 
                     android:clickable="true"
                     android:src="@drawable/ic_menu_overflow_material" />-->
-                <android.support.v7.widget.AppCompatImageButton
+                <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/overFlowButton"
+                    android:background="@color/a_material_light"
                     app:srcCompat="@drawable/ic_menu_overflow_material"
                     android:enabled="true"
                     android:clickable="true"
@@ -57,9 +58,7 @@
                     android:adjustViewBounds="false"
                     android:layout_margin="2dp"
                     android:onClick="showPopup"
-                    android:contentDescription="hamburger"
-                    android:background="@drawable/ic_menu_overflow_material"
-                    android:src="@drawable/ic_menu_overflow_material"/>
+                    android:contentDescription="hamburger" />
 
             </LinearLayout>
 
