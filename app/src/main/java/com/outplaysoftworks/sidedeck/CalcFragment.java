@@ -1,6 +1,7 @@
 package com.outplaysoftworks.sidedeck;
 
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -30,7 +32,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,9 @@ import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 import net.sourceforge.jeval.*;
+import net.sourceforge.jeval.function.math.Log;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 import me.grantland.widget.AutofitHelper;
@@ -47,6 +51,14 @@ import me.grantland.widget.AutofitHelper;
 public class CalcFragment extends Fragment {
 
     static String playerOneNameString = "";
+    static final Handler coinHandler = new Handler();
+    static final Handler diceHandler = new Handler();
+
+    private static Integer diceRollAnimationDuration = 2000; //In milliseconds
+    private static Integer diceRollAnimationFrameCount = 5;
+    //Drawable stuff
+    private static ArrayList<Drawable> diceDrawables = new ArrayList<>();
+    private static Drawable diceRollBackgroundDrawable;
 
     public static void setPlayerTwoNameString(String playerTwoNameString) {
         CalcFragment.playerTwoNameString = playerTwoNameString;
@@ -132,8 +144,6 @@ public class CalcFragment extends Fragment {
     static Resources resources;
     private static String lastButtonPressed;
     private static String lastOperatorPressed;
-    private static boolean isDiceResetting = false;
-    private static boolean isCoinResetting = false;
     static Integer diceRollSoundId;
     static Integer coinFlipSoundId;
     public CalcFragment() {
@@ -151,6 +161,7 @@ public class CalcFragment extends Fragment {
         parentView = container;
         assignVariableIds(view);
         makeListeners();
+        loadDrawables();
         reset();
         thisView = view;
         soundPool = new SoundPool(12, AudioManager.STREAM_MUSIC, 0);
@@ -170,6 +181,16 @@ public class CalcFragment extends Fragment {
         tutorial();
         amoledBlackToggle();
         return view;
+    }
+
+    private void loadDrawables() {
+        diceDrawables.add(resources.getDrawable(R.drawable.dice_1));
+        diceDrawables.add(resources.getDrawable(R.drawable.dice_2));
+        diceDrawables.add(resources.getDrawable(R.drawable.dice_3));
+        diceDrawables.add(resources.getDrawable(R.drawable.dice_4));
+        diceDrawables.add(resources.getDrawable(R.drawable.dice_5));
+        diceDrawables.add(resources.getDrawable(R.drawable.dice_6));
+        diceRollBackgroundDrawable = diceButton.getBackground();
     }
 
     private void makeListeners() {
@@ -248,6 +269,7 @@ public class CalcFragment extends Fragment {
                     String temp = resources.getText(R.string.turn).toString() + turnNumber;
                     turnButton.setText(temp);
                     LogFragment.currentTurn = turnNumber;
+                    //LogFragment.deleteTurnOnDecrementTurnIfEmpty();
                 }
                 return true;
             }
@@ -284,78 +306,54 @@ public class CalcFragment extends Fragment {
         }
         Integer temp = random.nextInt(6);
         diceButton.setText("");
-        temp++;//Can't roll a zero
-        drawDiceButton(temp);
+        //temp++;//Can't roll a zero
+        //drawDiceButton(temp);
+        makeDiceRoll(temp);
     }
 
-    private static void drawDiceButton(int temp) {
-
-        Drawable png = null;
-        switch (temp) {
-            case 0:
-                png = resources.getDrawable(R.drawable.button_pressed_operator);
-                diceButton.setText(R.string.diceRoll);
-                break;
-            case 1:
-                png = getScaledPng(R.drawable.dice_1, turnButton);
-                resetDiceAfterDelay();
-                break;
-            case 2:
-                png = getScaledPng(R.drawable.dice_2, turnButton);
-                resetDiceAfterDelay();
-                break;
-            case 3:
-                png = getScaledPng(R.drawable.dice_3, turnButton);
-                resetDiceAfterDelay();
-                break;
-            case 4:
-                png = getScaledPng(R.drawable.dice_4, turnButton);
-                resetDiceAfterDelay();
-                break;
-            case 5:
-                png = getScaledPng(R.drawable.dice_5, turnButton);
-                resetDiceAfterDelay();
-                break;
-            case 6:
-                png = getScaledPng(R.drawable.dice_6, turnButton);//TODO: Fix this shit
-                resetDiceAfterDelay();
-                break;
-        }
-        try {
-            diceButton.setBackground(png);
-        }catch (Exception e){};
-
-
+    private static void makeDiceRoll(final int lastDiceRoll){
+        diceButton.setClickable(false);
+        final Drawable originalBackgroundDrawable = diceRollBackgroundDrawable;
+        RandomAnimationBuilder randomAnimationBuilder = new RandomAnimationBuilder(diceDrawables,
+                diceRollAnimationDuration, diceRollAnimationFrameCount);
+        AnimationDrawable animation = randomAnimationBuilder.makeAnimation();
+        diceButton.setBackground(animation);
+        diceButton.setText("");
+        animation.setEnterFadeDuration(randomAnimationBuilder.getFrameDuration()/2);
+        animation.setExitFadeDuration(randomAnimationBuilder.getFrameDuration()/2);
+        animation.start();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                diceButton.setAlpha(1f);
+                diceButton.setBackground(diceDrawables.get(lastDiceRoll));
+                diceButton.setClickable(true);
+            }
+        }, diceRollAnimationDuration + (randomAnimationBuilder.getFrameDuration()*2));
+        resetDiceRollButtonAfterDelay(originalBackgroundDrawable);
     }
 
-    private static void resetDiceAfterDelay(){
-        if(!isDiceResetting){
-            isDiceResetting = true;
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //Do something after 5000ms
-                    drawDiceButton(0);
-                    isDiceResetting = false;
-                }
-            }, 5000);
-        }
+    private static void resetDiceRollButtonAfterDelay(final Drawable originalBackground){
+        diceHandler.removeCallbacksAndMessages(null);
+        diceHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                diceButton.setText(resources.getString(R.string.diceRoll));
+                diceButton.setBackground(originalBackground);
+            }
+        }, diceRollAnimationDuration + 6000);
     }
 
     private static void resetCoinFlipAfterDelay(){
-        if(!isCoinResetting) {
-            isCoinResetting = true;
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //Do something after 5000ms
-                    coinButton.setText(ourContext.getString(R.string.coinFlip));
-                    isCoinResetting = false;
-                }
-            }, 5000);
-        }
+        coinHandler.removeCallbacksAndMessages(null);
+        coinHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                coinButton.setText(ourContext.getString(R.string.coinFlip));
+            }
+        }, 8000);
+
     }
 
     private static Drawable getScaledPng(int resource, Button button){
@@ -364,19 +362,41 @@ public class CalcFragment extends Fragment {
         Drawable drawable = new BitmapDrawable(resources, bitmap);
         return drawable;
     }
-
+    public static int currentFrame;
+    public static int getCurrentFrame(){
+        return currentFrame;
+    }
+    public static void setCurrentFrame(int cf){ currentFrame = cf; }
     public static void coinFlip(){
+        currentFrame = 0;
         if(soundOn){
             soundPool.play(coinFlipSoundId, 1, 1, 1, 0, 1);
         }
-        String coinflip = resources.getText(R.string.coinFlip).toString() + ": ";
+        coinButton.setClickable(false);
+        final int frames = 5;
         Double temp = Math.random();
-        if(temp>0.5){
-            coinButton.setText(R.string.coinHeads);
-        }else if(temp<=0.5){
-            coinButton.setText(R.string.coinsTails);
-        }
-        resetCoinFlipAfterDelay();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(getCurrentFrame() < frames) {
+                    Coin coin = makeCoin();
+                    coinButton.setText(coin.getFace().toString());
+                    setCurrentFrame(getCurrentFrame() + 1);
+                    handler.postDelayed(this, 400);
+                }
+                if(frames == getCurrentFrame()) {
+                    resetCoinFlipAfterDelay();
+                    coinButton.setClickable(true);
+                }
+            }
+        },400);
+    }
+
+    private static Coin makeCoin(){
+        Double toss = Math.random();
+        Coin coin = new Coin(toss, ourContext);
+        return coin;
     }
 
     public static void setNumberHolderText(String value, String end, TextView textView){
@@ -391,7 +411,7 @@ public class CalcFragment extends Fragment {
         String damage = numberHolderString;
         previousLP1 = currentLP1;
         previousLP2 = currentLP2;
-        //I honestly hate this whole block of code right here.  Please rewrite
+        //I honestly hate this whole block of code right here but it works for now I guess.  Is dumb
         if(value != 0) {
             if(soundOn)soundPool.play(lpCounterSoundId, 1, 1, 1, 0, 1);
             switch (tag) {
@@ -477,7 +497,7 @@ public class CalcFragment extends Fragment {
         playerTwoLP.setText(defaultLP.toString());
         String temp = resources.getText(R.string.turn).toString() + turnNumber;
         turnButton.setText(temp);
-        drawDiceButton(0);
+        diceButton.setBackground(diceRollBackgroundDrawable);
         diceButton.setText(R.string.diceRoll);
         coinButton.setText(R.string.coinFlip);
         qcResultString = "";
@@ -524,6 +544,8 @@ public class CalcFragment extends Fragment {
             valueAnimator.start();
         }
     }
+
+
 
     public static void makeToast() {
         lpToast = Toast.makeText(ourContext, toastText, Toast.LENGTH_SHORT);
@@ -654,7 +676,7 @@ public class CalcFragment extends Fragment {
 
     public static void showTutorial(){
         ViewTarget target = new ViewTarget(numberHolder);
-        numberHolder.setText("2000");
+        numberHolder.setText("2000"); //NON-NLS
         final ShowcaseView showcaseView = new ShowcaseView.Builder(activity)
                 .withMaterialShowcase()
                 .setTarget(target)

@@ -12,7 +12,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
-        android:background="@color/a_material_dark_tinted_dark"
+        android:background="@color/a_material_dark_opaque"
         android:orientation="vertical"
         android:padding="8dp"
         android:elevation="2dp">

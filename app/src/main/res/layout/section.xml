@@ -6,7 +6,7 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:layout_marginTop="4dp"
-    android:background="@color/a_material_dark_tinted"
+    android:background="@color/a_material_light"
     android:padding="0dp">
     <TextView
         android:layout_width="match_parent"

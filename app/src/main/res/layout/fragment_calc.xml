@@ -273,7 +273,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="9"
                 android:orientation="vertical"
-                android:background="@color/a_material_dark_tinted_dark"
+                android:background="@color/a_material_dark"
                 android:id="@+id/holderBottom">
                 <LinearLayout
                     android:layout_width="match_parent"

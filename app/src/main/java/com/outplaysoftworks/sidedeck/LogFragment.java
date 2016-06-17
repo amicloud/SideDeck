@@ -82,6 +82,16 @@ public class LogFragment extends Fragment {
         return t;
     }
 
+    public static boolean deleteTurnOnDecrementTurnIfEmpty(){
+        if(sections.get(getCurrentSection()+1).getChildCount() < 2) {
+            myLayout.removeViewAt(getCurrentSection()+1);
+            sections.remove(getCurrentSection() + 1);
+            /*sections.set(getCurrentSection() + 1, null);*/
+            return true;
+        }
+        return false;
+    }
+
     private static View createNewData(String lp, String lpChange, boolean player1, boolean isDamage) {
         LinearLayout mainView = new LinearLayout(view.getContext());
         LinearLayout temp = (LinearLayout) ourInflater.inflate(R.layout.data, mainView, false);

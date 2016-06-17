@@ -31,9 +31,9 @@
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimary">@color/a_material_dark</item>
+        <item name="colorPrimaryDark">@color/a_material_black</item>
+        <item name="colorAccent">@color/a_material_accent</item>
     </style>
     <style name="PreferenceScreen" parent="MyMaterialTheme">
         <item name="android:textColor">@color/a_material_white</item>
