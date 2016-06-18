@@ -2,6 +2,8 @@ package com.outplaysoftworks.sidedeck;
 
 
 import android.animation.Animator;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -43,6 +46,8 @@ import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import net.sourceforge.jeval.*;
 import net.sourceforge.jeval.function.math.Log;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -50,104 +55,86 @@ import me.grantland.widget.AutofitHelper;
 
 public class CalcFragment extends Fragment {
 
-    static String playerOneNameString = "";
+    public static boolean firstRun = true;
+    //Handlers
     static final Handler coinHandler = new Handler();
     static final Handler diceHandler = new Handler();
-
+    //Animation constants
     private static Integer diceRollAnimationDuration = 2000; //In milliseconds
-    private static Integer diceRollAnimationFrameCount = 5;
+    private static Integer diceRollAnimationFrameCount = 12;
+    private static Integer numberTransitionDuration = 1050;
+    private static Integer numberTransitionDurationShort = numberTransitionDuration/2;
     //Drawable stuff
     private static ArrayList<Drawable> diceDrawables = new ArrayList<>();
     private static Drawable diceRollBackgroundDrawable;
-
-    public static void setPlayerTwoNameString(String playerTwoNameString) {
-        CalcFragment.playerTwoNameString = playerTwoNameString;
-    }
-
-    public static void setPlayerOneNameString(String playerOneNameString) {
-        CalcFragment.playerOneNameString = playerOneNameString;
-    }
-
-    static String playerTwoNameString = "";
-
-    public static boolean isSoundOn() {
-        return soundOn;
-    }
-
-    public static void setSoundOn(boolean soundOn) {
-        CalcFragment.soundOn = soundOn;
-    }
-
-    static boolean soundOn;
+    //Views and view related variables
+    private static Activity activity;
     static TextView numberHolder;
     static TextView playerOneLP;
     static TextView playerTwoLP;
-    static Button turnButton;
-
-    public static String getPlayerOneNameString() {
-        return playerOneNameString;
-    }
-
-    public static String getPlayerTwoNameString() {
-        return playerTwoNameString;
-    }
-
-    public static EditText getPlayerOneName() {
-        return playerOneName;
-    }
-
-    public static EditText getPlayerTwoName() {
-        return playerTwoName;
-    }
-    private static Activity activity;
-    static EditText playerOneName;
-    static EditText playerTwoName;
-    static SoundPool soundPool;
-    static Integer lpCounterSoundId;
-    static Context ourContext;
-    static Toast lpToast;
-    static Button diceButton;
-    static Button coinButton;
-    static View thisView;
-    static ViewGroup parentView;
-    static ImageButton overFlowButton;
-
     static TextView qcWorkHolder;
     static TextView qcResultHolder;
+    static EditText playerOneName;
+    static EditText playerTwoName;
+    static Button turnButton;
+    static Button diceButton;
+    static Button coinButton;
+    static ImageButton overFlowButton;
     static AppBarLayout appBarLayout;
-
-    private static Integer numberTransitionDuration = 1050;
-    private static Integer numberTransitionDurationShort = numberTransitionDuration/2;
-
-    public static void setDefaultLP(Integer defaultLP) {
-        CalcFragment.defaultLP = defaultLP;
-    }
-
+    static RelativeLayout qcHolderView;
+    static ViewGroup parentView;
+    static Context ourContext;
+    static View thisView;
+    static Resources resources;
+    //Sound
+    static SoundPool soundPool;
+    static Integer diceRollSoundId;
+    static Integer coinFlipSoundId;
+    static Integer lpCounterSoundId;
+    static boolean soundOn;
+    //Life point operations logic stuff
+    static Random random = new Random();
     public static Integer defaultLP = 8000;
     static Integer turnNumber = 1;
     static Integer currentLP1 = defaultLP;
     static Integer previousLP1;
     static Integer currentLP2 = defaultLP;
     static Integer previousLP2;
-    static Integer diceNumber;
-    static Random random = new Random();
-    static String numberHolderString = "";
     static Integer numberHolderNumber = 0;
+    static String numberHolderString = "";
     static String toastText = "";
-    public static boolean firstRun = true;
+    static String playerTwoNameString = "";
+    static String playerOneNameString = "";
+    static Toast lpToast;
+    //Calculator things
     static boolean justPressedOpeator = false;
-
     static String qcWorkString = "";
     static String qcResultString = "";
     static Evaluator evaluator = new Evaluator();
-    static RelativeLayout qcHolderView;
-    static Resources resources;
-    private static String lastButtonPressed;
-    private static String lastOperatorPressed;
-    static Integer diceRollSoundId;
-    static Integer coinFlipSoundId;
+
     public CalcFragment() {
         // Required empty public constructor
+    }
+    public static void setDefaultLP(Integer defaultLP) {
+        CalcFragment.defaultLP = defaultLP;
+    }
+    public static void setPlayerTwoNameString(String playerTwoNameString) {
+        CalcFragment.playerTwoNameString = playerTwoNameString;
+    }
+    public static void setPlayerOneNameString(String playerOneNameString) {
+        CalcFragment.playerOneNameString = playerOneNameString;
+    }
+    public static String getPlayerOneNameString() {
+        return playerOneNameString;
+    }
+    public static String getPlayerTwoNameString() {
+        return playerTwoNameString;
+    }
+    public static boolean getSoundOn() {
+        return soundOn;
+    }
+    public static void setSoundOn(boolean soundOn) {
+        CalcFragment.soundOn = soundOn;
     }
 
     @Override
@@ -158,31 +145,36 @@ public class CalcFragment extends Fragment {
         resources = view.getContext().getResources();
         activity = getActivity();
         //Assign view variables after inflation is done
-        parentView = container;
         assignVariableIds(view);
         makeListeners();
         loadDrawables();
         reset();
         thisView = view;
-        soundPool = new SoundPool(12, AudioManager.STREAM_MUSIC, 0);
-        lpCounterSoundId = soundPool.load(view.getContext(), R.raw.lpcountersound, 1);
-        diceRollSoundId = soundPool.load(view.getContext(), R.raw.dicerollsound, 1);
-        coinFlipSoundId = soundPool.load(view.getContext(), R.raw.coinflipsound, 1);
-
+        initSound();
+        createAutoFitHelpersForViews();
         playerOneName.setText(getPlayerOneNameString());
         playerTwoName.setText(getPlayerTwoNameString());
-        AutofitHelper.create(playerOneName);
-        AutofitHelper.create(playerTwoName);
-        AutofitHelper.create(qcWorkHolder);
-        AutofitHelper.create(qcResultHolder);
-        //AdView mAdView = (AdView) view.findViewById(R.id.adView1);
-        //AdRequest adRequest = new AdRequest.Builder().build();
-        //mAdView.loadAd(adRequest);
         tutorial();
         amoledBlackToggle();
         return view;
     }
 
+    void createAutoFitHelpersForViews(){
+        AutofitHelper.create(playerOneName);
+        AutofitHelper.create(playerTwoName);
+        AutofitHelper.create(qcWorkHolder);
+        AutofitHelper.create(qcResultHolder);
+    }
+
+    static void initSound(){
+        soundPool = new SoundPool(12, AudioManager.STREAM_MUSIC, 0);
+        lpCounterSoundId = soundPool.load(thisView.getContext(), R.raw.lpcountersound, 1);
+        diceRollSoundId = soundPool.load(thisView.getContext(), R.raw.dicerollsound, 1);
+        coinFlipSoundId = soundPool.load(thisView.getContext(), R.raw.coinflipsound, 1);
+
+    }
+
+    @SuppressWarnings("deprecation") //Needed for API 16 support
     private void loadDrawables() {
         diceDrawables.add(resources.getDrawable(R.drawable.dice_1));
         diceDrawables.add(resources.getDrawable(R.drawable.dice_2));
@@ -277,7 +269,6 @@ public class CalcFragment extends Fragment {
     }
 
     //Assigns view variables with java ids
-    @SuppressLint("SetTextI18n")
     private void assignVariableIds(View view){
         numberHolder = (TextView)view.findViewById(R.id.numberHolder);
         playerOneLP = (TextView)view.findViewById(R.id.playerOneLP);
@@ -316,11 +307,12 @@ public class CalcFragment extends Fragment {
         final Drawable originalBackgroundDrawable = diceRollBackgroundDrawable;
         RandomAnimationBuilder randomAnimationBuilder = new RandomAnimationBuilder(diceDrawables,
                 diceRollAnimationDuration, diceRollAnimationFrameCount);
-        AnimationDrawable animation = randomAnimationBuilder.makeAnimation();
+        AnimationDrawable animation = randomAnimationBuilder.makeAnimation(false);
         diceButton.setBackground(animation);
         diceButton.setText("");
-        animation.setEnterFadeDuration(randomAnimationBuilder.getFrameDuration()/2);
-        animation.setExitFadeDuration(randomAnimationBuilder.getFrameDuration()/2);
+        //TODO: For some reason, this causes the button to SOMETIMES be partially faded
+        ///*fuck*/animation.setEnterFadeDuration(randomAnimationBuilder.getFrameDuration()/4);
+        //animation.setExitFadeDuration(randomAnimationBuilder.getFrameDuration()/4);
         animation.start();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -345,23 +337,28 @@ public class CalcFragment extends Fragment {
         }, diceRollAnimationDuration + 6000);
     }
 
-    private static void resetCoinFlipAfterDelay(){
-        coinHandler.removeCallbacksAndMessages(null);
-        coinHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                coinButton.setText(ourContext.getString(R.string.coinFlip));
-            }
-        }, 8000);
-
-    }
-
     private static Drawable getScaledPng(int resource, Button button){
         Bitmap bitmap = BitmapFactory.decodeResource(resources, resource);
         bitmap = Bitmap.createScaledBitmap(bitmap, button.getWidth(), button.getHeight(), true);
         Drawable drawable = new BitmapDrawable(resources, bitmap);
         return drawable;
     }
+
+    private static void rolloverTextAnimator(String animText, final String destText, Button animButton, int framesPerSecond, int durationMills){
+        final int frameDuration = (durationMills/1000)/framesPerSecond;
+        final String middleText = animText;
+        final Handler animHandler = new Handler();
+        animHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!middleText.equals(destText)){
+
+                }
+                animHandler.postDelayed(this, frameDuration);
+            }
+        }, frameDuration);
+    }
+
     public static int currentFrame;
     public static int getCurrentFrame(){
         return currentFrame;
@@ -373,7 +370,7 @@ public class CalcFragment extends Fragment {
             soundPool.play(coinFlipSoundId, 1, 1, 1, 0, 1);
         }
         coinButton.setClickable(false);
-        final int frames = 5;
+        final int frames = 10;
         Double temp = Math.random();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -383,7 +380,7 @@ public class CalcFragment extends Fragment {
                     Coin coin = makeCoin();
                     coinButton.setText(coin.getFace().toString());
                     setCurrentFrame(getCurrentFrame() + 1);
-                    handler.postDelayed(this, 400);
+                    handler.postDelayed(this, 200);
                 }
                 if(frames == getCurrentFrame()) {
                     resetCoinFlipAfterDelay();
@@ -391,6 +388,26 @@ public class CalcFragment extends Fragment {
                 }
             }
         },400);
+    }
+
+    public void animateCoinFlip(Button myButton){
+        //TODO: Get colors and stuff
+        ObjectAnimator colorAnim = ObjectAnimator.ofInt(myButton, "textColor", Color.RED, Color.TRANSPARENT);
+        colorAnim.setDuration(1000);
+        colorAnim.setEvaluator(new ArgbEvaluator());
+        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+        colorAnim.setRepeatMode(ValueAnimator.REVERSE);
+        colorAnim.start();
+    }
+
+    private static void resetCoinFlipAfterDelay(){
+        coinHandler.removeCallbacksAndMessages(null);
+        coinHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                coinButton.setText(ourContext.getString(R.string.coinFlip));
+            }
+        }, 8000);
     }
 
     private static Coin makeCoin(){
@@ -534,7 +551,6 @@ public class CalcFragment extends Fragment {
         if(initialValue != finalValue) { //will not do anything if both values are equal
             ValueAnimator valueAnimator = ValueAnimator.ofInt(initialValue, finalValue);
             valueAnimator.setDuration(duration);
-
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -591,7 +607,6 @@ public class CalcFragment extends Fragment {
     }
 
     public static void qcOperators(View view) {
-        lastButtonPressed = view.getTag().toString();
         //Don't add another operator to the string if the user just added one
         if(justPressedOpeator){
             return;
@@ -614,7 +629,6 @@ public class CalcFragment extends Fragment {
             } catch (EvaluationException e) {
                 e.printStackTrace();
             }
-            lastButtonPressed = "=";
 
         } else {
             if (qcResultString.equals("")) {

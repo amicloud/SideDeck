@@ -19,7 +19,8 @@ public class RandomAnimationBuilder {
 
     /**
      * Used to create an animation from a series of drawables with the frames in
-     * a completely random order with uniform duration
+     * a completely random order with uniform duration. Random generator uses System.nanoTime by
+     * default
      * @param drawables Arraylist of drawables to use for individual frames
      * @param duration Total animation duration
      * @param frameCount Total frames for animation
@@ -31,20 +32,47 @@ public class RandomAnimationBuilder {
         this.frameDuration = duration/frameCount;
     }
 
+    /**
+     * Creates a new random number generator for the Builder to use in .make()
+     * @param seed Wise men plant seeds for trees that they know they will not sit in the shade of
+     */
+    public void createNewRandomNumberGenerator(long seed){
+        this.random = new Random(seed);
+    }
+
+    /**
+     * Creates a new random number generator for the Builder to use in .make() with System.nanoTime
+     */
+    public void createNewRandomNumberGenerator(){
+        this.random = new Random(System.nanoTime());
+    }
+
+    /**
+     * Gets the computed frame duration for this builder
+     * @return Frame duration in milliseconds
+     */
     public Integer getFrameDuration(){
         return frameDuration;
     }
 
     /**
      * Contructs an Animation Drawable using resources in the RandomAnimationBuilder object
+     * @param allowIdenticalConsecutiveFrames
      * @return Animation Drawable ready to use
      */
-    public AnimationDrawable makeAnimation(){
+    public AnimationDrawable makeAnimation(boolean allowIdenticalConsecutiveFrames){
         AnimationDrawable animationDrawable = new AnimationDrawable();
         int max = drawables.size();
-        for(int i = 0; i < frameCount; i++) {
-            int rand = random.nextInt(max);
-            animationDrawable.addFrame(drawables.get(rand), frameDuration);
+        int lastRandomNumber;
+        int rand = 0;
+        int i = 0;
+        while(i < frameCount) {
+            lastRandomNumber = rand;
+            rand = random.nextInt(max);
+            if(allowIdenticalConsecutiveFrames || lastRandomNumber != rand) {
+                animationDrawable.addFrame(drawables.get(rand), frameDuration);
+                i++;
+            }
         }
         return animationDrawable;
     }
