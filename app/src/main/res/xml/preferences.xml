@@ -21,8 +21,11 @@
         android:summary="@string/playerTwo"/>
     <EditTextPreference
         android:defaultValue="8000"
-        android:key="defaultLpSetting"
+        android:key="@string/KEYdefaultLpSetting"
         android:summary="8000"
-        android:title="@string/defaultLifepoints"/>
+        android:title="@string/defaultLifepoints"
+        android:digits="1234567890"
+        android:maxLength="6"/>
+
 
 </PreferenceScreen>

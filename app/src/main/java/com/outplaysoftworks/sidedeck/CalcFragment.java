@@ -115,8 +115,8 @@ public class CalcFragment extends Fragment {
     public CalcFragment() {
         // Required empty public constructor
     }
-    public static void setDefaultLP(Integer defaultLP) {
-        CalcFragment.defaultLP = defaultLP;
+    public static void setDefaultLP(Integer lp) {
+        CalcFragment.defaultLP = lp;
     }
     public static void setPlayerTwoNameString(String playerTwoNameString) {
         CalcFragment.playerTwoNameString = playerTwoNameString;
